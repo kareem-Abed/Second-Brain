@@ -45,7 +45,8 @@ class WeeklyCalendarController extends GetxController {
       selectedTime.value = picked;
     }
   }
-RxBool showAddTask = false.obs;
+
+  RxBool showAddTask = false.obs;
   //-----------------------------
 
   var selectedDays = List<bool>.filled(7, false).obs;
@@ -58,6 +59,8 @@ RxBool showAddTask = false.obs;
 
   //-----------------------------
 
+  final TaskNameController = TextEditingController().obs;
+  final TaskDescriptionController = TextEditingController().obs;
   final isLoading = false.obs;
   List<Color?> colors = [
     Colors.purple,
@@ -92,7 +95,7 @@ RxBool showAddTask = false.obs;
     'الخميس',
     'الجمعة'
   ];
-  RxString selectedDay = 'السبت'.obs;
+  // RxString selectedDay = 'السبت'.obs;
   final daysOfWeekStare = [
     '',
     '',
@@ -127,7 +130,6 @@ RxBool showAddTask = false.obs;
   void generateDayRoutineTasks(int specificDayIndex) {
     final dateFormat = DateFormat('hh:mm a');
 
-    // Define your daily routine with hour, minute, task description, and day duration in Arabic
     final dailyRoutine = [
       {
         'hour': 6,
@@ -233,149 +235,104 @@ RxBool showAddTask = false.obs;
         'minute': 0,
         'period': 'PM',
         'description': 'النوم',
-        'duration': 420,
-        'daysDuration': 7, // 7 hours sleep lasting the entire night
+        'duration': 30,
+        'daysDuration': 2,
         'icon': taskIcons[0]
       },
     ];
 
-    // final widthTask = ((KHelperFunctions.screenWidth() / 7).toInt()) - 1.0; // Calculate width of task
-
     for (var routine in dailyRoutine) {
-      // Format the session time
       final sessionTime =
           '${routine['hour']}:${routine['minute'].toString().padLeft(2, '0')} ${routine['period']}';
 
-      // Parse session time
       final time = dateFormat.parse(sessionTime);
       final parsedHour = time.hour;
       final parsedMinutes = time.minute;
-
       // Add task for the specific day only
       tasks.add(
         TimePlannerTask(
-          color: colors[specificDayIndex %
-              colors.length], // Assign a color based on day index
+          color: colors[specificDayIndex % colors.length],
+          icon: routine['icon'] as IconData,
+          title: routine['description'] as String,
           dateTime: TimePlannerDateTime(
-              day: specificDayIndex, hour: parsedHour, minutes: 2),
+              day: specificDayIndex, hour: parsedHour, minutes: parsedMinutes),
           minutesDuration: (routine['duration'] as int) - 2,
           daysDuration: routine['daysDuration'] as int,
-
-          // widthTask: widthTask,
-          child: InkWell(
-            onTap: () {
-              Get.defaultDialog(
-                title: 'تفاصيل المهمة',
-                content: Text(
-                  '${routine['description']} في $sessionTime لمدة ${routine['duration']} دقيقة',
-                  style: Theme.of(Get.context!).textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-                confirm: ElevatedButton(
-                  onPressed: () {
-                    Get.back();
-                  },
-                  child: Text('إغلاق'),
-                ),
-              );
-            },
-            child: Container(
-              // color: Colors.red,
-              height: double.infinity,
-              width: double.maxFinite,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Icon(
-                        routine['icon'] as IconData,
-                        color: Colors.white,
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Text(
-                        routine['description'] as String,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(Get.context!)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    // FittedBox(
-                    //   fit: BoxFit.scaleDown,
-                    //   child: Text(
-                    //     routine['description'] as String,
-                    //     maxLines: 3,
-                    //     style: Theme.of(Get.context!)
-                    //         .textTheme
-                    //         .titleSmall!
-                    //         .copyWith(),
-                    //   ),
-                    // ),
-                  ],
-                ),
+          onTap: () {
+            Get.defaultDialog(
+              title: 'تفاصيل المهمة',
+              content: Text(
+                '${routine['description']} في $sessionTime لمدة ${routine['duration']} دقيقة',
+                style: Theme.of(Get.context!).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
               ),
-            ),
-          ),
+              confirm: ElevatedButton(
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text('إغلاق'),
+              ),
+              cancel: ElevatedButton(
+                onPressed: () {
+                  removeTaskByTitleAndDuration(
+                    title: routine['description'] as String,
+                    dayIndex: specificDayIndex,
+                    hour: parsedHour,
+                    minutes: parsedMinutes,
+                    duration: (routine['duration'] as int) - 2,
+                    daysDuration: routine['daysDuration'] as int,
+                    icon: routine['icon'] as IconData,
+                    color: colors[specificDayIndex % colors.length]!.value,
+                  );
+                  // Get.back();
+                },
+                child: Text('حذف'),
+              ),
+            );
+          },
         ),
       );
     }
   }
 
-  void generateRandomTasks() {
-    final random = Random();
-    final dateFormat = DateFormat('hh:mm a');
+  void removeTaskByTitleAndDuration({
+    required String title,
+    required int dayIndex,
+    required int hour,
+    required int minutes,
+    required int duration,
+    required int daysDuration,
+    required IconData icon,
+    required int color,
+  }) {
+    for (int i = tasks.length - 1; i >= 0; i--) {
+      final task = tasks[i];
 
-    for (int i = 0; i < 5; i++) {
-      // Generate random session time
-      final hour = random.nextInt(12) + 1; // 1 to 12
-      final minute = random.nextInt(60); // 0 to 59
-      final period = random.nextBool() ? 'AM' : 'PM';
-      final sessionTime = '$hour:${minute.toString().padLeft(2, '0')} $period';
+      final matches = task.title == title &&
+          task.dateTime.day == dayIndex &&
+          task.dateTime.hour == hour &&
+          task.dateTime.minutes == minutes &&
+          task.minutesDuration == duration &&
+          task.daysDuration == daysDuration &&
+          task.icon == icon &&
+          task.color!.value == color;
 
-      // Parse session time
-      final time = dateFormat.parse(sessionTime);
-      final parsedHour = time.hour;
-      final parsedMinutes = time.minute;
-
-      // Generate random day of the week
-      final dayIndex = random.nextInt(7); // 0 to 6
-
-      // Create and add task
-      tasks.add(
-        TimePlannerTask(
-          color: colors[random.nextInt(colors.length)],
-          dateTime:
-              TimePlannerDateTime(day: dayIndex, hour: parsedHour, minutes: 0),
-          minutesDuration: 60,
-          daysDuration: 1,
-          // widthTask: cellWidth.value,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Text(
-                'Task ${i + 1}',
-                maxLines: 3,
-                style: Theme.of(Get.context!).textTheme.titleSmall!.copyWith(),
-              ),
-            ),
-          ),
-        ),
-      );
+      if (matches) {
+        print(
+            'Removing task: ${task.color!.value} Title=${task.title}, Duration=${task.minutesDuration}, DateTime=${task.dateTime.day}-${task.dateTime.hour}:${task.dateTime.minutes}');
+        print(
+            'Removing task=> ${color}  Title=${title}, Duration=${duration}, DateTime=${dayIndex}-${hour}:${minutes}');
+        tasks.removeAt(i);
+        Get.back();
+        // Show GetX bottom loader
+        Get.snackbar(
+          "تمت إزالة المهمة",
+          "تمت إزالة المهمة $title بنجاح.",
+          snackPosition: SnackPosition.TOP,
+          duration: Duration(seconds: 2),
+        );
+        break;
+      }
     }
   }
 
@@ -383,7 +340,61 @@ RxBool showAddTask = false.obs;
     cellWidth.value = newWidth.toInt();
   }
 
-  final TaskNameController = TextEditingController().obs;
+  void addTask(
+      {required String title,
+      required int dayIndex,
+      required int hour,
+      required int minutes,
+      required int duration,
+      required int daysDuration,
+      required IconData icon,
+      required int color}) {
+    final task = TimePlannerTask(
+      color: Color(color),
+      icon: icon,
+      title: title,
+      dateTime: TimePlannerDateTime(
+        day: dayIndex,
+        hour: hour,
+        minutes: minutes,
+      ),
+      minutesDuration: duration,
+      daysDuration: daysDuration,
+      onTap: () {
+        Get.defaultDialog(
+          title: 'تفاصيل المهمة',
+          content: Text(
+            '${title} في sessionTime لمدة ${60} دقيقة',
+            style: Theme.of(Get.context!).textTheme.bodyMedium,
+            textAlign: TextAlign.center,
+          ),
+          confirm: ElevatedButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: Text('إغلاق'),
+          ),
+          cancel: ElevatedButton(
+            onPressed: () {
+              removeTaskByTitleAndDuration(
+                title: title,
+                dayIndex: dayIndex,
+                hour: hour,
+                minutes: minutes,
+                duration: duration,
+                daysDuration: daysDuration,
+                icon: icon,
+                color: color,
+              );
+            },
+            child: Text('حذف'),
+          ),
+        );
+      },
+    );
+    tasks.add(task);
+  }
+
   void showAddAndRemoveBottomSheet(
       {required TimePlannerTaskModel? group, required bool isEdit}) {
     if (false) {
@@ -392,19 +403,16 @@ RxBool showAddTask = false.obs;
       // colorController.selectedColor.value = group.color;
       // selectedTime.value = TimeOfDay.fromDateTime(
       //     DateFormat('hh:mm a').parse(group.sessionTime));
-      // for (int i = 0; i < daysOfWeek.length; i++) {
-      //   selectedDays[i] = group.sessionDays.contains(daysOfWeek[i]);
-      // }
+
       // selectedYear.value = int.parse(group.year);
       // refreshMonthsSessions();
     } else {
-      TaskNameController .value.text = '';
+      TaskNameController.value.text = '';
       // groupMonthlyPriceController.value.text = '';
       selectedTime.value = TimeOfDay.now();
       for (int i = 0; i < daysOfWeek.length; i++) {
         selectedDays[i] = false;
       }
-
     }
     showModalBottomSheet(
       context: Get.context!,

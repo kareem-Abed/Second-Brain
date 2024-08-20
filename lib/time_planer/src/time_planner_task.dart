@@ -1,11 +1,15 @@
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
-import 'package:flutter/material.dart';
+
 import 'package:al_maafer/time_planer/src/time_planner_date_time.dart';
 import 'package:al_maafer/time_planer/src/config/global_config.dart' as config;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 /// Widget that show on time planner as the tasks
 class TimePlannerTask extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  //--------------------------------------------------------------------------------
   /// Minutes duration of task or object
   final int minutesDuration;
 
@@ -24,7 +28,7 @@ class TimePlannerTask extends StatelessWidget {
   /// Show this child on the task
   ///
   /// Typically an [Text].
-  final Widget? child;
+  // final Widget? child;
 
   /// parameter to set space from left, to set it: config.cellWidth! * dateTime.day.toDouble()
   final double? leftSpace;
@@ -40,9 +44,11 @@ class TimePlannerTask extends StatelessWidget {
     this.daysDuration,
     this.color,
     this.onTap,
-    this.child,
+    // this.child,
     this.leftSpace,
     this.widthTask,
+    required this.icon,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -84,8 +90,60 @@ class TimePlannerTask extends StatelessWidget {
                         borderRadius: config.borderRadius,
                         color: color ?? Theme.of(context).primaryColor,
                       ),
+                      // child: Center(
+                      //   child: child,
+                      // ),
                       child: Center(
-                        child: child,
+                        child: Container(
+                          height: double.infinity,
+                          width: double.maxFinite,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 2.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Icon(
+                                    icon,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Expanded(
+                                  flex: 2,
+                                  child: Text(
+                                    title,
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(Get.context!)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                // FittedBox(
+                                //   fit: BoxFit.scaleDown,
+                                //   child: Text(
+                                //     routine['description'] as String,
+                                //     maxLines: 3,
+                                //     style: Theme.of(Get.context!)
+                                //         .textTheme
+                                //         .titleSmall!
+                                //         .copyWith(),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),

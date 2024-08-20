@@ -21,7 +21,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
 
         return Obx(() {
           return TimePlanner(
-            startHour: 1,
+            startHour: 0,
             endHour: 23,
             use24HourFormat: false,
             setTimeOnAxis: false,

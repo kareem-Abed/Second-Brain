@@ -3,6 +3,7 @@ import 'package:al_maafer/features/weekly_calendar/screens/weekly_calendar/widge
 import 'package:al_maafer/features/weekly_calendar/screens/weekly_calendar/widgets/weekly_calendar_planner.dart';
 import 'package:al_maafer/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class WeeklyCalendarScreen extends StatelessWidget {
@@ -34,20 +35,24 @@ class WeeklyCalendarScreen extends StatelessWidget {
                   )
                 ],
               );
-            }
-            else {
+            } else {
               return Container();
             }
           }),
           Expanded(flex: 2, child: WeeklyCalendarPlanner()),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          controller.showAddTask.value = !controller.showAddTask.value;
-
-        },
-        child: Icon(Icons.add),
+      floatingActionButton:Obx(
+              () {
+          return FloatingActionButton(
+            backgroundColor:controller.showAddTask.value ?Colors.red: Colors.blue,
+            onPressed: () {
+              controller.showAddTask.value = !controller.showAddTask.value;
+            },
+            child:
+                 Icon( controller.showAddTask.value ?FontAwesomeIcons.xmark:FontAwesomeIcons.plus),
+          );
+        }
       ),
     );
   }
