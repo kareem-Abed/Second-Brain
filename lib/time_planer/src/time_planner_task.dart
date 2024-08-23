@@ -12,6 +12,7 @@ class TimePlannerTask extends StatelessWidget {
   //--------------------------------------------------------------------------------
   /// Minutes duration of task or object
   final int minutesDuration;
+  final int? iconIndex;
 
   /// Days duration of task or object, default is 1
   final int? daysDuration;
@@ -36,6 +37,22 @@ class TimePlannerTask extends StatelessWidget {
   /// parameter to set width of task, to set it: (config.cellWidth!.toDouble() * (daysDuration ?? 1)) -config.horizontalTaskPadding!
   final double? widthTask;
 
+  Map<String, dynamic> toJson() {
+    return {
+      'color': color?.value,
+      // 'icon': icon,
+      'iconIndex': iconIndex,
+      'title': title,
+      'dateTime': {
+        'day': dateTime.day,
+        'hour': dateTime.hour,
+        'minutes': dateTime.minutes,
+      },
+      'minutesDuration': minutesDuration,
+      'daysDuration': daysDuration,
+    };
+  }
+
   /// Widget that show on time planner as the tasks
   const TimePlannerTask({
     Key? key,
@@ -49,6 +66,7 @@ class TimePlannerTask extends StatelessWidget {
     this.widthTask,
     required this.icon,
     required this.title,
+    this.iconIndex,
   }) : super(key: key);
 
   @override

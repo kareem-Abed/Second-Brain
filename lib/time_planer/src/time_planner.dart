@@ -1,3 +1,4 @@
+import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:al_maafer/time_planer/src/time_planner_style.dart';
 import 'package:al_maafer/time_planer/src/time_planner_task.dart';
 import 'package:al_maafer/time_planer/src/time_planner_time.dart';
@@ -11,7 +12,7 @@ import 'dart:async';
 class TimePlannerController extends GetxController {
   var currentHour = DateTime.now().hour.obs;
   var dividerColor = Colors.white.obs;
-
+  final  weeklyCalendarController =Get.find<WeeklyCalendarController>();
   /// Timer to update the time every minute
   Timer? timer;
 
@@ -27,6 +28,9 @@ class TimePlannerController extends GetxController {
   void updateTime() {
     int hour = DateTime.now().hour;
     currentHour.value = hour;
+    if (hour == 0) {
+      weeklyCalendarController.getCurrentDay();
+    }
     // print('current hour: $hour');
   }
 
@@ -249,7 +253,8 @@ class _TimePlannerState extends State<TimePlanner> {
                                   padding: EdgeInsets.symmetric(
                                     horizontal: !config.use24HourFormat ? 4 : 0,
                                   ),
-                                  child: Obx(() => TimePlannerTime(
+                                  child: Obx(() =>
+                                      TimePlannerTime(
                                         time: formattedTime(i),
                                         setTimeOnAxis: config.setTimeOnAxis,
                                         textColor:

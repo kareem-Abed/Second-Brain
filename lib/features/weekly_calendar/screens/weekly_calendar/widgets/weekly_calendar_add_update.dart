@@ -1,3 +1,4 @@
+import 'package:al_maafer/common/widgets/divider/divider.dart';
 import 'package:al_maafer/features/goups/controllers/groups_controller.dart';
 import 'package:al_maafer/features/weekly_calendar/controllers/Icon_selector.dart';
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
@@ -10,10 +11,11 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 
 class AddGroupForm extends StatelessWidget {
-  AddGroupForm({super.key, required this.isEdit, required this.groupId});
+  AddGroupForm({
+    super.key,
+  });
   final controller = Get.put(WeeklyCalendarController());
-  final bool isEdit;
-  final String? groupId;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -24,23 +26,41 @@ class AddGroupForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text(isEdit == true ? 'تعديل علي  مهمة' : 'اضافة مهمة جديدة',
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold)),
+              Obx(
+                () => Text(
+                    controller.showUpdateTask.value
+                        ? 'تعديل علي  مهمة'
+                        : 'اضافة مهمة جديدة',
+                    style: const TextStyle(
+                        fontSize: 24, fontWeight: FontWeight.bold)),
+              ),
               const SizedBox(height: KSizes.spaceBtwItems),
               Obx(
                 () => InkWell(
                   onTap: () {
-                    controller.addTask(
-                      title:  controller.TaskNameController.value.text,
-                      hour: controller.selectedTime.value.hour,
-                      minutes: controller.selectedTime.value.minute,
-                      dayIndex: 2,
-                      duration: 60,
-                      daysDuration: 1,
-                      icon: controller.colorController.selectedIcon.value,
-                      color: controller.colorController.selectedColor.value,
-                    );
+                    if (controller.showUpdateTask.value) {
+                      controller.UpdateTask(
+                        index: controller.taskUpdateIndex.value,
+                        title: controller.TaskNameController.value.text,
+                        hour: controller.selectedStartTime.value.hour,
+                        minutes: controller.selectedStartTime.value.minute,
+                        dayIndex: controller.dayIndex.value,
+                        duration: controller.duration.value,
+                        daysDuration: controller.daysDuration.value,
+                        icon: controller.colorController.selectedIcon.value,
+                        color: controller.colorController.selectedColor.value,
+                      );
+                    } else
+                      controller.addTask(
+                        title: controller.TaskNameController.value.text,
+                        hour: controller.selectedStartTime.value.hour,
+                        minutes: controller.selectedStartTime.value.minute,
+                        dayIndex: controller.dayIndex.value,
+                        duration: controller.duration.value,
+                        daysDuration: controller.daysDuration.value,
+                        icon: controller.colorController.selectedIcon.value,
+                        color: controller.colorController.selectedColor.value,
+                      );
                   },
                   child: Container(
                     padding: const EdgeInsets.all(12),
@@ -51,7 +71,7 @@ class AddGroupForm extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        isEdit == true ? 'تعديل' : 'اضافة',
+                        controller.showUpdateTask.value ? 'تعديل' : 'اضافة',
                         style: Theme.of(context).textTheme.titleMedium!,
                       ),
                     ),
@@ -68,11 +88,11 @@ class AddGroupForm extends StatelessWidget {
                       maxLines: 2,
                       keyboardType: TextInputType.text,
                       validator: (value) =>
-                          KValidator.validateEmptyText('اسم التاسك', value),
+                          KValidator.validateEmptyText('اسم المهمة', value),
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'اسم التاسك',
+                        labelText: 'اسم المهمة',
                       ),
                     ),
                     const SizedBox(height: KSizes.spaceBtwInputFields),
@@ -85,7 +105,7 @@ class AddGroupForm extends StatelessWidget {
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'اسم التاسك',
+                        labelText: 'وصف المهمة',
                       ),
                     ),
                   ],
@@ -100,17 +120,22 @@ class AddGroupForm extends StatelessWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: KSizes.spaceBtwInputFields),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Text('ميعاد المهمة',
-                            style: Theme.of(context).textTheme.headlineSmall!),
-                        HourSelectionWidget(),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('ميعاد المهمة',
+                              style:
+                                  Theme.of(context).textTheme.headlineSmall!),
+                        ],
+                      ),
                     ),
+                    const SizedBox(height: KSizes.sm),
+
+                    HourSelectionWidget(),
                     const SizedBox(
-                      height: KSizes.spaceBtwInputFields,
+                      height: KSizes.sm,
                     ),
                     // const KDivider(),
                     WorkingDaysWidget(),
@@ -135,8 +160,8 @@ class WorkingDaysWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(WeeklyCalendarController());
     return Wrap(
-      spacing: 4.0,
-      runSpacing: 4.0,
+      spacing: KSizes.sm,
+      runSpacing: KSizes.sm,
       children: List.generate(controller.daysOfWeek.length, (index) {
         return Obx(
           () => InkWell(
@@ -166,28 +191,73 @@ class HourSelectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Column(
-        children: [
-          InkWell(
-            onTap: () => controller.selectTime(context),
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10),
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 25),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                color: Color(controller.colorController.selectedColor.value),
-              ),
-              child: Center(
-                child: Text(
-                  ' ${controller.selectedTime.value.format(context)} ',
-                  // 'الوقت:  ${controller.selectedTime.value.format(context)} ',
-                  style: Theme.of(context).textTheme.titleMedium!,
+    return Padding(
+      padding: const EdgeInsets.all(KSizes.sm),
+      child: Obx(
+        () => Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              ' من ',
+              style: Theme.of(context).textTheme.titleMedium!,
+            ),
+            Expanded(
+              flex: 1,
+              child: InkWell(
+                onTap: () => controller.selectTime(context, true),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color:
+                        Color(controller.colorController.selectedColor.value),
+                  ),
+                  child: Center(
+                    child: FittedBox(
+                      child: Text(
+                        ' ${controller.selectedStartTime.value.format(context)} ',
+                        // 'الوقت:  ${controller.selectedTime.value.format(context)} ',
+                        style: Theme.of(context).textTheme.titleMedium!,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            Text(
+              'الي',
+              style: Theme.of(context).textTheme.titleMedium!,
+            ),
+            Expanded(
+              flex: 1,
+              child: InkWell(
+                onTap: () => controller.selectTime(context, false),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 5),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color:
+                        Color(controller.colorController.selectedColor.value),
+                  ),
+                  child: Center(
+                    child: FittedBox(
+                      child: Text(
+                        ' ${controller.selectedEndTime.value.format(context)} ',
+                        // 'الوقت:  ${controller.selectedTime.value.format(context)} ',
+                        style: Theme.of(context).textTheme.titleMedium!,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

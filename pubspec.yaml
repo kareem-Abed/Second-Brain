@@ -21,6 +21,12 @@ dependencies:
 #  time_planner: ^0.1.2+1
   intl:
   window_manager: ^0.4.0
+  iconsax: ^0.0.8
+  delightful_toast: ^1.1.0
+  audioplayers: ^6.0.0
+  lottie: ^3.1.2
+#  msix: ^3.16.8
+
 
 
 dev_dependencies:
@@ -30,3 +36,13 @@ dev_dependencies:
 flutter:
 
   uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/icons/
+    - assets/
+    - assets/images/animations/
+    - assets/lottie/
+    - assets/sounds/
+    - assets/sounds/success.mp3
+    - assets/sounds/error.mp3

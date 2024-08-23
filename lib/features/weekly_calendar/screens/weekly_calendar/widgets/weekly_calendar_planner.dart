@@ -5,6 +5,7 @@ import 'package:al_maafer/utils/constants/colors.dart';
 import 'package:al_maafer/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 // import 'package:time_planner/time_planner.dart';
 
 class WeeklyCalendarPlanner extends StatelessWidget {
@@ -39,11 +40,17 @@ class WeeklyCalendarPlanner extends StatelessWidget {
             headers: [
               TimePlannerTitle(
                 title: 'السبت',
+                // titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
+                //     color: controller.daysOfWeekStare[0] == '*'
+                //         ? Colors.blue
+                //         : Colors.white),
+                // date: controller.daysOfWeekStare[0],
+                //
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[0] == '*'
+                    color: controller.currentDay.value == 0
                         ? Colors.blue
-                        : Colors.white),
-                date: controller.daysOfWeekStare[0],
+                        : KColors.white),
+                date: controller.currentDay.value == 0 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -52,10 +59,10 @@ class WeeklyCalendarPlanner extends StatelessWidget {
               TimePlannerTitle(
                 title: 'الأحد',
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[1] == '*'
+                    color: controller.currentDay.value == 1
                         ? Colors.blue
-                        : Colors.white),
-                date: controller.daysOfWeekStare[1],
+                        : KColors.white),
+                date: controller.currentDay.value == 1 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -64,10 +71,10 @@ class WeeklyCalendarPlanner extends StatelessWidget {
               TimePlannerTitle(
                 title: 'الاثنين',
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[2] == '*'
+                    color: controller.currentDay.value == 2
                         ? Colors.blue
-                        : Colors.white),
-                date: controller.daysOfWeekStare[2],
+                        : KColors.white),
+                date: controller.currentDay.value == 2 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -76,10 +83,10 @@ class WeeklyCalendarPlanner extends StatelessWidget {
               TimePlannerTitle(
                 title: 'الثلاثاء',
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[3] == '*'
+                    color: controller.currentDay.value == 3
                         ? Colors.blue
-                        : Colors.white),
-                date: controller.daysOfWeekStare[3],
+                        : KColors.white),
+                date: controller.currentDay.value == 3 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -88,10 +95,10 @@ class WeeklyCalendarPlanner extends StatelessWidget {
               TimePlannerTitle(
                 title: 'الأربعاء',
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[4] == '*'
+                    color: controller.currentDay.value == 4
                         ? Colors.blue
-                        : Colors.white),
-                date: controller.daysOfWeekStare[4],
+                        : KColors.white),
+                date: controller.currentDay.value == 4 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -100,10 +107,10 @@ class WeeklyCalendarPlanner extends StatelessWidget {
               TimePlannerTitle(
                 title: 'الخميس',
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[5] == '*'
+                    color: controller.currentDay.value == 5
                         ? Colors.blue
-                        : Colors.white),
-                date: controller.daysOfWeekStare[5],
+                        : KColors.white),
+                date: controller.currentDay.value == 5 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -112,10 +119,10 @@ class WeeklyCalendarPlanner extends StatelessWidget {
               TimePlannerTitle(
                 title: 'الجمعة',
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[6] == '*'
+                    color: controller.currentDay.value == 6
                         ? Colors.blue
-                        : Colors.white),
-                date: controller.daysOfWeekStare[6],
+                        : KColors.white),
+                date: controller.currentDay.value == 6 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -129,248 +136,3 @@ class WeeklyCalendarPlanner extends StatelessWidget {
     );
   }
 }
-
-class WeeklyCalendarPlanner2 extends StatelessWidget {
-  const WeeklyCalendarPlanner2({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final controller = Get.find<WeeklyCalendarController>();
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final newCellWidth = (constraints.maxWidth / 7).toDouble();
-        controller.updateCellWidth(newCellWidth);
-
-        return Obx(() {
-          return TimePlanner(
-            startHour: 6,
-            endHour: 23,
-            use24HourFormat: false,
-            setTimeOnAxis: false,
-            style: TimePlannerStyle(
-              backgroundColor: KColors.dark,
-              cellWidth: controller.cellWidth.value,
-              cellHeight: 100,
-              showScrollBar: true,
-              dividerColor: KColors.primary,
-              horizontalTaskPadding: 3.0,
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              interstitialEvenColor: Colors.grey[850],
-              interstitialOddColor: Colors.grey[800],
-            ),
-            headers: [
-              TimePlannerTitle(
-                title: 'السبت',
-                titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[0] == '*'
-                        ? KColors.primary
-                        : KColors.white),
-                date: controller.daysOfWeekStare[0],
-                dateStyle: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: KColors.primary),
-              ),
-              TimePlannerTitle(
-                title: 'الأحد',
-                titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[1] == '*'
-                        ? KColors.primary
-                        : KColors.white),
-                date: controller.daysOfWeekStare[1],
-                dateStyle: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: KColors.primary),
-              ),
-              TimePlannerTitle(
-                title: 'الاثنين',
-                titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[2] == '*'
-                        ? KColors.primary
-                        : KColors.white),
-                date: controller.daysOfWeekStare[2],
-                dateStyle: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: KColors.primary),
-              ),
-              TimePlannerTitle(
-                title: 'الثلاثاء',
-                titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[3] == '*'
-                        ? KColors.primary
-                        : KColors.white),
-                date: controller.daysOfWeekStare[3],
-                dateStyle: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: KColors.primary),
-              ),
-              TimePlannerTitle(
-                title: 'الأربعاء',
-                titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[4] == '*'
-                        ? KColors.primary
-                        : KColors.white),
-                date: controller.daysOfWeekStare[4],
-                dateStyle: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: KColors.primary),
-              ),
-              TimePlannerTitle(
-                title: 'الخميس',
-                titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[5] == '*'
-                        ? KColors.primary
-                        : KColors.white),
-                date: controller.daysOfWeekStare[5],
-                dateStyle: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: KColors.primary),
-              ),
-              TimePlannerTitle(
-                title: 'الجمعة',
-                titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: controller.daysOfWeekStare[6] == '*'
-                        ? KColors.primary
-                        : KColors.white),
-                date: controller.daysOfWeekStare[6],
-                dateStyle: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: KColors.primary),
-              ),
-            ],
-            // ignore: invalid_use_of_protected_member
-            tasks: controller.tasks.value,
-          );
-        });
-      },
-    );
-  }
-}
-
-//
-// class WeeklyCalendarPlanner extends StatelessWidget {
-//   const WeeklyCalendarPlanner({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final controller = Get.put(WeeklyCalendarController());
-//     return Expanded(
-//       child: Obx(() {
-//         return TimePlanner(
-//           startHour: 6,
-//           endHour: 23,
-//           use24HourFormat: false,
-//            setTimeOnAxis: false,
-//           style: TimePlannerStyle(
-//             backgroundColor: KColors.dark,
-//             cellWidth: (KHelperFunctions.screenWidth() /7).toInt(),
-//              cellHeight: 100,
-//             showScrollBar: true,
-//
-//             dividerColor: KColors.primary,
-//             horizontalTaskPadding: 3,
-//
-//             borderRadius: const BorderRadius.all(Radius.circular(8)),
-//             interstitialEvenColor: Colors.grey[850],
-//             interstitialOddColor: Colors.grey[800],
-//           ),
-//           headers: [
-//             TimePlannerTitle(
-//               title: 'السبت',
-//               titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-//                   color: controller.daysOfWeekStare[0] == '*'
-//                       ? KColors.primary
-//                       : KColors.white),
-//               date: controller.daysOfWeekStare[0],
-//               dateStyle: Theme.of(context)
-//                   .textTheme
-//                   .titleLarge!
-//                   .copyWith(color: KColors.primary),
-//             ),
-//             TimePlannerTitle(
-//               title: 'الأحد',
-//               titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-//                   color: controller.daysOfWeekStare[1] == '*'
-//                       ? KColors.primary
-//                       : KColors.white),
-//               date: controller.daysOfWeekStare[1],
-//               dateStyle: Theme.of(context)
-//                   .textTheme
-//                   .titleLarge!
-//                   .copyWith(color: KColors.primary),
-//             ),
-//             TimePlannerTitle(
-//               title: 'الاثنين',
-//               titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-//                   color: controller.daysOfWeekStare[2] == '*'
-//                       ? KColors.primary
-//                       : KColors.white),
-//               date: controller.daysOfWeekStare[2],
-//               dateStyle: Theme.of(context)
-//                   .textTheme
-//                   .titleLarge!
-//                   .copyWith(color: KColors.primary),
-//             ),
-//             TimePlannerTitle(
-//               title: 'الثلاثاء',
-//               titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-//                   color: controller.daysOfWeekStare[3] == '*'
-//                       ? KColors.primary
-//                       : KColors.white),
-//               date: controller.daysOfWeekStare[3],
-//               dateStyle: Theme.of(context)
-//                   .textTheme
-//                   .titleLarge!
-//                   .copyWith(color: KColors.primary),
-//             ),
-//             TimePlannerTitle(
-//               title: 'الأربعاء',
-//               titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-//                   color: controller.daysOfWeekStare[4] == '*'
-//                       ? KColors.primary
-//                       : KColors.white),
-//               date: controller.daysOfWeekStare[4],
-//               dateStyle: Theme.of(context)
-//                   .textTheme
-//                   .titleLarge!
-//                   .copyWith(color: KColors.primary),
-//             ),
-//             TimePlannerTitle(
-//               title: 'الخميس',
-//               titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-//                   color: controller.daysOfWeekStare[5] == '*'
-//                       ? KColors.primary
-//                       : KColors.white),
-//               date: controller.daysOfWeekStare[5],
-//               dateStyle: Theme.of(context)
-//                   .textTheme
-//                   .titleLarge!
-//                   .copyWith(color: KColors.primary),
-//             ),
-//             TimePlannerTitle(
-//               title: 'الجمعة',
-//               titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-//                   color: controller.daysOfWeekStare[6] == '*'
-//                       ? KColors.primary
-//                       : KColors.white),
-//               date: controller.daysOfWeekStare[6],
-//               dateStyle: Theme.of(context)
-//                   .textTheme
-//                   .titleLarge!
-//                   .copyWith(color: KColors.primary),
-//             ),
-//           ],
-//           // ignore: invalid_use_of_protected_member
-//           tasks: controller.tasks.value,
-//         );
-//       }),
-//     );
-//   }
-// }

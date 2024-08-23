@@ -24,10 +24,7 @@ class WeeklyCalendarScreen extends StatelessWidget {
                 children: [
                   Container(
                     width: 310,
-                    child: AddGroupForm(
-                      isEdit: false,
-                      groupId: 'asd',
-                    ),
+                    child: AddGroupForm(),
                   ),
                   Container(
                     width: 2,
@@ -42,18 +39,20 @@ class WeeklyCalendarScreen extends StatelessWidget {
           Expanded(flex: 2, child: WeeklyCalendarPlanner()),
         ],
       ),
-      floatingActionButton:Obx(
-              () {
-          return FloatingActionButton(
-            backgroundColor:controller.showAddTask.value ?Colors.red: Colors.blue,
-            onPressed: () {
-              controller.showAddTask.value = !controller.showAddTask.value;
-            },
-            child:
-                 Icon( controller.showAddTask.value ?FontAwesomeIcons.xmark:FontAwesomeIcons.plus),
-          );
-        }
-      ),
+      floatingActionButton: Obx(() {
+        return FloatingActionButton(
+          backgroundColor:
+              controller.showAddTask.value ? Colors.red : Colors.blue,
+          onPressed: () {
+            // controller.box  .write('tasks', []);
+            controller.showAddTask.value = !controller.showAddTask.value;
+            controller.showUpdateTask.value = false;
+          },
+          child: Icon(controller.showAddTask.value
+              ? FontAwesomeIcons.xmark
+              : FontAwesomeIcons.plus),
+        );
+      }),
     );
   }
 }

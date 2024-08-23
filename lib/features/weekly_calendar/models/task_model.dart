@@ -1,6 +1,42 @@
-// // import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:flutter/material.dart';
-//
+// import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+import '../../../time_planer/src/time_planner_date_time.dart';
+class TimePlannerTaskModel {
+  final Color color;
+  final TimePlannerDateTime dateTime;
+  final int minutesDuration;
+  final int daysDuration;
+  final double widthTask;
+  final Widget child;
+
+  TimePlannerTaskModel({
+    required this.color,
+    required this.dateTime,
+    required this.minutesDuration,
+    required this.daysDuration,
+    required this.widthTask,
+    required this.child,
+  });
+
+  TimePlannerTaskModel copyWith({
+    Color? color,
+    TimePlannerDateTime? dateTime,
+    int? minutesDuration,
+    int? daysDuration,
+    double? widthTask,
+    Widget? child,
+  }) {
+    return TimePlannerTaskModel(
+      color: color ?? this.color,
+      dateTime: dateTime ?? this.dateTime,
+      minutesDuration: minutesDuration ?? this.minutesDuration,
+      daysDuration: daysDuration ?? this.daysDuration,
+      widthTask: widthTask ?? this.widthTask,
+      child: child ?? this.child,
+    );
+  }
+}
 // class GroupModel {
 //   final String id;
 //   final String name;
