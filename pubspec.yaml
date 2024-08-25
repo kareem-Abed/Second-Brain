@@ -23,9 +23,10 @@ dependencies:
   window_manager: ^0.4.0
   iconsax: ^0.0.8
   delightful_toast: ^1.1.0
-  audioplayers: ^6.0.0
+#  audioplayers: ^6.0.0
   lottie: ^3.1.2
 #  msix: ^3.16.8
+  progressive_time_picker: ^1.0.1
 
 
 
@@ -41,7 +42,8 @@ flutter:
   assets:
     - assets/icons/
     - assets/
-    - assets/images/animations/
+    - assets/images/
+    - assets/animations/
     - assets/lottie/
     - assets/sounds/
     - assets/sounds/success.mp3

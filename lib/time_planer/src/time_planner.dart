@@ -12,7 +12,8 @@ import 'dart:async';
 class TimePlannerController extends GetxController {
   var currentHour = DateTime.now().hour.obs;
   var dividerColor = Colors.white.obs;
-  final  weeklyCalendarController =Get.find<WeeklyCalendarController>();
+  final weeklyCalendarController = Get.find<WeeklyCalendarController>();
+
   /// Timer to update the time every minute
   Timer? timer;
 
@@ -211,8 +212,45 @@ class _TimePlannerState extends State<TimePlanner> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      const SizedBox(
-                        width: 60,
+                      InkWell(
+                        onTap: () {
+                          Get.defaultDialog(
+                            title: 'تأكيد الحذف',
+                            content: Text(
+                              'هل أنت متأكد أنك تريد حذف جميع المهام؟',
+                              style:
+                                  Theme.of(Get.context!).textTheme.bodyMedium,
+                              textAlign: TextAlign.center,
+                            ),
+                            confirm: ElevatedButton(
+                              onPressed: () {
+                                final weeklyCalendarController =
+                                    Get.put(WeeklyCalendarController());
+                                weeklyCalendarController.box.write('tasks', []);
+                                Get.back();
+                              },
+                              child: Text('نعم'),
+                            ),
+                            cancel: ElevatedButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: Text('إلغاء'),
+                            ),
+                          );
+                        },
+                        child: const SizedBox(
+                          width: 60,
+                          child: Center(
+                            child: Text(
+                              'الوقت',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       for (int i = 0; i < config.totalDays; i++)
                         SizedBox(
@@ -253,8 +291,7 @@ class _TimePlannerState extends State<TimePlanner> {
                                   padding: EdgeInsets.symmetric(
                                     horizontal: !config.use24HourFormat ? 4 : 0,
                                   ),
-                                  child: Obx(() =>
-                                      TimePlannerTime(
+                                  child: Obx(() => TimePlannerTime(
                                         time: formattedTime(i),
                                         setTimeOnAxis: config.setTimeOnAxis,
                                         textColor:

@@ -6,10 +6,10 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:al_maafer/utils/constants/colors.dart';
 import 'package:al_maafer/utils/helpers/helper_functions.dart';
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 
 class TLoaders {
-  static final AudioPlayer player = AudioPlayer();
+  // static final AudioPlayer player = AudioPlayer();
 
   static hideSnackBar() {
     ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();

@@ -1,14 +1,13 @@
-import 'package:al_maafer/common/widgets/divider/divider.dart';
-import 'package:al_maafer/features/goups/controllers/groups_controller.dart';
 import 'package:al_maafer/features/weekly_calendar/controllers/Icon_selector.dart';
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:al_maafer/utils/constants/colors.dart';
 import 'package:al_maafer/utils/constants/sizes.dart';
 import 'package:al_maafer/utils/validators/validation.dart';
-
+import 'package:al_maafer/day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:progressive_time_picker/progressive_time_picker.dart';
+import 'package:intl/intl.dart' as intl;
 
 class AddGroupForm extends StatelessWidget {
   AddGroupForm({
@@ -44,9 +43,9 @@ class AddGroupForm extends StatelessWidget {
                         title: controller.TaskNameController.value.text,
                         hour: controller.selectedStartTime.value.hour,
                         minutes: controller.selectedStartTime.value.minute,
-                        dayIndex: controller.dayIndex.value,
+                        // dayIndex: controller.dayIndex.value,
                         duration: controller.duration.value,
-                        daysDuration: controller.daysDuration.value,
+                        // daysDuration: controller.daysDuration.value,
                         icon: controller.colorController.selectedIcon.value,
                         color: controller.colorController.selectedColor.value,
                       );
@@ -55,9 +54,9 @@ class AddGroupForm extends StatelessWidget {
                         title: controller.TaskNameController.value.text,
                         hour: controller.selectedStartTime.value.hour,
                         minutes: controller.selectedStartTime.value.minute,
-                        dayIndex: controller.dayIndex.value,
+                        // dayIndex: controller.dayIndex.value,
                         duration: controller.duration.value,
-                        daysDuration: controller.daysDuration.value,
+                        // daysDuration: controller.daysDuration.value,
                         icon: controller.colorController.selectedIcon.value,
                         color: controller.colorController.selectedColor.value,
                       );
@@ -97,7 +96,7 @@ class AddGroupForm extends StatelessWidget {
                     ),
                     const SizedBox(height: KSizes.spaceBtwInputFields),
                     TextFormField(
-                      // controller: controller.groupNameController.value,
+                      controller: controller.TaskDescriptionController.value,
                       maxLines: 4,
                       keyboardType: TextInputType.text,
                       validator: (value) =>
@@ -132,7 +131,7 @@ class AddGroupForm extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: KSizes.sm),
-
+                    // Home(),
                     HourSelectionWidget(),
                     const SizedBox(
                       height: KSizes.sm,
@@ -260,5 +259,36 @@ class HourSelectionWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+//------------------------
+
+class TimeController extends GetxController {
+  var time = Time(hour: 11, minute: 30, second: 20).obs;
+
+  void onTimeChanged(Time newTime) {
+    time.value = newTime;
+  }
+}
+
+class Home extends StatelessWidget {
+  final TimeController controller = Get.put(TimeController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => showPicker(
+          context: context,
+          isInlinePicker: true,
+          moonAsset: Image.asset('assets/images/moon.png'),
+          sunAsset: Image.asset('assets/images/sun.png'),
+          elevation: 1,
+          value: controller.time.value,
+          onChange: controller.onTimeChanged,
+          minuteInterval: TimePickerInterval.FIVE,
+          iosStylePicker: false,
+          minHour: 0,
+          maxHour: 23,
+          is24HrFormat: false,
+        ));
   }
 }

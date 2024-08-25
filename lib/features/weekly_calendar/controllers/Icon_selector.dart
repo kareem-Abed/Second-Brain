@@ -20,8 +20,8 @@ class iconChoicesModel {
 class IconController extends GetxController {
   static IconController get instance => Get.find();
 
-  Rx<IconData> selectedIcon = Icons.work.obs;
-  RxString selectedName = "عمل".obs;
+  Rx<IconData> selectedIcon = FontAwesomeIcons.briefcase.obs;
+  RxString selectedName = 'عمل'.obs;
   Rx<int> selectedColor = 0xFF2196F3.obs;
 
   // Updated list with FontAwesome icons and color codes
@@ -31,16 +31,12 @@ class IconController extends GetxController {
       'name': 'عمل',
       'color': 0xFF2196F3
     }),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.code,
-      'name': 'برمجة',
-      'color': 0xFF4CAF50
-    }),
+    iconChoicesModel.fromJson(
+        {'icon': FontAwesomeIcons.code, 'name': 'برمجة', 'color': 0xFF4CAF50}),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.school,
       'name': 'مدرسة',
       'color': 0xFFFF5722
-
     }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.shoppingCart,
@@ -89,7 +85,6 @@ class IconController extends GetxController {
         {'icon': FontAwesomeIcons.tree, 'name': 'طبيعة', 'color': 0xFF69F0AE}),
     iconChoicesModel.fromJson(
         {'icon': FontAwesomeIcons.phone, 'name': 'هاتف', 'color': 0xFF673AB7}),
-
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.laptop,
       'name': 'حاسوب',

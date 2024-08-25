@@ -40,7 +40,7 @@ class TimePlannerTask extends StatelessWidget {
   Map<String, dynamic> toJson() {
     return {
       'color': color?.value,
-      // 'icon': icon,
+
       'iconIndex': iconIndex,
       'title': title,
       'dateTime': {
@@ -68,7 +68,6 @@ class TimePlannerTask extends StatelessWidget {
     required this.title,
     this.iconIndex,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -77,8 +76,9 @@ class TimePlannerTask extends StatelessWidget {
       final adjustedScreenWidth =
           screenWidth - (controller.showAddTask.value ? 380 : 66);
 
-      final calculatedWidthTask = (adjustedScreenWidth / config.totalDays) -
-          config.horizontalTaskPadding!;
+      final calculatedWidthTask =
+          (adjustedScreenWidth / config.totalDays) * (daysDuration ?? 1) -
+              config.horizontalTaskPadding!;
 
       return Positioned(
         top: ((config.cellHeight! * (dateTime.hour - config.startHour)) +
@@ -108,9 +108,6 @@ class TimePlannerTask extends StatelessWidget {
                         borderRadius: config.borderRadius,
                         color: color ?? Theme.of(context).primaryColor,
                       ),
-                      // child: Center(
-                      //   child: child,
-                      // ),
                       child: Center(
                         child: Container(
                           height: double.infinity,
@@ -147,17 +144,6 @@ class TimePlannerTask extends StatelessWidget {
                                 SizedBox(
                                   height: 5,
                                 ),
-                                // FittedBox(
-                                //   fit: BoxFit.scaleDown,
-                                //   child: Text(
-                                //     routine['description'] as String,
-                                //     maxLines: 3,
-                                //     style: Theme.of(Get.context!)
-                                //         .textTheme
-                                //         .titleSmall!
-                                //         .copyWith(),
-                                //   ),
-                                // ),
                               ],
                             ),
                           ),
@@ -173,4 +159,108 @@ class TimePlannerTask extends StatelessWidget {
       );
     });
   }
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Obx(() {
+  //     final screenWidth = MediaQuery.of(context).size.width;
+  //     final controller = Get.put(WeeklyCalendarController());
+  //     final adjustedScreenWidth =
+  //         screenWidth - (controller.showAddTask.value ? 380 : 66);
+  //
+  //     final calculatedWidthTask = (adjustedScreenWidth / config.totalDays) -
+  //         config.horizontalTaskPadding!;
+  //
+  //     return Positioned(
+  //       top: ((config.cellHeight! * (dateTime.hour - config.startHour)) +
+  //               ((dateTime.minutes * config.cellHeight!) / 60))
+  //           .toDouble(),
+  //       left: ((adjustedScreenWidth) / config.totalDays) *
+  //               dateTime.day.toDouble() +
+  //           (leftSpace ?? 0.0),
+  //       child: SizedBox(
+  //         width: calculatedWidthTask,
+  //         child: Padding(
+  //           padding:
+  //               EdgeInsets.only(left: config.horizontalTaskPadding!.toDouble()),
+  //           child: Material(
+  //             elevation: 3,
+  //             borderRadius: config.borderRadius,
+  //             child: Stack(
+  //               children: [
+  //                 InkWell(
+  //                   onTap: onTap as void Function()? ?? () {},
+  //                   child: Container(
+  //                     height:
+  //                         ((minutesDuration.toDouble() * config.cellHeight!) /
+  //                             60), // 60 minutes
+  //                     width: calculatedWidthTask,
+  //                     decoration: BoxDecoration(
+  //                       borderRadius: config.borderRadius,
+  //                       color: color ?? Theme.of(context).primaryColor,
+  //                     ),
+  //                     // child: Center(
+  //                     //   child: child,
+  //                     // ),
+  //                     child: Center(
+  //                       child: Container(
+  //                         height: double.infinity,
+  //                         width: double.maxFinite,
+  //                         child: Padding(
+  //                           padding:
+  //                               const EdgeInsets.symmetric(horizontal: 2.0),
+  //                           child: Column(
+  //                             mainAxisAlignment: MainAxisAlignment.center,
+  //                             children: [
+  //                               Expanded(
+  //                                 flex: 1,
+  //                                 child: Icon(
+  //                                   icon,
+  //                                   color: Colors.white,
+  //                                 ),
+  //                               ),
+  //                               SizedBox(
+  //                                 height: 5,
+  //                               ),
+  //                               Expanded(
+  //                                 flex: 2,
+  //                                 child: Text(
+  //                                   title,
+  //                                   textAlign: TextAlign.center,
+  //                                   maxLines: 2,
+  //                                   overflow: TextOverflow.ellipsis,
+  //                                   style: Theme.of(Get.context!)
+  //                                       .textTheme
+  //                                       .titleSmall!
+  //                                       .copyWith(),
+  //                                 ),
+  //                               ),
+  //                               SizedBox(
+  //                                 height: 5,
+  //                               ),
+  //                               // FittedBox(
+  //                               //   fit: BoxFit.scaleDown,
+  //                               //   child: Text(
+  //                               //     routine['description'] as String,
+  //                               //     maxLines: 3,
+  //                               //     style: Theme.of(Get.context!)
+  //                               //         .textTheme
+  //                               //         .titleSmall!
+  //                               //         .copyWith(),
+  //                               //   ),
+  //                               // ),
+  //                             ],
+  //                           ),
+  //                         ),
+  //                       ),
+  //                     ),
+  //                   ),
+  //                 ),
+  //               ],
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     );
+  //   });
+  // }
 }
