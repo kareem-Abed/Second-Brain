@@ -25,82 +25,160 @@ class IconController extends GetxController {
   Rx<int> selectedColor = 0xFF2196F3.obs;
 
   // Updated list with FontAwesome icons and color codes
-  List<iconChoicesModel> iconChoices = [
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.briefcase,
-      'name': 'عمل',
-      'color': 0xFF2196F3
-    }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.code, 'name': 'برمجة', 'color': 0xFF4CAF50}),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.school,
-      'name': 'مدرسة',
-      'color': 0xFFFF5722
-    }),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.shoppingCart,
-      'name': 'تسوق',
-      'color': 0xFFFF9800
-    }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.home, 'name': 'منزل', 'color': 0xFF9C27B0}),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.dumbbell,
-      'name': 'لياقة',
-      'color': 0xFFF44336
-    }),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.calendarDay,
-      'name': 'حدث',
-      'color': 0xFF009688
-    }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.plane, 'name': 'طيران', 'color': 0xFF3F51B5}),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.music,
-      'name': 'موسيقى',
-      'color': 0xFFE91E63
-    }),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.utensils,
-      'name': 'مطعم',
-      'color': 0xFF795548
-    }),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.hospital,
-      'name': 'مستشفى',
-      'color': 0xFFFF5252
-    }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.book, 'name': 'قراءة', 'color': 0xFFFFC107}),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.doorOpen,
-      'name': 'خروج',
-      'color': 0xFF607D8B
-    }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.film, 'name': 'سينما', 'color': 0xFF00BCD4}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.tree, 'name': 'طبيعة', 'color': 0xFF69F0AE}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.phone, 'name': 'هاتف', 'color': 0xFF673AB7}),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.laptop,
-      'name': 'حاسوب',
-      'color': 0xFF03A9F4
-    }),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.lightbulb,
-      'name': 'أفكار',
-      'color': 0xFFFFEB3B
-    }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.star, 'name': 'نجمة', 'color': 0xFFFFD740}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.paw, 'name': 'حيوانات', 'color': 0xFFCDDC39}),
-  ];
 
+List<iconChoicesModel> iconChoices = [
+  // Work and Study
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.briefcase,
+    'name': 'عمل',
+    'color': 0xFF2196F3
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.code,
+    'name': 'برمجة',
+    'color': 0xFF4CAF50
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.school,
+    'name': 'مدرسة',
+    'color': 0xFFFF5722
+  }),
+
+  // Home and Daily Life
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.home,
+    'name': 'منزل',
+    'color': 0xFF9C27B0
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.shoppingCart,
+    'name': 'تسوق',
+    'color': 0xFFFF9800
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.utensils,
+    'name': 'مطعم',
+    'color': 0xFF795548
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.toilet,
+    'name': 'حمام',
+    'color': 0xFF607D8B
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.doorOpen,
+    'name': 'خروج',
+    'color': 0xFF607D8B
+  }),
+
+  // Health and Fitness
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.dumbbell,
+    'name': 'لياقة',
+    'color': 0xFFF44336
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.hospital,
+    'name': 'مستشفى',
+    'color': 0xFFFF5252
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.bicycle,
+    'name': 'دراجة',
+    'color': 0xFF4CAF50
+  }),
+
+  // Events and Activities
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.calendarDay,
+    'name': 'حدث',
+    'color': 0xFF009688
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.music,
+    'name': 'موسيقى',
+    'color': 0xFFE91E63
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.film,
+    'name': 'سينما',
+    'color': 0xFF00BCD4
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.gamepad,
+    'name': 'ألعاب',
+    'color': 0xFF1E88E5
+  }),
+
+  // Travel and Nature
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.plane,
+    'name': 'طيران',
+    'color': 0xFF3F51B5
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.tree,
+    'name': 'طبيعة',
+    'color': 0xFF69F0AE
+  }),
+
+  // Miscellaneous
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.book,
+    'name': 'قراءة',
+    'color': 0xFFFFC107
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.phone,
+    'name': 'هاتف',
+    'color': 0xFF673AB7
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.laptop,
+    'name': 'حاسوب',
+    'color': 0xFF03A9F4
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.lightbulb,
+    'name': 'أفكار',
+    'color': 0xFFFFEB3B
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.star,
+    'name': 'نجمة',
+    'color': 0xFFFFD740
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.paw,
+    'name': 'حيوانات',
+    'color': 0xFFCDDC39
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.mosque,
+    'name': 'صلاة',
+    'color': 0xFF00BFA5
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.bed,
+    'name': 'نوم',
+    'color': 0xFF8E24AA
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.userFriends,
+    'name': 'أصدقاء',
+    'color': 0xFF3F51B5
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.bullseye,
+    'name': 'هدف',
+    'color': Colors.red.value
+  }),
+  iconChoicesModel.fromJson({
+    'icon': FontAwesomeIcons.trash,
+    'name': 'قمامة',
+    'color': 0xFFFF8A80
+  }),
+];
   void changeIcon(IconData icon, String name, int color) {
     selectedIcon.value = icon;
     selectedName.value = name;
