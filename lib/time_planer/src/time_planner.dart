@@ -189,142 +189,122 @@ class _TimePlannerState extends State<TimePlanner> {
       timeVerticalController.jumpTo(mainVerticalController.offset);
     });
 
-    return GestureDetector(
-      child: Container(
-        color: style.backgroundColor,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final screenWidth = constraints.maxWidth;
-                final adjustedScreenWidth = screenWidth - 60;
-                final calculatedWidth = adjustedScreenWidth / config.totalDays;
+    return Container(
+      color: style.backgroundColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final screenWidth = constraints.maxWidth;
+              final adjustedScreenWidth = screenWidth - 68;
+              final calculatedWidth = adjustedScreenWidth / config.totalDays;
 
-                return SingleChildScrollView(
-                  controller: dayHorizontalController,
-                  scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      InkWell(
-                        onTap: () {
-                          Get.defaultDialog(
-                            title: 'تأكيد الحذف',
-                            content: Text(
-                              'هل أنت متأكد أنك تريد حذف جميع المهام؟',
-                              style:
-                                  Theme.of(Get.context!).textTheme.bodyMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                            confirm: ElevatedButton(
-                              onPressed: () {
-                                final weeklyCalendarController =
-                                    Get.put(WeeklyCalendarController());
-                                weeklyCalendarController.box.write('tasks', []);
-                                Get.back();
-                              },
-                              child: Text('نعم'),
-                            ),
-                            cancel: ElevatedButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: Text('إلغاء'),
-                            ),
-                          );
-                        },
-                        child: const SizedBox(
-                          width: 60,
-                          child: Center(
-                            child: Text(
-                              'الوقت',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
+              return SingleChildScrollView(
+                controller: dayHorizontalController,
+                scrollDirection: Axis.horizontal,
+
+                physics: const NeverScrollableScrollPhysics(),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    const SizedBox(
+                      width: 68,
+                      child: Center(
+                        child: FittedBox(
+                          child: Text(
+                            ' الساعه / اليوم ',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
                             ),
                           ),
                         ),
-                      ),
-                      for (int i = 0; i < config.totalDays; i++)
-                        SizedBox(
-                          width: calculatedWidth,
-                          child: widget.headers[i],
-                        ),
-                    ],
-                  ),
-                );
-              },
-            ),
-            Container(
-              height: 1,
-              color: style.dividerColor ?? Theme.of(context).primaryColor,
-            ),
-            Expanded(
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(context)
-                        .copyWith(scrollbars: false),
-                    child: SingleChildScrollView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: timeVerticalController,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              for (int i = widget.startHour;
-                                  i <= widget.endHour;
-                                  i++)
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: !config.use24HourFormat ? 4 : 0,
-                                  ),
-                                  child: Obx(() => TimePlannerTime(
-                                        time: formattedTime(i),
-                                        setTimeOnAxis: config.setTimeOnAxis,
-                                        textColor:
-                                            controller.currentHour.value == i
-                                                ? Colors.blue
-                                                : Colors.white,
-                                        textStar:
-                                            controller.currentHour.value == i
-                                                ? '*'
-                                                : '',
-                                      )),
-                                ),
-                            ],
-                          ),
-                          Container(
-                            height:
-                                (config.totalHours * config.cellHeight!) + 80,
-                            width: 1,
-                            color: style.dividerColor ??
-                                Theme.of(context).primaryColor,
-                          ),
-                        ],
                       ),
                     ),
+                    for (int i = 0; i < config.totalDays; i++)
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(
+                              color: style.dividerColor!.withOpacity(0.9),
+                              width: 1.2,
+                            ),
+                          ),
+                        ),
+                        width: calculatedWidth,
+                        child: widget.headers[i],
+                      ),
+                  ],
+                ),
+              );
+            },
+          ),
+          Container(
+            height: 1,
+            color: style.dividerColor ?? Theme.of(context).primaryColor,
+          ),
+          Expanded(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ScrollConfiguration(
+                  behavior: ScrollConfiguration.of(context)
+                      .copyWith(scrollbars: false),
+                  child: SingleChildScrollView(
+                    physics: const NeverScrollableScrollPhysics(),
+                    controller: timeVerticalController,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            for (int i = widget.startHour;
+                                i <= widget.endHour;
+                                i++)
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: !config.use24HourFormat ? 4 : 0,
+                                ),
+                                child: Obx(() => TimePlannerTime(
+                                      time: formattedTime(i),
+                                      setTimeOnAxis: config.setTimeOnAxis,
+                                      textColor:
+                                          controller.currentHour.value == i
+                                              ? Colors.blue
+                                              : Colors.white,
+                                      textStar:
+                                          controller.currentHour.value == i
+                                              ? '*'
+                                              : '',
+                                    )),
+                              ),
+                          ],
+                        ),
+                        Container(
+                          height: (config.totalHours * config.cellHeight!) + 80,
+                          width: 1,
+                          color: style.dividerColor ??
+                              Theme.of(context).primaryColor,
+                        ),
+                      ],
+                    ),
                   ),
-                  Expanded(
-                    child: buildMainBody(),
-                  ),
-                ],
-              ),
+                ),
+                Expanded(
+                  child: buildMainBody(),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

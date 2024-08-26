@@ -6,8 +6,7 @@ import 'package:al_maafer/utils/validators/validation.dart';
 import 'package:al_maafer/day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:progressive_time_picker/progressive_time_picker.dart';
-import 'package:intl/intl.dart' as intl;
+
 
 class AddGroupForm extends StatelessWidget {
   AddGroupForm({
@@ -34,49 +33,80 @@ class AddGroupForm extends StatelessWidget {
                         fontSize: 24, fontWeight: FontWeight.bold)),
               ),
               const SizedBox(height: KSizes.spaceBtwItems),
-              Obx(
-                () => InkWell(
-                  onTap: () {
-                    if (controller.showUpdateTask.value) {
-                      controller.UpdateTask(
-                        index: controller.taskUpdateIndex.value,
-                        title: controller.TaskNameController.value.text,
-                        hour: controller.selectedStartTime.value.hour,
-                        minutes: controller.selectedStartTime.value.minute,
-                        // dayIndex: controller.dayIndex.value,
-                        duration: controller.duration.value,
-                        // daysDuration: controller.daysDuration.value,
-                        icon: controller.colorController.selectedIcon.value,
-                        color: controller.colorController.selectedColor.value,
-                      );
-                    } else
-                      controller.addTask(
-                        title: controller.TaskNameController.value.text,
-                        hour: controller.selectedStartTime.value.hour,
-                        minutes: controller.selectedStartTime.value.minute,
-                        // dayIndex: controller.dayIndex.value,
-                        duration: controller.duration.value,
-                        // daysDuration: controller.daysDuration.value,
-                        icon: controller.colorController.selectedIcon.value,
-                        color: controller.colorController.selectedColor.value,
-                      );
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color:
-                          Color(controller.colorController.selectedColor.value),
-                    ),
-                    child: Center(
-                      child: Text(
-                        controller.showUpdateTask.value ? 'تعديل' : 'اضافة',
-                        style: Theme.of(context).textTheme.titleMedium!,
+              Obx(() {
+                return Column(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        if (controller.showUpdateTask.value) {
+                          controller.UpdateTask(
+                            index: controller.taskUpdateIndex.value,
+                            title: controller.TaskNameController.value.text,
+                            hour: controller.selectedStartTime.value.hour,
+                            minutes: controller.selectedStartTime.value.minute,
+                            // dayIndex: controller.dayIndex.value,
+                            duration: controller.duration.value,
+                            // daysDuration: controller.daysDuration.value,
+                            icon: controller.colorController.selectedIcon.value,
+                            color:
+                                controller.colorController.selectedColor.value,
+                          );
+                        } else
+                          controller.addTask(
+                            title: controller.TaskNameController.value.text,
+                            hour: controller.selectedStartTime.value.hour,
+                            minutes: controller.selectedStartTime.value.minute,
+                            // dayIndex: controller.dayIndex.value,
+                            duration: controller.duration.value,
+                            // daysDuration: controller.daysDuration.value,
+                            icon: controller.colorController.selectedIcon.value,
+                            color:
+                                controller.colorController.selectedColor.value,
+                          );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Color(
+                              controller.colorController.selectedColor.value),
+                        ),
+                        child: Center(
+                          child: Text(
+                            controller.showUpdateTask.value ? 'تعديل' : 'اضافة',
+                            style: Theme.of(context).textTheme.titleMedium!,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                    (controller.showUpdateTask.value)
+                        ? const SizedBox(height: KSizes.spaceBtwItems)
+                        : SizedBox(),
+                    (controller.showUpdateTask.value)
+                        ? InkWell(
+                            onTap: () {
+                              controller.resetFormFields();
+                              controller.showUpdateTask.value = false;
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.red,
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'الغاء',
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium!,
+                                ),
+                              ),
+                            ),
+                          )
+                        : SizedBox(),
+                  ],
+                );
+              }),
               const SizedBox(height: KSizes.spaceBtwItems),
               Form(
                 key: controller.formKey,

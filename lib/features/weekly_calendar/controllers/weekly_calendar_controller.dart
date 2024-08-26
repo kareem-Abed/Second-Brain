@@ -85,6 +85,20 @@ class WeeklyCalendarController extends GetxController {
       );
     }).toList();
   }
+
+  void resetFormFields() {
+    TaskNameController.value.text = '';
+    TaskDescriptionController.value.text = '';
+    selectedStartTime.value = TimeOfDay.now();
+    selectedEndTime.value = TimeOfDay(
+      hour: (TimeOfDay.now().hour + 1) % 24,
+      minute: TimeOfDay.now().minute,
+    );
+
+    duration.value = 0; // Reset duration
+    colorController.selectedColor.value = colorController.iconChoices[0].color;
+    colorController.selectedIcon.value = colorController.iconChoices[0].icon;
+  }
   //-----------------------------> Task Management Functions <-----------------------------------\\
 
   void addTask({
@@ -340,6 +354,11 @@ class WeeklyCalendarController extends GetxController {
   void saveTasksToStorage() {
     final taskList = tasks.map((task) => task.toJson()).toList();
     box.write('tasks', taskList);
+  }
+
+  void clearAllTasks() {
+    tasks.clear();
+    box.write('tasks', []);
   }
 
   //-----------------------------> UI Interaction Functions <-----------------------------------\\

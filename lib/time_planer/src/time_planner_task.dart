@@ -40,7 +40,6 @@ class TimePlannerTask extends StatelessWidget {
   Map<String, dynamic> toJson() {
     return {
       'color': color?.value,
-
       'iconIndex': iconIndex,
       'title': title,
       'dateTime': {
@@ -115,41 +114,167 @@ class TimePlannerTask extends StatelessWidget {
                           child: Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 2.0),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Icon(
-                                    icon,
-                                    color: Colors.white,
+                            child: minutesDuration <= 45
+                                ? Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            double iconSize = (constraints
+                                                        .maxHeight *
+                                                    0.6)
+                                                .clamp(
+                                                    8.0,
+                                                    constraints.maxWidth *
+                                                        0.6);
+                                            return Icon(
+                                              icon,
+                                              color: Colors.white,
+                                              size: iconSize,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            double textSize =
+                                                (constraints.maxWidth * 0.12)
+                                                    .clamp(10.0, 15.0);
+                                            return Center(
+                                              child: Text(
+                                                title,
+                                                textAlign: TextAlign.center,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(Get.context!)
+                                                    .textTheme
+                                                    .titleSmall!
+                                                    .copyWith(
+                                                      fontSize: textSize,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                    ],
+                                  )
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Expanded(
+                                        flex: 1,
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            double iconSize = (constraints.maxHeight * 1.0).clamp(10.0, constraints.maxWidth * 0.6); // Adjust the multiplier and clamp values as needed
+                                            return Icon(
+                                              icon,
+                                              color: Colors.white,
+                                              size: iconSize,
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: LayoutBuilder(
+                                          builder: (context, constraints) {
+                                            double textSize =
+                                                (constraints.maxWidth * 0.12)
+                                                    .clamp(10.0, 15.0);
+                                            return Center(
+                                              child: Text(
+                                                title,
+                                                textAlign: TextAlign.center,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(Get.context!)
+                                                    .textTheme
+                                                    .titleSmall!
+                                                    .copyWith(
+                                                      fontSize: textSize,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Text(
-                                    title,
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(Get.context!)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                              ],
-                            ),
                           ),
                         ),
                       ),
                     ),
+                    // child: Container(
+                    //   height:
+                    //       ((minutesDuration.toDouble() * config.cellHeight!) /
+                    //           60), // 60 minutes
+                    //   width: calculatedWidthTask,
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: config.borderRadius,
+                    //     color: color ?? Theme.of(context).primaryColor,
+                    //   ),
+                    //   child: Center(
+                    //     child: Container(
+                    //       height: double.infinity,
+                    //       width: double.maxFinite,
+                    //       child: Padding(
+                    //         padding:
+                    //             const EdgeInsets.symmetric(horizontal: 2.0),
+                    //         child: Column(
+                    //           mainAxisAlignment: MainAxisAlignment.center,
+                    //           children: [
+                    //             Expanded(
+                    //               flex: 1,
+                    //               child: Icon(
+                    //                 icon,
+                    //                 color: Colors.white,
+                    //               ),
+                    //             ),
+                    //             SizedBox(
+                    //               height: 5,
+                    //             ),
+                    //             Expanded(
+                    //               flex: 2,
+                    //               child: Text(
+                    //                 title,
+                    //                 textAlign: TextAlign.center,
+                    //                 maxLines: 2,
+                    //                 overflow: TextOverflow.ellipsis,
+                    //                 style: Theme.of(Get.context!)
+                    //                     .textTheme
+                    //                     .titleSmall!
+                    //                     .copyWith(),
+                    //               ),
+                    //             ),
+                    //             SizedBox(
+                    //               height: 5,
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ),
                 ],
               ),
@@ -159,108 +284,5 @@ class TimePlannerTask extends StatelessWidget {
       );
     });
   }
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Obx(() {
-  //     final screenWidth = MediaQuery.of(context).size.width;
-  //     final controller = Get.put(WeeklyCalendarController());
-  //     final adjustedScreenWidth =
-  //         screenWidth - (controller.showAddTask.value ? 380 : 66);
-  //
-  //     final calculatedWidthTask = (adjustedScreenWidth / config.totalDays) -
-  //         config.horizontalTaskPadding!;
-  //
-  //     return Positioned(
-  //       top: ((config.cellHeight! * (dateTime.hour - config.startHour)) +
-  //               ((dateTime.minutes * config.cellHeight!) / 60))
-  //           .toDouble(),
-  //       left: ((adjustedScreenWidth) / config.totalDays) *
-  //               dateTime.day.toDouble() +
-  //           (leftSpace ?? 0.0),
-  //       child: SizedBox(
-  //         width: calculatedWidthTask,
-  //         child: Padding(
-  //           padding:
-  //               EdgeInsets.only(left: config.horizontalTaskPadding!.toDouble()),
-  //           child: Material(
-  //             elevation: 3,
-  //             borderRadius: config.borderRadius,
-  //             child: Stack(
-  //               children: [
-  //                 InkWell(
-  //                   onTap: onTap as void Function()? ?? () {},
-  //                   child: Container(
-  //                     height:
-  //                         ((minutesDuration.toDouble() * config.cellHeight!) /
-  //                             60), // 60 minutes
-  //                     width: calculatedWidthTask,
-  //                     decoration: BoxDecoration(
-  //                       borderRadius: config.borderRadius,
-  //                       color: color ?? Theme.of(context).primaryColor,
-  //                     ),
-  //                     // child: Center(
-  //                     //   child: child,
-  //                     // ),
-  //                     child: Center(
-  //                       child: Container(
-  //                         height: double.infinity,
-  //                         width: double.maxFinite,
-  //                         child: Padding(
-  //                           padding:
-  //                               const EdgeInsets.symmetric(horizontal: 2.0),
-  //                           child: Column(
-  //                             mainAxisAlignment: MainAxisAlignment.center,
-  //                             children: [
-  //                               Expanded(
-  //                                 flex: 1,
-  //                                 child: Icon(
-  //                                   icon,
-  //                                   color: Colors.white,
-  //                                 ),
-  //                               ),
-  //                               SizedBox(
-  //                                 height: 5,
-  //                               ),
-  //                               Expanded(
-  //                                 flex: 2,
-  //                                 child: Text(
-  //                                   title,
-  //                                   textAlign: TextAlign.center,
-  //                                   maxLines: 2,
-  //                                   overflow: TextOverflow.ellipsis,
-  //                                   style: Theme.of(Get.context!)
-  //                                       .textTheme
-  //                                       .titleSmall!
-  //                                       .copyWith(),
-  //                                 ),
-  //                               ),
-  //                               SizedBox(
-  //                                 height: 5,
-  //                               ),
-  //                               // FittedBox(
-  //                               //   fit: BoxFit.scaleDown,
-  //                               //   child: Text(
-  //                               //     routine['description'] as String,
-  //                               //     maxLines: 3,
-  //                               //     style: Theme.of(Get.context!)
-  //                               //         .textTheme
-  //                               //         .titleSmall!
-  //                               //         .copyWith(),
-  //                               //   ),
-  //                               // ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     );
-  //   });
-  // }
+
 }

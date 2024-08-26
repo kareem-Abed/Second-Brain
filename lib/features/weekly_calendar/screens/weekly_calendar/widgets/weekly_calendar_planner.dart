@@ -1,12 +1,10 @@
-// import 'package:al_maafer/common/widgets/loaders/animation_loader.dart';
+
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:al_maafer/time_planer/time_planner.dart';
 import 'package:al_maafer/utils/constants/colors.dart';
-import 'package:al_maafer/utils/helpers/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-// import 'package:time_planner/time_planner.dart';
+
 
 class WeeklyCalendarPlanner extends StatelessWidget {
   const WeeklyCalendarPlanner({super.key});
@@ -40,12 +38,6 @@ class WeeklyCalendarPlanner extends StatelessWidget {
             headers: [
               TimePlannerTitle(
                 title: 'السبت',
-                // titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                //     color: controller.daysOfWeekStare[0] == '*'
-                //         ? Colors.blue
-                //         : Colors.white),
-                // date: controller.daysOfWeekStare[0],
-                //
                 titleStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
                     color: controller.currentDay.value == 0
                         ? Colors.blue
@@ -129,6 +121,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     .copyWith(color: Colors.blue),
               ),
             ],
+            // ignore: invalid_use_of_protected_member
             tasks: controller.tasks.value,
           );
         });
