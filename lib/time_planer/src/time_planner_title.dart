@@ -36,9 +36,11 @@ class TimePlannerTitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              title,
-              style: titleStyle ?? const TextStyle(fontWeight: FontWeight.w600),
+            FittedBox(
+              child: Text(
+                title,
+                style: titleStyle ?? const TextStyle(fontWeight: FontWeight.w600),
+              ),
             ),
             const SizedBox(
               height: 3,

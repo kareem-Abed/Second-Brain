@@ -7,7 +7,6 @@ import 'package:al_maafer/day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class AddGroupForm extends StatelessWidget {
   AddGroupForm({
     super.key,
@@ -124,19 +123,19 @@ class AddGroupForm extends StatelessWidget {
                         labelText: 'اسم المهمة',
                       ),
                     ),
-                    const SizedBox(height: KSizes.spaceBtwInputFields),
-                    TextFormField(
-                      controller: controller.TaskDescriptionController.value,
-                      maxLines: 4,
-                      keyboardType: TextInputType.text,
-                      validator: (value) =>
-                          KValidator.validateEmptyText('وصف التاسك', value),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'وصف المهمة',
-                      ),
-                    ),
+                    // const SizedBox(height: KSizes.spaceBtwInputFields),
+                    // TextFormField(
+                    //   controller: controller.TaskDescriptionController.value,
+                    //   maxLines: 4,
+                    //   keyboardType: TextInputType.text,
+                    //   validator: (value) =>
+                    //       KValidator.validateEmptyText('وصف التاسك', value),
+                    //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //   decoration: const InputDecoration(
+                    //     border: OutlineInputBorder(),
+                    //     labelText: 'وصف المهمة',
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -161,7 +160,6 @@ class AddGroupForm extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: KSizes.sm),
-                    // Home(),
                     HourSelectionWidget(),
                     const SizedBox(
                       height: KSizes.sm,
@@ -292,33 +290,3 @@ class HourSelectionWidget extends StatelessWidget {
   }
 }
 //------------------------
-
-class TimeController extends GetxController {
-  var time = Time(hour: 11, minute: 30, second: 20).obs;
-
-  void onTimeChanged(Time newTime) {
-    time.value = newTime;
-  }
-}
-
-class Home extends StatelessWidget {
-  final TimeController controller = Get.put(TimeController());
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() => showPicker(
-          context: context,
-          isInlinePicker: true,
-          moonAsset: Image.asset('assets/images/moon.png'),
-          sunAsset: Image.asset('assets/images/sun.png'),
-          elevation: 1,
-          value: controller.time.value,
-          onChange: controller.onTimeChanged,
-          minuteInterval: TimePickerInterval.FIVE,
-          iosStylePicker: false,
-          minHour: 0,
-          maxHour: 23,
-          is24HrFormat: false,
-        ));
-  }
-}

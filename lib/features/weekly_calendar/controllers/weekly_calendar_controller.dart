@@ -424,31 +424,47 @@ class WeeklyCalendarController extends GetxController {
     );
   }
 
-  Future<void> selectTime(BuildContext context, bool isStartTime) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime:
-          isStartTime ? selectedStartTime.value : selectedEndTime.value,
-      builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null) {
-      if (isStartTime) {
+Future<void> selectTime(BuildContext context, bool isStartTime) async {
+  final TimeOfDay? picked = await showTimePicker(
+    context: context,
+    initialTime: isStartTime ? selectedStartTime.value : selectedEndTime.value,
+    builder: (BuildContext context, Widget? child) {
+      return MediaQuery(
+        data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+        child: child!,
+      );
+    },
+  );
+
+  if (picked != null) {
+    if (isStartTime) {
+      if (picked.hour < selectedEndTime.value.hour || (picked.hour == selectedEndTime.value.hour && picked.minute < selectedEndTime.value.minute)) {
         selectedStartTime.value = picked;
       } else {
+        // Show error or adjust the time
+        selectedStartTime.value = picked;
+        selectedEndTime.value = TimeOfDay(
+          hour: (picked.hour + 1) % 24,
+          minute: picked.minute,
+        );
+      }
+    } else {
+      if (picked.hour > selectedStartTime.value.hour || (picked.hour == selectedStartTime.value.hour && picked.minute > selectedStartTime.value.minute)) {
         selectedEndTime.value = picked;
-        final startMinutes =
-            selectedStartTime.value.hour * 60 + selectedStartTime.value.minute;
-        final endMinutes =
-            selectedEndTime.value.hour * 60 + selectedEndTime.value.minute;
-        duration.value = endMinutes - startMinutes;
+      } else {
+        // Show error or adjust the time
+        selectedEndTime.value = TimeOfDay(
+          hour: (selectedStartTime.value.hour + 1) % 24,
+          minute: selectedStartTime.value.minute,
+        );
       }
     }
+
+    final startMinutes = selectedStartTime.value.hour * 60 + selectedStartTime.value.minute;
+    final endMinutes = selectedEndTime.value.hour * 60 + selectedEndTime.value.minute;
+    duration.value = endMinutes - startMinutes;
   }
+}
 
   void toggleDay(int index) {
     selectedDays[index] = !selectedDays[index];

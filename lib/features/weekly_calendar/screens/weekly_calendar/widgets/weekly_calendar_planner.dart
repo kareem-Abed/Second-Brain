@@ -23,7 +23,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
             startHour: 0,
             endHour: 23,
             use24HourFormat: false,
-            setTimeOnAxis: false,
+            setTimeOnAxis: true,
             style: TimePlannerStyle(
               backgroundColor: Colors.grey[900],
               // cellWidth: controller.cellWidth.value,

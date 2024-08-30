@@ -73,7 +73,8 @@ class TimePlannerTask extends StatelessWidget {
       final screenWidth = MediaQuery.of(context).size.width;
       final controller = Get.put(WeeklyCalendarController());
       final adjustedScreenWidth =
-          screenWidth - (controller.showAddTask.value ? 380 : 66);
+
+          screenWidth - (controller.showAddTask.value ? 420 : 66);
 
       final calculatedWidthTask =
           (adjustedScreenWidth / config.totalDays) * (daysDuration ?? 1) -
@@ -122,13 +123,12 @@ class TimePlannerTask extends StatelessWidget {
                                         flex: 1,
                                         child: LayoutBuilder(
                                           builder: (context, constraints) {
-                                            double iconSize = (constraints
-                                                        .maxHeight *
-                                                    0.6)
-                                                .clamp(
-                                                    8.0,
-                                                    constraints.maxWidth *
-                                                        0.6);
+                                            double iconSize =
+                                                (constraints.maxHeight * 0.6)
+                                                    .clamp(
+                                                        8.0,
+                                                        constraints.maxWidth *
+                                                            0.6);
                                             return Icon(
                                               icon,
                                               color: Colors.white,
@@ -179,7 +179,13 @@ class TimePlannerTask extends StatelessWidget {
                                         flex: 1,
                                         child: LayoutBuilder(
                                           builder: (context, constraints) {
-                                            double iconSize = (constraints.maxHeight * 1.0).clamp(10.0, constraints.maxWidth * 0.6); // Adjust the multiplier and clamp values as needed
+                                            double iconSize = (constraints
+                                                        .maxHeight *
+                                                    1.0)
+                                                .clamp(
+                                                    10.0,
+                                                    constraints.maxWidth *
+                                                        0.6); // Adjust the multiplier and clamp values as needed
                                             return Icon(
                                               icon,
                                               color: Colors.white,
@@ -224,57 +230,6 @@ class TimePlannerTask extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // child: Container(
-                    //   height:
-                    //       ((minutesDuration.toDouble() * config.cellHeight!) /
-                    //           60), // 60 minutes
-                    //   width: calculatedWidthTask,
-                    //   decoration: BoxDecoration(
-                    //     borderRadius: config.borderRadius,
-                    //     color: color ?? Theme.of(context).primaryColor,
-                    //   ),
-                    //   child: Center(
-                    //     child: Container(
-                    //       height: double.infinity,
-                    //       width: double.maxFinite,
-                    //       child: Padding(
-                    //         padding:
-                    //             const EdgeInsets.symmetric(horizontal: 2.0),
-                    //         child: Column(
-                    //           mainAxisAlignment: MainAxisAlignment.center,
-                    //           children: [
-                    //             Expanded(
-                    //               flex: 1,
-                    //               child: Icon(
-                    //                 icon,
-                    //                 color: Colors.white,
-                    //               ),
-                    //             ),
-                    //             SizedBox(
-                    //               height: 5,
-                    //             ),
-                    //             Expanded(
-                    //               flex: 2,
-                    //               child: Text(
-                    //                 title,
-                    //                 textAlign: TextAlign.center,
-                    //                 maxLines: 2,
-                    //                 overflow: TextOverflow.ellipsis,
-                    //                 style: Theme.of(Get.context!)
-                    //                     .textTheme
-                    //                     .titleSmall!
-                    //                     .copyWith(),
-                    //               ),
-                    //             ),
-                    //             SizedBox(
-                    //               height: 5,
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ),
                 ],
               ),
@@ -284,5 +239,4 @@ class TimePlannerTask extends StatelessWidget {
       );
     });
   }
-
 }

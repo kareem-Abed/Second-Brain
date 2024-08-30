@@ -26,7 +26,7 @@ class WeeklyCalendarScreen extends StatelessWidget {
               return Row(
                 children: [
                   Container(
-                    width: 310,
+                    width: 350,
                     child: AddGroupForm(),
                   ),
                   Container(
@@ -47,7 +47,7 @@ class WeeklyCalendarScreen extends StatelessWidget {
         type: ExpandableFabType.fan,
         pos: ExpandableFabPos.left,
         distance: 78,
-        fanAngle: 115,
+        fanAngle: 90,
         openButtonBuilder: RotateFloatingActionButtonBuilder(
           child: const Icon(FontAwesomeIcons.bars),
           fabSize: ExpandableFabSize.regular,
@@ -97,15 +97,15 @@ class WeeklyCalendarScreen extends StatelessWidget {
             },
             child: const Icon(FontAwesomeIcons.trash),
           ),
-          FloatingActionButton(
-            child: const Icon(Icons.edit),
-            onPressed: () {
-              final state = _key.currentState;
-              if (state != null) {
-                state.toggle();
-              }
-            },
-          ),
+          // FloatingActionButton(
+          //   child: const Icon(Icons.edit),
+          //   onPressed: () {
+          //     final state = _key.currentState;
+          //     if (state != null) {
+          //       state.toggle();
+          //     }
+          //   },
+          // ),
           Obx(() {
             return FloatingActionButton(
               backgroundColor:

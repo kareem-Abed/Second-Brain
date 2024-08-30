@@ -1,3 +1,4 @@
+import 'package:al_maafer/common/widgets/divider/divider.dart';
 import 'package:al_maafer/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -158,8 +159,8 @@ class IconSelector extends StatelessWidget {
       children: [
         // Icon Selection (Top)
         Container(
-          padding: const EdgeInsets.all(10),
-          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.all(KSizes.sm),
+          // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: Colors.grey[850],
             borderRadius: BorderRadius.circular(15),
@@ -210,46 +211,48 @@ class IconSelector extends StatelessWidget {
               ),
               const SizedBox(height: KSizes.sm),
               Wrap(
+                spacing: KSizes.sm,
                 alignment: WrapAlignment.center,
                 children: iconController.iconChoices.map((iconChoice) {
-                  return Container(
-                    margin: const EdgeInsets.all(5),
-                    child: InkWell(
-                      onTap: () => iconController.changeIcon(
-                        iconChoice.icon,
-                        iconChoice.name,
-                        iconChoice.color,
-                      ),
-                      customBorder: const CircleBorder(),
-                      child: Column(
-                        children: [
-                          Ink(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(
-                                  iconChoice.color), // Fixed color handling
-                            ),
-                            child: Icon(iconChoice.icon,
-                                color: Color(iconChoice.color)),
+                  return InkWell(
+                    onTap: () => iconController.changeIcon(
+                      iconChoice.icon,
+                      iconChoice.name,
+                      iconChoice.color,
+                    ),
+                    customBorder: const CircleBorder(),
+                    child: Column(
+                      children: [
+                        Ink(
+                          width: 48,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color(
+                                iconChoice.color), // Fixed color handling
                           ),
-                          const SizedBox(height: KSizes.sm / 4),
-                          Text(
-                            iconChoice.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyMedium!
-                                .copyWith(
-                                  color: Color(iconChoice.color),
-                                ),
-                            // style: TextStyle(
-                            //   color: Color(iconChoice.color), // Fi
-                            //   fontSize: 12,
-                            // ),
-                          ),
-                        ],
-                      ),
+                          child: Icon(iconChoice.icon,
+                              color: Color(iconChoice.color)),
+                        ),
+                        const SizedBox(height: KSizes.sm / 4),
+                        Text(
+                          iconChoice.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                color: Color(iconChoice.color),
+                              ),
+                          // style: TextStyle(
+                          //   color: Color(iconChoice.color), // Fi
+                          //   fontSize: 12,
+                          // ),
+                        ),
+                        SizedBox(
+                          height: KSizes.md,
+                          width: 40,
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),

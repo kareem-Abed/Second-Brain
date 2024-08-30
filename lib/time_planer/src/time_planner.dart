@@ -205,7 +205,6 @@ class _TimePlannerState extends State<TimePlanner> {
               return SingleChildScrollView(
                 controller: dayHorizontalController,
                 scrollDirection: Axis.horizontal,
-
                 physics: const NeverScrollableScrollPhysics(),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -275,6 +274,7 @@ class _TimePlannerState extends State<TimePlanner> {
                                 ),
                                 child: Obx(() => TimePlannerTime(
                                       time: formattedTime(i),
+
                                       setTimeOnAxis: config.setTimeOnAxis,
                                       textColor:
                                           controller.currentHour.value == i
