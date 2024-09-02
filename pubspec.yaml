@@ -29,6 +29,7 @@ dependencies:
 #  progressive_time_picker: ^1.0.1
   flutter_expandable_fab: ^2.2.0
   timeline_tile: ^2.0.0
+  easy_sidemenu: ^0.6.0
 
 
 

@@ -53,7 +53,7 @@ class TimePlannerTask extends StatelessWidget {
   }
 
   /// Widget that show on time planner as the tasks
-  const TimePlannerTask({
+  TimePlannerTask({
     Key? key,
     required this.minutesDuration,
     required this.dateTime,
@@ -67,26 +67,30 @@ class TimePlannerTask extends StatelessWidget {
     required this.title,
     this.iconIndex,
   }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Obx(() {
       final screenWidth = MediaQuery.of(context).size.width;
       final controller = Get.put(WeeklyCalendarController());
       final adjustedScreenWidth =
+          screenWidth - (controller.showAddTask.value ? 490 : 136);
+      // screenWidth - (controller.showAddTask.value ? 420 : 66);
 
-          screenWidth - (controller.showAddTask.value ? 420 : 66);
-
-      final calculatedWidthTask =
-          (adjustedScreenWidth / config.totalDays) * (daysDuration ?? 1) -
-              config.horizontalTaskPadding!;
+      final calculatedWidthTask = controller.showFullWidthTask.value
+          ? adjustedScreenWidth
+          : ((adjustedScreenWidth / config.totalDays) * (daysDuration ?? 1) -
+              config.horizontalTaskPadding!);
 
       return Positioned(
         top: ((config.cellHeight! * (dateTime.hour - config.startHour)) +
                 ((dateTime.minutes * config.cellHeight!) / 60))
             .toDouble(),
-        left: ((adjustedScreenWidth) / config.totalDays) *
-                dateTime.day.toDouble() +
-            (leftSpace ?? 0.0),
+        left: controller.showFullWidthTask.value
+            ? 0.0
+            : (((adjustedScreenWidth) / config.totalDays) *
+                    dateTime.day.toDouble() +
+                (leftSpace ?? 0.0)),
         child: SizedBox(
           width: calculatedWidthTask,
           child: Padding(

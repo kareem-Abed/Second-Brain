@@ -1,5 +1,7 @@
 import 'dart:ui';
 import 'package:al_maafer/features/weekly_calendar/screens/weekly_calendar/weekly_calendar.dart';
+import 'package:al_maafer/main.dart';
+import 'package:al_maafer/side_menu.dart';
 import 'package:al_maafer/utils/theme/theme.dart';
 // import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,8 @@ class App extends StatelessWidget {
       darkTheme: KAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar', 'EG'),
-      home:  const WeeklyCalendarScreen(),
+      // home:  const WeeklyCalendarScreen(),
+      home: EasySideMenu(),
       scrollBehavior: const ScrollBehavior().copyWith(
         dragDevices: {
           PointerDeviceKind.trackpad,

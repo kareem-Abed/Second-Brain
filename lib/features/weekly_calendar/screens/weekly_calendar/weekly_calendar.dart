@@ -9,8 +9,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class WeeklyCalendarScreen extends StatelessWidget {
-  const WeeklyCalendarScreen({super.key});
-
+  const WeeklyCalendarScreen({super.key, required this.viewCurrentDayOnly});
+  final bool viewCurrentDayOnly;
   @override
   Widget build(BuildContext context) {
     final WeeklyCalendarController controller =
@@ -39,7 +39,7 @@ class WeeklyCalendarScreen extends StatelessWidget {
               return Container();
             }
           }),
-          Expanded(flex: 2, child: WeeklyCalendarPlanner()),
+          Expanded(flex: 2, child: WeeklyCalendarPlanner(viewCurrentDayOnly: viewCurrentDayOnly)),
         ],
       ),
       floatingActionButtonLocation: ExpandableFab.location,

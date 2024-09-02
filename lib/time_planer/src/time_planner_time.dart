@@ -20,12 +20,24 @@ class TimePlannerTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: config.cellHeight!.toDouble() - 1,
-      width: 60,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
-        child: setTimeOnAxis!
+    return
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
+          // padding: EdgeInsets.symmetric(
+          //   horizontal: !config.use24HourFormat ? 2 : 0,
+          // ),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: Colors.grey.shade800,
+              width: 1.2,
+            ),
+          ),
+        ),
+        height: config.cellHeight!.toDouble() ,
+        width: 64,
+        child: !setTimeOnAxis!
             ? Text(
                 time! + '\n' + textStar!,
                 textAlign: TextAlign.center,

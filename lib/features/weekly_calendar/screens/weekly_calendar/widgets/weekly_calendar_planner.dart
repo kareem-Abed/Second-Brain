@@ -1,14 +1,12 @@
-
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:al_maafer/time_planer/time_planner.dart';
 import 'package:al_maafer/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class WeeklyCalendarPlanner extends StatelessWidget {
-  const WeeklyCalendarPlanner({super.key});
-
+  const WeeklyCalendarPlanner({super.key, required this.viewCurrentDayOnly});
+  final bool viewCurrentDayOnly;
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<WeeklyCalendarController>();
@@ -20,6 +18,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
 
         return Obx(() {
           return TimePlanner(
+            viewCurrentDayOnly: viewCurrentDayOnly,
             startHour: 0,
             endHour: 23,
             use24HourFormat: false,
