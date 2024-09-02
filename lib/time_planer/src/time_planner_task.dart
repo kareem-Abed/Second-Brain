@@ -74,8 +74,7 @@ class TimePlannerTask extends StatelessWidget {
       final screenWidth = MediaQuery.of(context).size.width;
       final controller = Get.put(WeeklyCalendarController());
       final adjustedScreenWidth =
-          screenWidth - (controller.showAddTask.value ? 490 : 136);
-      // screenWidth - (controller.showAddTask.value ? 420 : 66);
+          screenWidth - (controller.showAddTask.value ? 486 : 134);
 
       final calculatedWidthTask = controller.showFullWidthTask.value
           ? adjustedScreenWidth
