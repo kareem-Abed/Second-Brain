@@ -1,5 +1,6 @@
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:al_maafer/features/weekly_calendar/screens/weekly_calendar/weekly_calendar.dart';
+import 'package:al_maafer/time_planer/src/time_planner.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,6 +26,7 @@ class _easySideMenuState extends State<EasySideMenu> {
   }
 
   final controller = Get.put(WeeklyCalendarController());
+  final timeController = Get.put(TimePlannerController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +72,8 @@ class _easySideMenuState extends State<EasySideMenu> {
               style: SideMenuStyle(
                 displayMode: SideMenuDisplayMode.compact,
                 showHamburger: false,
-                itemOuterPadding: const EdgeInsets.symmetric(vertical: 2,horizontal: 6),
+                itemOuterPadding:
+                    const EdgeInsets.symmetric(vertical: 2, horizontal: 6),
                 hoverColor: Colors.blue[200],
                 selectedHoverColor: Colors.blue[200],
                 selectedColor: Colors.lightBlue,
@@ -86,15 +89,30 @@ class _easySideMenuState extends State<EasySideMenu> {
               ),
               title: Column(
                 children: [
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxHeight: 150,
-                      maxWidth: 150,
-                    ),
-                    child: Image.asset(
-                      'assets/images/moon.png',
-                    ),
-                  ),
+                  Obx(() {
+                    final currentHour = timeController.currentHour;
+                    final isEvening = currentHour > 12;
+                    final timeOfDayText = isEvening ? 'مساء' : 'صباح';
+                    return Column(
+                      children: [
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxHeight: 150,
+                            maxWidth: 150,
+                          ),
+                          child: Image.asset(
+                            isEvening
+                                ? 'assets/images/moon.png'
+                                : 'assets/images/sun.png',
+                          ),
+                        ),
+                        Text(
+                          timeOfDayText,
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    );
+                  }),
                   const Divider(
                     indent: 8.0,
                     endIndent: 8.0,
@@ -134,10 +152,11 @@ class _easySideMenuState extends State<EasySideMenu> {
                   title: 'يوم',
                   onTap: (index, _) {
                     sideMenu.changePage(index);
-        
+
                     controller.showFullWidthTask.value = true;
                   },
-                  icon: const Icon(Icons.calendar_view_day, color: Colors.white),
+                  icon:
+                      const Icon(Icons.calendar_view_day, color: Colors.white),
                   // iconWidget: Column(
                   //   crossAxisAlignment: CrossAxisAlignment.center,
                   //   children: [
@@ -163,8 +182,8 @@ class _easySideMenuState extends State<EasySideMenu> {
                   onTap: (index, _) {
                     sideMenu.changePage(index);
                   },
-                  icon:
-                  const Icon(FontAwesomeIcons.listCheck, color: Colors.white),
+                  icon: const Icon(FontAwesomeIcons.listCheck,
+                      color: Colors.white),
                   // iconWidget: Column(
                   //   children: [
                   //     Expanded(

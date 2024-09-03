@@ -3,7 +3,6 @@ import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_c
 import 'package:al_maafer/utils/constants/colors.dart';
 import 'package:al_maafer/utils/constants/sizes.dart';
 import 'package:al_maafer/utils/validators/validation.dart';
-import 'package:al_maafer/day_night_time_picker/day_night_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,12 +23,37 @@ class AddGroupForm extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Obx(
-                () => Text(
-                    controller.showUpdateTask.value
-                        ? 'تعديل علي  مهمة'
-                        : 'اضافة مهمة جديدة',
-                    style: const TextStyle(
-                        fontSize: 24, fontWeight: FontWeight.bold)),
+                () => Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+
+                        controller.showAddTask.value = false;
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.red,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'إغلاق',
+                            style:
+                            Theme.of(context).textTheme.titleMedium!,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Text(
+                        controller.showUpdateTask.value
+                            ? 'تعديل علي  مهمة'
+                            : 'اضافة مهمة جديدة',
+                        style: const TextStyle(
+                            fontSize: 24, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
               const SizedBox(height: KSizes.spaceBtwItems),
               Obx(() {
