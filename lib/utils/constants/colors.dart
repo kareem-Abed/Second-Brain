@@ -44,4 +44,12 @@ class KColors {
   static const Color softGrey = Color(0xFFF4F4F4);
   static const Color lightGrey = Color(0xFFF9F9F9);
   static const Color white = Color(0xFFFFFFFF);
+
+  //dark mode colors
+  static const Color darkModeBackground = Color(0xFF212121);
+  static const Color darkModeSideMenuBackground = Color(0xFF292929);
+  static const Color darkModeCard = Color(0xFF383838);
+  static const Color darkModeSubCard = Color(0xFF212121);
+  static const Color darkModeCardBorder = Color(0xFF3C3C3C);
+  static const Color darkModeCardText = Color(0xFFE0E0E0);
 }

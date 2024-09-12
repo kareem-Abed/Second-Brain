@@ -46,6 +46,7 @@ class WeeklyCalendarController extends GetxController {
   //-----------------------------> Initialization Functions <-----------------------------------\\
   @override
   void onInit() {
+    // clearAllTasks();
     getCurrentDay();
     loadTasksFromStorage();
     super.onInit();
@@ -58,10 +59,13 @@ class WeeklyCalendarController extends GetxController {
 
   void loadTasksFromStorage() {
     final storedTasks = box.read<List>('tasks') ?? [];
+
     tasks.value = storedTasks.map((task) {
+
       return TimePlannerTask(
         color: Color(task['color']),
-        icon: colorController.iconChoices[task['iconIndex'] ?? 0].icon,
+        icon: colorController.iconChoices[colorController.iconChoices .indexWhere((iconModel) => iconModel.color == task['color'])].icon,
+        // icon: colorController.iconChoices[task['iconIndex'] ?? 0].icon,
         title: task['title'],
         dateTime: TimePlannerDateTime(
           day: task['dateTime']['day'],
@@ -196,8 +200,9 @@ class WeeklyCalendarController extends GetxController {
         final dayIndex = group.first;
         final daysDuration = group.length;
         int iconIndex = colorController.iconChoices
-            .indexWhere((iconModel) => iconModel.icon == icon);
+            .indexWhere((iconModel) => iconModel.color == color);
         final task = TimePlannerTask(
+
           color: Color(color),
           icon: icon,
           iconIndex: iconIndex,
@@ -288,6 +293,7 @@ class WeeklyCalendarController extends GetxController {
       icon: colorController.iconChoices[task['iconIndex'] ?? 0].icon,
       color: task['color'],
     );
+
     if (index != null) {
       TaskNameController.value.text = task['title'];
       selectedStartTime.value = TimeOfDay(

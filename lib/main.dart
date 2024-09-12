@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:al_maafer/app.dart';
 import 'package:window_manager/window_manager.dart';
@@ -34,3 +36,5 @@ Future<void> main() async {
     const App(),
   );
 }
+
+
