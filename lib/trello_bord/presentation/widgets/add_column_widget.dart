@@ -33,7 +33,7 @@ class _AddColumnFormState extends State<AddColumnForm> {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: Colors.black54,
+                color: Colors.white,
               ),
             ),
             Container(

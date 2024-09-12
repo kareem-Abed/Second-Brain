@@ -76,18 +76,18 @@ class KanbanController extends GetxController {
     columns.refresh();
     saveTasks();
   }
-void deleteItem(int columnIndex, String taskTitle) {
-  String  columnTitle = columns[columnIndex].title.toString();
-  columns[columnIndex].children.removeWhere((task) => task.title == taskTitle);
-  tasksMap[columnTitle]?.remove(taskTitle);
-  columns.refresh();
-  saveTasks();
-}
+
+  void deleteItem(int columnIndex, String taskTitle) {
+    String columnTitle = columns[columnIndex].title.toString();
+    columns[columnIndex]
+        .children
+        .removeWhere((task) => task.title == taskTitle);
+    tasksMap[columnTitle]?.remove(taskTitle);
+    columns.refresh();
+    saveTasks();
+  }
 
   void handleReOrder(int oldIndex, int newIndex, int columnIndex) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
     final task = columns[columnIndex].children.removeAt(oldIndex);
     columns[columnIndex].children.insert(newIndex, task);
 
@@ -126,19 +126,25 @@ void deleteItem(int columnIndex, String taskTitle) {
   }
 
   void saveTasks() {
-    final columnsJson = columns.map((column) => {
-      'title': column.title,
-      'tasks': tasksMap[column.title] ?? [],
-    }).toList();
+    final columnsJson = columns
+        .map((column) => {
+              'title': column.title,
+              'tasks': tasksMap[column.title] ?? [],
+            })
+        .toList();
     box.write('columns', columnsJson);
   }
+
   void loadTasks() {
     columns.value = [];
     final columnsJson = box.read<List<dynamic>>('columns') ?? [];
     for (var columnData in columnsJson) {
       final columnTitle = columnData['title'];
       final tasks = List<String>.from(columnData['tasks']);
-      columns.add(KColumn(title: columnTitle, children: tasks.map((taskTitle) => KTask(title: taskTitle)).toList()));
+      columns.add(KColumn(
+          title: columnTitle,
+          children:
+              tasks.map((taskTitle) => KTask(title: taskTitle)).toList()));
       tasksMap[columnTitle] = tasks;
     }
     columns.refresh();

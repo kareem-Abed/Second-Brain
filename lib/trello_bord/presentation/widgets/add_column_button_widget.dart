@@ -1,3 +1,4 @@
+import 'package:al_maafer/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 import 'card_column.dart';
@@ -11,11 +12,20 @@ class AddColumnButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
-      child: CardColumn(
-        child: ListTile(
-          onTap: () => addColumnAction(),
-          leading: const Icon(Icons.add),
-          title: const Text("Add Column"),
+      child: InkWell(
+        onTap: () => addColumnAction(),
+        child: CardColumn(
+          backgroundColor: KColors.darkModeCard,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(
+                height: 50,
+              ),
+              const Icon(Icons.add),
+              const Text("Add Column"),
+            ],
+          ),
         ),
       ),
     );

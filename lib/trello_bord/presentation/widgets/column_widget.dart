@@ -84,9 +84,12 @@ class KanbanColumn extends StatelessWidget {
   Widget _buildListItemsColumn() {
     return Expanded(
       child: ReorderableListView(
+
         onReorder: (oldIndex, newIndex) {
           if (newIndex < column.children.length) {
             reorderHandler(oldIndex, newIndex, index);
+          } else {
+            reorderHandler(oldIndex, newIndex - 1, index);
           }
         },
         children: [
