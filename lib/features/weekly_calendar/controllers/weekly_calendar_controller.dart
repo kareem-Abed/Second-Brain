@@ -61,10 +61,12 @@ class WeeklyCalendarController extends GetxController {
     final storedTasks = box.read<List>('tasks') ?? [];
 
     tasks.value = storedTasks.map((task) {
-
       return TimePlannerTask(
         color: Color(task['color']),
-        icon: colorController.iconChoices[colorController.iconChoices .indexWhere((iconModel) => iconModel.color == task['color'])].icon,
+        icon: colorController
+            .iconChoices[colorController.iconChoices
+                .indexWhere((iconModel) => iconModel.color == task['color'])]
+            .icon,
         // icon: colorController.iconChoices[task['iconIndex'] ?? 0].icon,
         title: task['title'],
         dateTime: TimePlannerDateTime(
@@ -202,7 +204,6 @@ class WeeklyCalendarController extends GetxController {
         int iconIndex = colorController.iconChoices
             .indexWhere((iconModel) => iconModel.color == color);
         final task = TimePlannerTask(
-
           color: Color(color),
           icon: icon,
           iconIndex: iconIndex,

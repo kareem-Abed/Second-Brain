@@ -125,3 +125,156 @@ class KanbanColumn extends StatelessWidget {
     );
   }
 }
+// import 'package:al_maafer/features/trello/multi_board_list_example.dart';
+// import 'package:flutter/material.dart';
+//
+// import '../../../utils/constants/colors.dart';
+// import '../../models/models.dart';
+// import 'card_column.dart';
+// import 'task_card_widget.dart';
+//
+// import 'package:flutter/material.dart';
+// import '../../../utils/constants/colors.dart';
+// import '../../models/models.dart';
+// import 'card_column.dart';
+// import 'task_card_widget.dart';
+// import 'package:flutter/material.dart';
+// import '../../../utils/constants/colors.dart';
+// import '../../models/models.dart';
+// import 'card_column.dart';
+// import 'task_card_widget.dart';
+//
+// class KanbanColumn extends StatelessWidget {
+//   final KColumn column;
+//   final int index;
+//   final Function dragHandler;
+//   final Function addTaskHandler;
+//   final Function(DragUpdateDetails) dragListener;
+//   final Function deleteItemHandler;
+//
+//   const KanbanColumn({
+//     super.key,
+//     required this.column,
+//     required this.index,
+//     required this.dragHandler,
+//     required this.addTaskHandler,
+//     required this.dragListener,
+//     required this.deleteItemHandler,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // Calculate height based on the number of tasks
+//     // final double columnHeight = 300.0);
+//
+//     return Stack(
+//       children: <Widget>[
+//         CardColumn(
+//           backgroundColor: KColors.darkModeCard,
+//           // height: columnHeight,
+//           child: Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: <Widget>[
+//                 _buildTitleColumn(),
+//                 _buildListItemsColumn(),
+//                 _buildButtonNewTask(index),
+//               ],
+//             ),
+//           ),
+//         ),
+//         Positioned.fill(
+//           child: DragTarget<KData>(
+//             onWillAccept: (data) {
+//               return true;
+//             },
+//             onLeave: (data) {},
+//             onAccept: (data) {
+//               if (data.from == index) {
+//                 return;
+//               }
+//               dragHandler(data, index);
+//             },
+//             builder: (context, accept, reject) {
+//               return const SizedBox();
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+//
+//   Widget _buildTitleColumn() {
+//     return Padding(
+//       padding: const EdgeInsets.all(8.0),
+//       child: Center(
+//         child: Text(
+//           column.title,
+//           style: const TextStyle(
+//             fontSize: 20,
+//             color: Colors.white,
+//             fontWeight: FontWeight.w700,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+//
+//   Widget _buildListItemsColumn() {
+//     return Expanded(
+//       child: ListView(
+//         children: [
+//           for (final task in column.children)
+//           Draggable<KData>(
+//               data: KData(task: task, from: index),
+//               child: DragTarget<KData>(
+//                 onWillAccept: (data) => data?.from != index,
+//                 onAccept: (data) => dragHandler(data, index),
+//                 builder: (context, candidateData, rejectedData) {
+//                   return TaskCard(
+//                     key: ValueKey(task),
+//                     task: task,
+//                     columnIndex: index,
+//                     dragListener: dragListener,
+//                     deleteItemHandler: deleteItemHandler,
+//                   );
+//                 },
+//               ),
+//               feedback: Material(
+//                 child: TaskCard(
+//                   task: task,
+//                   columnIndex: index,
+//                   dragListener: dragListener,
+//                   deleteItemHandler: deleteItemHandler,
+//                 ),
+//               ),
+//               childWhenDragging: Container(),
+//             )
+//         ],
+//       ),
+//     );
+//   }
+//
+//   Widget _buildButtonNewTask(int index) {
+//     return ListTile(
+//       dense: true,
+//       onTap: () {
+//         addTaskHandler(index);
+//       },
+//       leading: const Icon(
+//         Icons.add_circle_outline,
+//         color: Colors.white,
+//         size: 24.0,
+//       ),
+//       title: const Text(
+//         'Add Task',
+//         style: TextStyle(
+//           fontSize: 14,
+//           fontWeight: FontWeight.w600,
+//           color: Colors.white,
+//         ),
+//       ),
+//     );
+//   }
+// }

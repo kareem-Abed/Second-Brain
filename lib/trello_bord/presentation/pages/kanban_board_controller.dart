@@ -85,9 +85,9 @@ void deleteItem(int columnIndex, String taskTitle) {
 }
 
   void handleReOrder(int oldIndex, int newIndex, int columnIndex) {
-    if (oldIndex < newIndex) {
-      newIndex -= 1;
-    }
+    // if (oldIndex < newIndex) {
+    //   newIndex -= 1;
+    // }
     final task = columns[columnIndex].children.removeAt(oldIndex);
     columns[columnIndex].children.insert(newIndex, task);
 
@@ -108,6 +108,7 @@ void deleteItem(int columnIndex, String taskTitle) {
     columns.refresh();
     saveTasks();
   }
+
 
   void dragHandler(KData data, int index) {
     final task = data.task;

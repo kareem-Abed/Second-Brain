@@ -7,10 +7,12 @@ class CardColumn extends StatelessWidget {
     this.width = 300,
     this.borderRadius = 10,
     this.backgroundColor = Colors.grey,
+    this.height,
   });
 
   final Widget? child;
   final double? width;
+  final double? height;
   final double borderRadius;
   final Color? backgroundColor;
 
@@ -18,6 +20,7 @@ class CardColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
+      height: height,
       decoration: BoxDecoration(
         boxShadow: const [
           BoxShadow(

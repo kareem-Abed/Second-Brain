@@ -33,13 +33,14 @@ class _AddColumnFormState extends State<AddColumnForm> {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: Colors.black54,
+                color: Colors.white,
               ),
             ),
             Container(
               margin: const EdgeInsets.symmetric(vertical: 25.0),
               child: TextFormField(
                 autofocus: true,
+                // maxLines: ,
                 decoration: const InputDecoration(
                   hintText: 'Column Title',
                   border: OutlineInputBorder(),

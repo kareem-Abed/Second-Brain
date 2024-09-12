@@ -69,15 +69,21 @@ class _easySideMenuState extends State<EasySideMenu> {
             ),
             // const VerticalDivider(width: 0, color: Colors.white),
             Container(
+              padding: const EdgeInsets.symmetric(vertical: 20),
               decoration: const BoxDecoration(
+                color: KColors.darkModeSideMenuBackground,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(20),
+
+                ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black45,
+                    color: Colors.black38,
                     blurRadius: 4.0,
                     spreadRadius: 0.0,
                     offset: Offset(
-                      4,
-                      2.0,
+                      5,
+                      2,
                     ),
                   )
                 ],
@@ -165,25 +171,6 @@ class _easySideMenuState extends State<EasySideMenu> {
                       controller.showFullWidthTask.value = false;
                     },
                     icon: Icon(FontAwesomeIcons.calendar, color: Colors.white),
-                    // iconWidget: Column(
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   children: [
-                    //     Expanded(
-                    //         child: Icon(
-                    //       FontAwesomeIcons.calendar,
-                    //       color: Colors.white,
-                    //       size: 18,
-                    //     )),
-                    //     Expanded(
-                    //       child: FittedBox(
-                    //         child: Text(
-                    //           'اسبوع',
-                    //           style: const TextStyle(color: Colors.white),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                   ),
                   SideMenuItem(
                     title: 'يوم',
@@ -194,25 +181,6 @@ class _easySideMenuState extends State<EasySideMenu> {
                     },
                     icon: const Icon(Icons.calendar_view_day,
                         color: Colors.white),
-                    // iconWidget: Column(
-                    //   crossAxisAlignment: CrossAxisAlignment.center,
-                    //   children: [
-                    //     Expanded(
-                    //         child: Icon(
-                    //       FontAwesomeIcons.calendarDay,
-                    //       color: Colors.white,
-                    //       size: 19,
-                    //     )),
-                    //     Expanded(
-                    //       child: FittedBox(
-                    //         child: Text(
-                    //           '  يوم  ',
-                    //           style: const TextStyle(color: Colors.white),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                   ),
                   SideMenuItem(
                     title: 'مهام',
@@ -221,24 +189,6 @@ class _easySideMenuState extends State<EasySideMenu> {
                     },
                     icon: const Icon(FontAwesomeIcons.listCheck,
                         color: Colors.white),
-                    // iconWidget: Column(
-                    //   children: [
-                    //     Expanded(
-                    //         child: const Icon(
-                    //       FontAwesomeIcons.listCheck,
-                    //       color: Colors.white,
-                    //       size: 19,
-                    //     )),
-                    //     Expanded(
-                    //       child: FittedBox(
-                    //         child: Text(
-                    //           'مهام',
-                    //           style: const TextStyle(color: Colors.white),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                   ),
                   SideMenuItem(
                     builder: (context, displayMode) {
