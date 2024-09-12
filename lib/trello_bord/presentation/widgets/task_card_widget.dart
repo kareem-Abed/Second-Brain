@@ -48,7 +48,7 @@ class TaskCard extends StatelessWidget {
             childWhenDragging: Container(color: Colors.black12),
             data: KData(from: columnIndex, task: task),
             child: Container(
-              color:KColors.darkModeBackground,
+              color: KColors.darkModeBackground,
               child: ListTile(
                 dense: true,
                 title: TaskText(
