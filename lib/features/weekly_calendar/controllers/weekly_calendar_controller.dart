@@ -23,6 +23,8 @@ class WeeklyCalendarController extends GetxController {
   ).obs;
   RxInt duration = 60.obs;
   RxInt daysDuration = 0.obs;
+  RxInt iconIndex = 0.obs;
+
   var tasks = <TimePlannerTask>[].obs;
   RxInt taskUpdateIndex = 0.obs;
   List<Map<String, dynamic>> monthlySessions = [];

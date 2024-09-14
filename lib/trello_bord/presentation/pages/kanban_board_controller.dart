@@ -2,58 +2,6 @@ import 'package:get/get.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../models/models.dart';
-
-// abstract class KanbanBoardController {
-//   void deleteItem(int columnIndex, KTask task);
-//   void handleReOrder(int oldIndex, int newIndex, int column);
-//   void dragHandler(KData data, int index);
-//   void addColumn(String title);
-//   void addTask(String title, int column);
-// }
-
-// class KanbanController extends GetxController {
-//   var columns = <KColumn>[].obs;
-//
-//   @override
-//   void onInit() {
-//     columns.value = Data.getColumns();
-//     super.onInit();
-//   }
-//
-//   void deleteItem(int columnIndex, KTask task) {
-//     columns[columnIndex].children.remove(task);
-//     columns.refresh();
-//   }
-//
-//   void handleReOrder(int oldIndex, int newIndex, int index) {
-//     if (oldIndex != newIndex) {
-//       final task = columns[index].children[oldIndex];
-//       columns[index].children.remove(task);
-//       columns[index].children.insert(newIndex, task);
-//       columns.refresh();
-//     }
-//   }
-//
-//   void addColumn(String title) {
-//     columns.add(KColumn(
-//       title: title,
-//       children: List.of([]),
-//     ));
-//     columns.refresh();
-//   }
-//
-//   void addTask(String title, int column) {
-//     columns[column].children.add(KTask(title: title));
-//     columns.refresh();
-//   }
-//
-//   void dragHandler(KData data, int index) {
-//     columns[data.from].children.remove(data.task);
-//     columns[index].children.add(data.task);
-//     columns.refresh();
-//   }
-// }
-
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -65,6 +13,7 @@ class KanbanController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // clearAllTasks();
     loadTasks();
   }
 
@@ -76,7 +25,19 @@ class KanbanController extends GetxController {
     columns.refresh();
     saveTasks();
   }
-
+void moveColumn(int currentIndex, bool isNext) {
+  if (isNext&& currentIndex < columns.length - 1) {
+    final temp = columns[currentIndex];
+    columns[currentIndex] = columns[currentIndex + 1];
+    columns[currentIndex + 1] = temp;
+  } else if (!isNext && currentIndex > 0) {
+    final temp = columns[currentIndex];
+    columns[currentIndex] = columns[currentIndex - 1];
+    columns[currentIndex - 1] = temp;
+  }
+  columns.refresh();
+  saveTasks();
+}
   void deleteItem(int columnIndex, String taskTitle) {
     String columnTitle = columns[columnIndex].title.toString();
     columns[columnIndex]
@@ -148,6 +109,9 @@ class KanbanController extends GetxController {
       tasksMap[columnTitle] = tasks;
     }
     columns.refresh();
+  }
+  void clearAllTasks() {
+    box.write('columns', []);
   }
 }
 

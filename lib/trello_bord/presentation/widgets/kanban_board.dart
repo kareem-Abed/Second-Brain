@@ -159,6 +159,8 @@ class _KanbanBoardState extends State<KanbanBoard> {
                 addTaskHandler: _showAddTask,
                 dragListener: _dragListener,
                 deleteItemHandler: controller.deleteItem,
+                next:  () =>controller.moveColumn(index, true),
+                back:  () =>controller.moveColumn(index, false),
               );
             }
           },

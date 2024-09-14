@@ -9,6 +9,7 @@ import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import 'trello_bord/presentation/widgets/kanban_board.dart';
 
@@ -26,6 +27,7 @@ class _easySideMenuState extends State<EasySideMenu> {
   @override
   void initState() {
     sideMenu.addListener((index) {
+      controller.iconIndex.value = index;
       pageController.jumpToPage(index);
     });
     super.initState();
@@ -74,7 +76,6 @@ class _easySideMenuState extends State<EasySideMenu> {
                 color: KColors.darkModeSideMenuBackground,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20),
-
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -170,7 +171,12 @@ class _easySideMenuState extends State<EasySideMenu> {
                       sideMenu.changePage(index);
                       controller.showFullWidthTask.value = false;
                     },
-                    icon: Icon(FontAwesomeIcons.calendar, color: Colors.white),
+                    iconWidget: Obx(
+                      () => Icon(FontAwesomeIcons.calendar,
+                          color: controller.iconIndex.value == 0
+                              ? Colors.white
+                              : Colors.grey),
+                    ),
                   ),
                   SideMenuItem(
                     title: 'يوم',
@@ -179,16 +185,24 @@ class _easySideMenuState extends State<EasySideMenu> {
 
                       controller.showFullWidthTask.value = true;
                     },
-                    icon: const Icon(Icons.calendar_view_day,
-                        color: Colors.white),
+                    iconWidget: Obx(
+                      () => Icon(Icons.calendar_view_day,
+                          color: controller.iconIndex.value == 1
+                              ? Colors.white
+                              : Colors.grey),
+                    ),
                   ),
                   SideMenuItem(
                     title: 'مهام',
                     onTap: (index, _) {
                       sideMenu.changePage(index);
                     },
-                    icon: const Icon(FontAwesomeIcons.listCheck,
-                        color: Colors.white),
+                    iconWidget: Obx(
+                      () => Icon(FontAwesomeIcons.tableColumns,
+                          color: controller.iconIndex.value == 2
+                              ? Colors.white
+                              : Colors.grey),
+                    ),
                   ),
                   SideMenuItem(
                     builder: (context, displayMode) {
@@ -204,11 +218,17 @@ class _easySideMenuState extends State<EasySideMenu> {
                     onTap: (index, _) {
                       sideMenu.changePage(index);
                     },
-                    icon: const Icon(Icons.settings, color: Colors.white),
+                    iconWidget: Obx(
+                      () => Icon(Icons.settings,
+                          color: controller.iconIndex.value == 4
+                              ? Colors.white
+                              : Colors.grey),
+                    ),
                   ),
-                  const SideMenuItem(
+                  SideMenuItem(
                     title: 'الخروج',
-                    icon: Icon(Icons.exit_to_app, color: Colors.white),
+                    iconWidget: Icon(Icons.exit_to_app, color: Colors.grey),
+                    // icon: Icon(Icons.exit_to_app, color: Colors.white),
                   ),
                 ],
               ),

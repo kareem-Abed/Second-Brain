@@ -41,6 +41,12 @@ class _AddTaskFormState extends State<AddTaskForm> {
               margin: const EdgeInsets.symmetric(vertical: 25.0),
               child: TextFormField(
                 autofocus: true,
+                onEditingComplete: () {
+                  if (_textController.text.isNotEmpty) {
+                    Navigator.of(context).pop();
+                    widget.addTaskHandler(_textController.text.trim());
+                  }
+                },
                 decoration: const InputDecoration(
                   hintText: 'Task Title',
                   border: OutlineInputBorder(),
