@@ -21,6 +21,7 @@ dependencies:
 #  time_planner: ^0.1.2+1
   intl:
   window_manager: ^0.4.0
+  flutter_heatmap_calendar: ^1.0.5
   iconsax: ^0.0.8
   delightful_toast: ^1.1.0
 #  audioplayers: ^6.0.0
@@ -40,6 +41,8 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   flutter_staggered_animations: ^1.1.1
   pull_down_button: ^0.10.1
+  flutter_slidable: ^3.1.1
+
 
 
 dev_dependencies:

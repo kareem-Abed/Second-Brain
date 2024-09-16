@@ -26,7 +26,7 @@ class TaskCard extends StatelessWidget {
     return LayoutBuilder(
       builder: (BuildContext _, BoxConstraints constraints) {
         return Container(
-          height: 45 + (task.title.length / 30) * 16,
+          height: 50 + (task.title.length / 30) * 16,
           clipBehavior: Clip.hardEdge,
           margin: const EdgeInsets.symmetric(vertical: 6.0),
           decoration: BoxDecoration(
@@ -109,50 +109,19 @@ class TaskCard extends StatelessWidget {
                 );
               },
               child: Container(
-                // height: 30+(task.title.length/30)*16,
+                height: 50 + (task.title.length / 30) * 16,
                 color: KColors.darkModeBackground,
-                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                padding: const EdgeInsets.symmetric(vertical: 2.0,horizontal: 5),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  // dense: true,
                   children: [
-                    Center(
+                    Expanded(
                       child: Text(task.title,
-                          textAlign: TextAlign.end,
+                          textAlign: TextAlign.start,
                           style: const TextStyle(
                             color: Colors.white,
                           )),
                     ),
-                    // PullDownButton(
-                    //   routeTheme: const PullDownMenuRouteTheme(
-                    //     backgroundColor: KColors.dark,
-                    //   ),
-                    //   itemBuilder: (context) => [
-                    //     PullDownMenuActionsRow.medium(
-                    //       items: [
-                    //         PullDownMenuItem(
-                    //           onTap: () {
-                    //             //
-                    //           },
-                    //           title: 'تعديل',
-                    //           icon: Icons.edit,
-                    //         ),
-                    //         PullDownMenuItem(
-                    //           onTap: () {
-                    //             deleteItemHandler(columnIndex, task.title);
-                    //           },
-                    //           title: 'حذف',
-                    //           isDestructive: true,
-                    //           icon: Icons.delete,
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ],
-                    //   buttonBuilder: (context, showMenu) => IconButton(
-                    //     icon: const Icon(Icons.more_vert),
-                    //     onPressed: showMenu,
-                    //   ),
-                    // )
+                    SizedBox(width: 30),
                   ],
                 ),
               ),

@@ -1,3 +1,4 @@
+import 'package:al_maafer/features/habit/screens/habit_screen.dart';
 import 'package:al_maafer/features/trello/multi_board_list_example.dart';
 import 'package:al_maafer/features/trello/trello.dart';
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
@@ -53,10 +54,9 @@ class _easySideMenuState extends State<EasySideMenu> {
                   const WeeklyCalendarScreen(
                     viewCurrentDayOnly: true,
                   ),
-                  // MultiBoardListExample(),
-                  // TrelloBoard(),
-
                   KanbanBoard(),
+                  HabitScreen(),
+                  SizedBox(),
                   Container(
                     color: Colors.black,
                     child: const Center(
@@ -205,6 +205,18 @@ class _easySideMenuState extends State<EasySideMenu> {
                     ),
                   ),
                   SideMenuItem(
+                    title: 'العادات',
+                    onTap: (index, _) {
+                      sideMenu.changePage(index);
+                    },
+                    iconWidget: Obx(
+                      () => Icon(FontAwesomeIcons.tasks,
+                          color: controller.iconIndex.value == 3
+                              ? Colors.white
+                              : Colors.grey),
+                    ),
+                  ),
+                  SideMenuItem(
                     builder: (context, displayMode) {
                       return const Divider(
                         endIndent: 8,
@@ -220,7 +232,7 @@ class _easySideMenuState extends State<EasySideMenu> {
                     },
                     iconWidget: Obx(
                       () => Icon(Icons.settings,
-                          color: controller.iconIndex.value == 4
+                          color: controller.iconIndex.value == 5
                               ? Colors.white
                               : Colors.grey),
                     ),
