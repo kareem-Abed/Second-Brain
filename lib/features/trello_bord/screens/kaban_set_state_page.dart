@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/kanban_board.dart';
+import 'widgets/kanban_board.dart';
+
+
 
 class Kanban extends StatelessWidget {
   const Kanban({super.key});

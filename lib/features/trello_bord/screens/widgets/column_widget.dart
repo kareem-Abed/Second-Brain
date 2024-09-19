@@ -1,7 +1,9 @@
+
 import 'package:flutter/material.dart';
 
-import '../../../utils/constants/colors.dart';
-import '../../models/models.dart';
+import '../../../../utils/constants/colors.dart';
+import '../../models/column.dart';
+import '../../models/data.dart';
 import 'card_column.dart';
 import 'task_card_widget.dart';
 
@@ -16,7 +18,7 @@ class KanbanColumn extends StatelessWidget {
   final Function(DragUpdateDetails) dragListener;
   final Function deleteItemHandler;
 
-   KanbanColumn({
+  KanbanColumn({
     super.key,
     required this.column,
     required this.index,
@@ -25,8 +27,8 @@ class KanbanColumn extends StatelessWidget {
     required this.addTaskHandler,
     required this.dragListener,
     required this.deleteItemHandler,
-     this.next,
-     this.back,
+    this.next,
+    this.back,
   });
 
   @override
@@ -39,8 +41,6 @@ class KanbanColumn extends StatelessWidget {
       children: <Widget>[
         CardColumn(
           backgroundColor: KColors.darkModeCard,
-          height: columnHeight, // Set the calculated height here
-
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -77,54 +77,61 @@ class KanbanColumn extends StatelessWidget {
   Widget _buildTitleColumn(int index) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      child: Column(
         children: [
-          InkWell(
-            onTap: () {
-              addTaskHandler(index);
-            },
-            child: const Icon(
-              Icons.add_circle_outline,
-              color: Colors.white,
-              size: 24.0,
-            ),
-          ),
-          const Icon(
-            Icons.add_circle_outline,
-            color: Colors.transparent,
-            size: 24.0,
-          ),
-          Expanded(
-            child: Center(
-              child: FittedBox(
-                child: Text(
-                  column.title,
-                  style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              InkWell(
+                onTap: () {
+                  addTaskHandler(index);
+                },
+                child: const Icon(
+                  Icons.add_circle_outline,
+                  color: Colors.white,
+                  size: 24.0,
+                ),
+              ),
+              const Icon(
+                Icons.add_circle_outline,
+                color: Colors.transparent,
+                size: 24.0,
+              ),
+              Expanded(
+                child: Center(
+                  child: FittedBox(
+                    child: Text(
+                      column.title,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
                   ),
                 ),
               ),
-            ),
+              InkWell(
+                onTap: next,
+                child: const Icon(
+                  Icons.navigate_before,
+                  color: Colors.red,
+                  size: 24.0,
+                ),
+              ),
+              InkWell(
+                onTap: back,
+                child: const Icon(
+                  Icons.navigate_next,
+                  color: Colors.red,
+                  size: 24.0,
+                ),
+              ),
+            ],
           ),
-          InkWell(
-            onTap:  next,
-            child: const Icon(
-              Icons.navigate_before,
-              color: Colors.red,
-              size: 24.0,
-            ),
-          ),
-          InkWell(
-            onTap: back,
-            child: const Icon(
-              Icons.navigate_next,
-              color: Colors.red,
-              size: 24.0,
-            ),
-          ),
+          Divider(
+            thickness: 3,
+          )
         ],
       ),
     );

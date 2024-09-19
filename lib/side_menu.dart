@@ -1,6 +1,4 @@
 import 'package:al_maafer/features/habit/screens/habit_screen.dart';
-import 'package:al_maafer/features/trello/multi_board_list_example.dart';
-import 'package:al_maafer/features/trello/trello.dart';
 import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:al_maafer/features/weekly_calendar/screens/weekly_calendar/weekly_calendar.dart';
 import 'package:al_maafer/main.dart';
@@ -12,7 +10,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'trello_bord/presentation/widgets/kanban_board.dart';
+import 'features/trello_bord/screens/widgets/kanban_board.dart';
+
+
 
 class EasySideMenu extends StatefulWidget {
   const EasySideMenu({Key? key}) : super(key: key);
@@ -253,3 +253,4 @@ class _easySideMenuState extends State<EasySideMenu> {
     );
   }
 }
+

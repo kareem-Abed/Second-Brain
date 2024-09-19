@@ -1,9 +1,13 @@
+
+import 'package:al_maafer/features/trello_bord/models/column.dart';
 import 'package:get/get.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../../models/models.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import '../models/data.dart';
+import '../models/task.dart';
 
 class KanbanController extends GetxController {
   var columns = <KColumn>[].obs;
