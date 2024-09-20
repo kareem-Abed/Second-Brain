@@ -1,6 +1,7 @@
-import 'package:al_maafer/time_planer/src/time_planner.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
+import 'package:second_brain/time_planer/src/time_planner.dart';
 import 'package:flutter/material.dart';
-import 'package:al_maafer/time_planer/src/config/global_config.dart' as config;
+import 'package:second_brain/time_planer/src/config/global_config.dart' as config;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -20,7 +21,8 @@ class TimePlannerTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(TimePlannerController());
+    // final controller = Get.put(TimePlannerController());
+    final controller = Get.put(WeeklyCalendarController());
 
     final widgetHour = time.hour;
 
@@ -30,7 +32,6 @@ class TimePlannerTime extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border(
               bottom: BorderSide(
-                // color: Colors.grey.shade800,
                 color: Colors.blue,
                 width: 2,
               ),
@@ -51,7 +52,6 @@ class TimePlannerTime extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-
                         Expanded(
                           flex: 5,
                           child: FittedBox(
@@ -70,7 +70,7 @@ class TimePlannerTime extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: (height / 4) * 1 +1.5,
+                top: (height / 4) * 1 + 1.5,
                 left: 0,
                 right: 0,
                 child: Container(
@@ -97,7 +97,7 @@ class TimePlannerTime extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: (height / 4) * 2 -1.9,
+                top: (height / 4) * 2 - 1.9,
                 left: 0,
                 right: 0,
                 child: Container(
@@ -124,7 +124,7 @@ class TimePlannerTime extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: (height / 4) * 3 -5.6,
+                top: (height / 4) * 3 - 5.6,
                 left: 0,
                 right: 0,
                 child: Container(
@@ -165,8 +165,8 @@ class TimePlannerTime extends StatelessWidget {
                       child: Row(
                         children: [
                           Text(
-                              DateFormat('m ')
-                                  .format(time.add(Duration(minutes: controller.currentMinute.value))),
+                              DateFormat('m ').format(time.add(Duration(
+                                  minutes: controller.currentMinute.value))),
                               style: TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,

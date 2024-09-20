@@ -1,8 +1,8 @@
-import 'package:al_maafer/features/weekly_calendar/controllers/Icon_selector.dart';
-import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
-import 'package:al_maafer/utils/constants/colors.dart';
-import 'package:al_maafer/utils/constants/sizes.dart';
-import 'package:al_maafer/utils/validators/validation.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/Icon_selector.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
+import 'package:second_brain/utils/constants/colors.dart';
+import 'package:second_brain/utils/constants/sizes.dart';
+import 'package:second_brain/utils/validators/validation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:al_maafer/time_planer/src/config/global_config.dart' as config;
+import 'package:second_brain/time_planer/src/config/global_config.dart' as config;
 
 /// Title widget for time planner
 class TimePlannerTitle extends StatelessWidget {

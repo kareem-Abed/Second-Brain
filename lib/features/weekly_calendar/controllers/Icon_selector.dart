@@ -1,5 +1,5 @@
-import 'package:al_maafer/common/widgets/divider/divider.dart';
-import 'package:al_maafer/utils/constants/sizes.dart';
+import 'package:second_brain/common/widgets/divider/divider.dart';
+import 'package:second_brain/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';

@@ -1,12 +1,30 @@
-import 'package:al_maafer/common/widgets/loaders/loaders.dart';
-import 'package:al_maafer/features/weekly_calendar/controllers/Icon_selector.dart';
-import 'package:get_storage/get_storage.dart';
+import 'dart:async';
+import 'dart:io';
 
+import 'package:second_brain/common/widgets/loaders/loaders.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/Icon_selector.dart';
+import 'package:flutter/services.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:al_maafer/time_planer/time_planner.dart';
+import 'package:second_brain/time_planer/time_planner.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
+
+import 'package:windows_notification/notification_message.dart';
+import 'package:windows_notification/windows_notification.dart';
+import '../../../main.dart';
+import 'package:windows_notification/notification_message.dart';
+import 'package:windows_notification/windows_notification.dart';
 
 class WeeklyCalendarController extends GetxController {
+  //--------> Timer Variables <--------\\
+
+  /// Timer to update the time every minute
+  Timer? timer;
+  var currentHour = DateTime.now().hour.obs;
+  var currentMinute = DateTime.now().minute.obs;
+
   //--------> Controller Variables <--------\\
   final IconController colorController = Get.put(IconController());
   final box = GetStorage();
@@ -51,7 +69,65 @@ class WeeklyCalendarController extends GetxController {
     // clearAllTasks();
     getCurrentDay();
     loadTasksFromStorage();
+    updateTime();
+    // currentDay.value = 6 - currentDay.value;
+    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
+      updateTime();
+    });
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    timer?.cancel();
+    super.onClose();
+  }
+
+  Future<String> getLocalImagePath(String assetPath) async {
+    final supportDir = await getApplicationSupportDirectory();
+    final byteData = await rootBundle.load(assetPath);
+    final file = File('${supportDir.path}/moon.png');
+    await file.writeAsBytes(byteData.buffer.asUint8List());
+    return file.path;
+  }
+
+  void scheduleNotification({
+    required String title,
+    required String body,
+  }) async {
+    // final   String title ;
+    //   String body = "لديك مهمة جديدة";
+    final _winNotifyPlugin = WindowsNotification(
+      applicationId: "Second Brain",
+    );
+    const String url = "assets/images/moon.png";
+
+    final imageDir = await getLocalImagePath(url);
+
+    NotificationMessage message = NotificationMessage.fromPluginTemplate(
+      title,
+      title,
+      body,
+      image: imageDir,
+    );
+    _winNotifyPlugin.showNotificationPluginTemplate(message);
+  }
+
+  void updateTime() {
+    var now = DateTime.now();
+    currentHour.value = now.hour;
+    currentMinute.value = now.minute;
+    if (currentHour.value == 0 && currentMinute.value == 1) {
+      getCurrentDay();
+    }
+    // Check if the current time matches any task time
+    for (var task in tasks) {
+      if (task.dateTime.hour == currentHour.value &&
+          task.dateTime.minutes == currentMinute.value) {
+        scheduleNotification(
+            title: "تذكير بالمهمة", body: "حان وقت ${task.title}");
+      }
+    }
   }
 
   void getCurrentDay() {

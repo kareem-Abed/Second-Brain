@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
-import 'package:al_maafer/utils/constants/colors.dart';
-import 'package:al_maafer/utils/constants/sizes.dart';
-import 'package:al_maafer/utils/device/device_utility.dart';
-import 'package:al_maafer/utils/helpers/helper_functions.dart';
+import 'package:second_brain/utils/constants/colors.dart';
+import 'package:second_brain/utils/constants/sizes.dart';
+import 'package:second_brain/utils/device/device_utility.dart';
+import 'package:second_brain/utils/helpers/helper_functions.dart';
 
 class TSerchContaner2 extends StatelessWidget {
   const TSerchContaner2({

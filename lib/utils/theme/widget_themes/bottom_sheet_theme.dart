@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:al_maafer/utils/constants/colors.dart';
+import 'package:second_brain/utils/constants/colors.dart';
 
 class KBottomSheetTheme {
   KBottomSheetTheme._();

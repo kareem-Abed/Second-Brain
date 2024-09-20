@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 
 
-import 'package:al_maafer/features/habit/screens/widgets/habit_tile.dart';
-import 'package:al_maafer/features/habit/screens/widgets/month_summary.dart';
-import 'package:al_maafer/features/habit/screens/widgets/my_alert_box.dart';
-import 'package:al_maafer/features/habit/screens/widgets/my_fab.dart';
+import 'package:second_brain/features/habit/screens/widgets/habit_tile.dart';
+import 'package:second_brain/features/habit/screens/widgets/month_summary.dart';
+import 'package:second_brain/features/habit/screens/widgets/my_alert_box.dart';
+import 'package:second_brain/features/habit/screens/widgets/my_fab.dart';
 import 'package:flutter/material.dart';
 
 
@@ -308,18 +308,18 @@ class _HabitScreenState extends State<HabitScreen> {
 //
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/habit_tile.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/month_summary.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/my_alert_box.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/my_fab.dart';
+// import 'package:second_brain/features/habit/screens/widgets/habit_tile.dart';
+// import 'package:second_brain/features/habit/screens/widgets/month_summary.dart';
+// import 'package:second_brain/features/habit/screens/widgets/my_alert_box.dart';
+// import 'package:second_brain/features/habit/screens/widgets/my_fab.dart';
 // import '../controllers/habit_controller.dart';
 //
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/habit_tile.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/month_summary.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/my_alert_box.dart';
-// import 'package:al_maafer/features/habit/screens/widgets/my_fab.dart';
+// import 'package:second_brain/features/habit/screens/widgets/habit_tile.dart';
+// import 'package:second_brain/features/habit/screens/widgets/month_summary.dart';
+// import 'package:second_brain/features/habit/screens/widgets/my_alert_box.dart';
+// import 'package:second_brain/features/habit/screens/widgets/my_fab.dart';
 // import '../controllers/habit_controller.dart';
 // import '../datetime/date_time.dart';
 //

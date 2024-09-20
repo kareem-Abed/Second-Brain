@@ -1,7 +1,7 @@
-import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 
-import 'package:al_maafer/time_planer/src/time_planner_date_time.dart';
-import 'package:al_maafer/time_planer/src/config/global_config.dart' as config;
+import 'package:second_brain/time_planer/src/time_planner_date_time.dart';
+import 'package:second_brain/time_planer/src/config/global_config.dart' as config;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

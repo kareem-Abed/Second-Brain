@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:al_maafer/utils/constants/sizes.dart';
+import 'package:second_brain/utils/constants/sizes.dart';
 
 class KDivider extends StatelessWidget {
   const KDivider({

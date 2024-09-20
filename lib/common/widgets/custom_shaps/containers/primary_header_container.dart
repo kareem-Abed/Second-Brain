@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:al_maafer/common/widgets/custom_shaps/containers/circular_container.dart';
-import 'package:al_maafer/common/widgets/custom_shaps/curved_edges/curved_edges_widget.dart';
-import 'package:al_maafer/utils/constants/colors.dart';
+import 'package:second_brain/common/widgets/custom_shaps/containers/circular_container.dart';
+import 'package:second_brain/common/widgets/custom_shaps/curved_edges/curved_edges_widget.dart';
+import 'package:second_brain/utils/constants/colors.dart';
 
 class TPrimaryHeaderContainer2 extends StatelessWidget {
   TPrimaryHeaderContainer2({

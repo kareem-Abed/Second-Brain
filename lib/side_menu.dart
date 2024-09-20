@@ -1,9 +1,9 @@
-import 'package:al_maafer/features/habit/screens/habit_screen.dart';
-import 'package:al_maafer/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
-import 'package:al_maafer/features/weekly_calendar/screens/weekly_calendar/weekly_calendar.dart';
-import 'package:al_maafer/main.dart';
-import 'package:al_maafer/time_planer/src/time_planner.dart';
-import 'package:al_maafer/utils/constants/colors.dart';
+import 'package:second_brain/features/habit/screens/habit_screen.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
+import 'package:second_brain/features/weekly_calendar/screens/weekly_calendar/weekly_calendar.dart';
+import 'package:second_brain/main.dart';
+import 'package:second_brain/time_planer/src/time_planner.dart';
+import 'package:second_brain/utils/constants/colors.dart';
 import 'package:easy_sidemenu/easy_sidemenu.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -11,8 +11,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'features/trello_bord/screens/widgets/kanban_board.dart';
-
-
 
 class EasySideMenu extends StatefulWidget {
   const EasySideMenu({Key? key}) : super(key: key);
@@ -35,7 +33,7 @@ class _easySideMenuState extends State<EasySideMenu> {
   }
 
   final controller = Get.put(WeeklyCalendarController());
-  final timeController = Get.put(TimePlannerController());
+  final timeController = Get.put(WeeklyCalendarController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -208,6 +206,10 @@ class _easySideMenuState extends State<EasySideMenu> {
                     title: 'العادات',
                     onTap: (index, _) {
                       sideMenu.changePage(index);
+                      controller.scheduleNotification(
+                          title: "تذكير بالمهمة",
+                          body: "حان وقت ${'مذاكره برمجة'}");
+                      ;
                     },
                     iconWidget: Obx(
                       () => Icon(FontAwesomeIcons.tasks,
@@ -248,9 +250,6 @@ class _easySideMenuState extends State<EasySideMenu> {
           ],
         ),
       ),
-      // backgroundColor: Colors.grey[900],
-      // backgroundColor: KColors.darkModeSideMenuBackground,
     );
   }
 }
-
