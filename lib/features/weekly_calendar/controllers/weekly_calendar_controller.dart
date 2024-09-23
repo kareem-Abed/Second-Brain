@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:get/get_rx/get_rx.dart';
 import 'package:second_brain/common/widgets/loaders/loaders.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/Icon_selector.dart';
 import 'package:flutter/services.dart';
@@ -8,12 +9,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:second_brain/time_planer/time_planner.dart';
-import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
-import 'package:windows_notification/notification_message.dart';
-import 'package:windows_notification/windows_notification.dart';
-import '../../../main.dart';
 import 'package:windows_notification/notification_message.dart';
 import 'package:windows_notification/windows_notification.dart';
 
@@ -35,14 +32,14 @@ class WeeklyCalendarController extends GetxController {
   final TaskDescriptionController = TextEditingController().obs;
   //--------> Task Variables <--------\\
   var selectedStartTime = TimeOfDay.now().obs;
-  var selectedEndTime = TimeOfDay(
-    hour: (TimeOfDay.now().hour + 1) % 24,
-    minute: TimeOfDay.now().minute,
-  ).obs;
-  RxInt duration = 60.obs;
+  // var selectedEndTime = TimeOfDay(
+  //   hour: (TimeOfDay.now().hour + 1) % 24,
+  //   minute: TimeOfDay.now().minute,
+  // ).obs;
+  RxDouble duration = 15.0.obs;
   RxInt daysDuration = 0.obs;
   RxInt iconIndex = 0.obs;
-
+  // RxDouble currentSliderValue = .0.obs;
   var tasks = <TimePlannerTask>[].obs;
   RxInt taskUpdateIndex = 0.obs;
   List<Map<String, dynamic>> monthlySessions = [];
@@ -70,10 +67,11 @@ class WeeklyCalendarController extends GetxController {
     getCurrentDay();
     loadTasksFromStorage();
     updateTime();
-    // currentDay.value = 6 - currentDay.value;
-    timer = Timer.periodic(const Duration(minutes: 1), (timer) {
-      updateTime();
+
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      checkAndUpdateTime();
     });
+
     super.onInit();
   }
 
@@ -95,17 +93,15 @@ class WeeklyCalendarController extends GetxController {
     required String title,
     required String body,
   }) async {
-    // final   String title ;
-    //   String body = "لديك مهمة جديدة";
     final _winNotifyPlugin = WindowsNotification(
       applicationId: "Second Brain",
     );
-    const String url = "assets/images/moon.png";
+    const String url = "assets/images/second_brain.png";
 
     final imageDir = await getLocalImagePath(url);
 
     NotificationMessage message = NotificationMessage.fromPluginTemplate(
-      title,
+      body,
       title,
       body,
       image: imageDir,
@@ -113,26 +109,108 @@ class WeeklyCalendarController extends GetxController {
     _winNotifyPlugin.showNotificationPluginTemplate(message);
   }
 
+  void checkAndUpdateTime() {
+    var now = DateTime.now();
+    if (now.minute != currentMinute.value) {
+      updateTime();
+    }
+  }
+
   void updateTime() {
     var now = DateTime.now();
+    // print('Updating time${now.minute}');
     currentHour.value = now.hour;
     currentMinute.value = now.minute;
+
     if (currentHour.value == 0 && currentMinute.value == 1) {
       getCurrentDay();
     }
-    // Check if the current time matches any task time
+
+    int day = 6 - currentDay.value;
+
+    // Iterate over all tasks
     for (var task in tasks) {
-      if (task.dateTime.hour == currentHour.value &&
-          task.dateTime.minutes == currentMinute.value) {
-        scheduleNotification(
-            title: "تذكير بالمهمة", body: "حان وقت ${task.title}");
+      if (task.dateTime.day <= day &&
+          (task.dateTime.day + (task.daysDuration ?? 1)) > day) {
+        // If the task starts now
+        if (task.dateTime.hour == currentHour.value &&
+            task.dateTime.minutes == currentMinute.value) {
+          // Send notification for task start
+          scheduleNotification(
+            title: "تذكير بالمهمة",
+            body: "حان وقت ${task.title}، ومدته ${task.minutesDuration} دقائق",
+          );
+        }
+
+        // Calculate task end time
+        // DateTime taskEndTime = task.dateTime.add(Duration(minutes: task.minutesDuration));
+
+        DateTime taskEndTime = DateTime(now.year, now.month, now.day,
+            task.dateTime.hour, task.dateTime.minutes + task.minutesDuration);
+
+        // If the task is ending now
+        if (taskEndTime.hour == currentHour.value &&
+            taskEndTime.minute == currentMinute.value) {
+          // Send notification for task end
+          scheduleNotification(
+            title: "انتهاء المهمة",
+            body: "لقد انتهت المهمة ${task.title}",
+          );
+
+          // Find the next task
+          // var nextTask = findNextTask(task);
+          // if (nextTask != null) {
+          //   DateTime nextTaskTime = DateTime(
+          //       now.year, now.month, now.day, nextTask.dateTime.hour, nextTask.dateTime.minutes
+          //   );
+          //   int nextTaskInMinutes = nextTaskTime.difference(now).inMinutes;
+          //   scheduleNotification(
+          //     title: "المهمة التالية",
+          //     body: "المهمة التالية ${nextTask.title} تبدأ بعد ${nextTaskInMinutes} دقائق",
+          //   );
+          // }
+        }
       }
     }
   }
 
+// // Helper function to compare two TimePlannerDateTime objects
+//   int compareTimePlannerDateTime(TimePlannerDateTime a, TimePlannerDateTime b) {
+//     if (a.day != b.day) {
+//       return a.day.compareTo(b.day);
+//     } else if (a.hour != b.hour) {
+//       return a.hour.compareTo(b.hour);
+//     } else {
+//       return a.minutes.compareTo(b.minutes);
+//     }
+//   }
+//
+// // Helper function to find the next task
+//   TimePlannerTask? findNextTask(TimePlannerTask currentTask) {
+//     var nextTasks = tasks.where((task) {
+//       // Manually compare the TimePlannerDateTime fields
+//       if (task.dateTime.day > currentTask.dateTime.day) {
+//         return true;
+//       } else if (task.dateTime.day == currentTask.dateTime.day) {
+//         if (task.dateTime.hour > currentTask.dateTime.hour) {
+//           return true;
+//         } else if (task.dateTime.hour == currentTask.dateTime.hour) {
+//           return task.dateTime.minutes > currentTask.dateTime.minutes;
+//         }
+//       }
+//       return false;
+//     }).toList();
+//
+//     // Sort tasks based on day, hour, and minute
+//     nextTasks.sort((a, b) => compareTimePlannerDateTime(a.dateTime, b.dateTime));
+//
+//     return nextTasks.isNotEmpty ? nextTasks.first : null;
+//   }
+
   void getCurrentDay() {
     final now = DateTime.now();
-    currentDay.value = (now.weekday + 1) % 7;
+ currentDay.value = (now.weekday + 1) % 7;
+
   }
 
   void loadTasksFromStorage() {
@@ -175,12 +253,8 @@ class WeeklyCalendarController extends GetxController {
     TaskNameController.value.text = '';
     TaskDescriptionController.value.text = '';
     selectedStartTime.value = TimeOfDay.now();
-    selectedEndTime.value = TimeOfDay(
-      hour: (TimeOfDay.now().hour + 1) % 24,
-      minute: TimeOfDay.now().minute,
-    );
 
-    duration.value = 0; // Reset duration
+    duration.value = 15;
     colorController.selectedColor.value = colorController.iconChoices[0].color;
     colorController.selectedIcon.value = colorController.iconChoices[0].icon;
   }
@@ -379,12 +453,12 @@ class WeeklyCalendarController extends GetxController {
           hour: task['dateTime']['hour'], minute: task['dateTime']['minutes']);
 
       // Calculate end time based on start time and duration
-      final startMinutes =
-          task['dateTime']['hour'] * 60 + task['dateTime']['minutes'];
-      this.duration.value = task['minutesDuration'];
-      final endMinutes = startMinutes + task['minutesDuration'];
-      selectedEndTime.value =
-          TimeOfDay(hour: endMinutes ~/ 60, minute: endMinutes % 60);
+
+      this.duration.value = task['minutesDuration'].toDouble();
+      // final startMinutes =
+      // task['dateTime']['hour'] * 60 + task['dateTime']['minutes'];
+      // final endMinutes = startMinutes + task['minutesDuration'];
+      // selectedEndTime.value = TimeOfDay(hour: endMinutes ~/ 60, minute: endMinutes % 60);
       // this.dayIndex.value = task['dateTime']['day'];
 
       colorController.selectedColor.value = task['color'];
@@ -510,11 +584,59 @@ class WeeklyCalendarController extends GetxController {
     );
   }
 
-  Future<void> selectTime(BuildContext context, bool isStartTime) async {
+  // Future<void> selectTime(BuildContext context, bool isStartTime) async {
+  //   final TimeOfDay? picked = await showTimePicker(
+  //     context: context,
+  //     initialTime:
+  //         isStartTime ? selectedStartTime.value : selectedEndTime.value,
+  //     builder: (BuildContext context, Widget? child) {
+  //       return MediaQuery(
+  //         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
+  //         child: child!,
+  //       );
+  //     },
+  //   );
+  //
+  //   if (picked != null) {
+  //     if (isStartTime) {
+  //       if (picked.hour < selectedEndTime.value.hour ||
+  //           (picked.hour == selectedEndTime.value.hour &&
+  //               picked.minute < selectedEndTime.value.minute)) {
+  //         selectedStartTime.value = picked;
+  //       } else {
+  //         // Show error or adjust the time
+  //         selectedStartTime.value = picked;
+  //         selectedEndTime.value = TimeOfDay(
+  //           hour: (picked.hour + 1) % 24,
+  //           minute: picked.minute,
+  //         );
+  //       }
+  //     } else {
+  //       if (picked.hour > selectedStartTime.value.hour ||
+  //           (picked.hour == selectedStartTime.value.hour &&
+  //               picked.minute > selectedStartTime.value.minute)) {
+  //         selectedEndTime.value = picked;
+  //       } else {
+  //         // Show error or adjust the time
+  //         selectedEndTime.value = TimeOfDay(
+  //           hour: (selectedStartTime.value.hour + 1) % 24,
+  //           minute: selectedStartTime.value.minute,
+  //         );
+  //       }
+  //     }
+  //
+  //     final startMinutes =
+  //         selectedStartTime.value.hour * 60 + selectedStartTime.value.minute;
+  //     final endMinutes =
+  //         selectedEndTime.value.hour * 60 + selectedEndTime.value.minute;
+  //     duration.value = endMinutes - startMinutes;
+  //   }
+  // }
+
+  Future<void> selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime:
-          isStartTime ? selectedStartTime.value : selectedEndTime.value,
+      initialTime: selectedStartTime.value,
       builder: (BuildContext context, Widget? child) {
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
@@ -522,41 +644,25 @@ class WeeklyCalendarController extends GetxController {
         );
       },
     );
+    // selectedEndTime.value = picked!;
+    // if (picked != null) {
+    //   // if (isStartTime) {
+    selectedStartTime.value = picked!;
+    //   //   final startMinutes = picked.hour * 60 + picked.minute;
+    //   //   final endMinutes = startMinutes + currentSliderValue.value.toInt();
+    //   //   selectedEndTime.value = TimeOfDay(
+    //   //     hour: endMinutes ~/ 60,
+    //   //     minute: endMinutes % 60,
+    //   //   );
+    //   // } else {
 
-    if (picked != null) {
-      if (isStartTime) {
-        if (picked.hour < selectedEndTime.value.hour ||
-            (picked.hour == selectedEndTime.value.hour &&
-                picked.minute < selectedEndTime.value.minute)) {
-          selectedStartTime.value = picked;
-        } else {
-          // Show error or adjust the time
-          selectedStartTime.value = picked;
-          selectedEndTime.value = TimeOfDay(
-            hour: (picked.hour + 1) % 24,
-            minute: picked.minute,
-          );
-        }
-      } else {
-        if (picked.hour > selectedStartTime.value.hour ||
-            (picked.hour == selectedStartTime.value.hour &&
-                picked.minute > selectedStartTime.value.minute)) {
-          selectedEndTime.value = picked;
-        } else {
-          // Show error or adjust the time
-          selectedEndTime.value = TimeOfDay(
-            hour: (selectedStartTime.value.hour + 1) % 24,
-            minute: selectedStartTime.value.minute,
-          );
-        }
-      }
-
-      final startMinutes =
-          selectedStartTime.value.hour * 60 + selectedStartTime.value.minute;
-      final endMinutes =
-          selectedEndTime.value.hour * 60 + selectedEndTime.value.minute;
-      duration.value = endMinutes - startMinutes;
-    }
+    //   // }
+    //   // final startMinutes =
+    //       selectedStartTime.value.hour * 60 + selectedStartTime.value.minute;
+    //   // final endMinutes =
+    //       // selectedEndTime.value.hour * 60 + selectedEndTime.value.minute;
+    //   // duration.value = endMinutes - startMinutes;
+    // }
   }
 
   void toggleDay(int index) {

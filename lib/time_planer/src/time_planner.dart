@@ -8,46 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
 
-/// TimePlannerController with GetX
-// class TimePlannerController extends GetxController {
-//
-//   var currentHour = DateTime.now().hour.obs;
-//   var currentMinute = DateTime.now().minute.obs;
-//
-//   var dividerColor = Colors.white.obs;
-//   RxInt currentDay = 0.obs;
-//
-//   final weeklyCalendarController = Get.find<WeeklyCalendarController>();
-//
-//   /// Timer to update the time every minute
-//   Timer? timer;
-//
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     updateTime();
-//     currentDay.value = 6 - weeklyCalendarController.currentDay.value;
-//     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-//       updateTime();
-//     });
-//   }
-//
-//   void updateTime() {
-//     var now = DateTime.now();
-//
-//     currentHour.value = now.hour;
-//     currentMinute.value = now.minute;
-//     if (currentHour.value == 0) {
-//       weeklyCalendarController.getCurrentDay();
-//     }
-//   }
-//
-//   @override
-//   void onClose() {
-//     timer?.cancel();
-//     super.onClose();
-//   }
-// }
+
 
 class TimePlanner extends StatefulWidget {
   /// Time start from this, it will start from 0
@@ -226,7 +187,7 @@ class _TimePlannerState extends State<TimePlanner> {
                         ),
                       ),
                       width: calculatedWidth,
-                      child: widget.headers[6 - controller.currentDay.value],
+                      child: widget.headers[controller.currentDay.value],
                     )
                   else
                     for (int i = 0; i < config.totalDays; i++)
@@ -308,7 +269,7 @@ class _TimePlannerState extends State<TimePlanner> {
       builder: (context, constraints) {
         final screenWidth = constraints.maxWidth;
         final calculatedWidth = screenWidth / config.totalDays;
-        final currentDayIndex = controller.currentDay.value;
+        final currentDayIndex =6- controller.currentDay.value;
 
         List<TimePlannerTask> filteredTasks = tasks.where((task) {
           final taskStartDayIndex = task.dateTime.day;

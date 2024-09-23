@@ -28,7 +28,6 @@ class AddGroupForm extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-
                         controller.showAddTask.value = false;
                       },
                       child: Container(
@@ -40,8 +39,7 @@ class AddGroupForm extends StatelessWidget {
                         child: Center(
                           child: Text(
                             'إغلاق',
-                            style:
-                            Theme.of(context).textTheme.titleMedium!,
+                            style: Theme.of(context).textTheme.titleMedium!,
                           ),
                         ),
                       ),
@@ -68,7 +66,7 @@ class AddGroupForm extends StatelessWidget {
                             hour: controller.selectedStartTime.value.hour,
                             minutes: controller.selectedStartTime.value.minute,
                             // dayIndex: controller.dayIndex.value,
-                            duration: controller.duration.value,
+                            duration: controller.duration.value.toInt(),
                             // daysDuration: controller.daysDuration.value,
                             icon: controller.colorController.selectedIcon.value,
                             color:
@@ -80,7 +78,7 @@ class AddGroupForm extends StatelessWidget {
                             hour: controller.selectedStartTime.value.hour,
                             minutes: controller.selectedStartTime.value.minute,
                             // dayIndex: controller.dayIndex.value,
-                            duration: controller.duration.value,
+                            duration: controller.duration.value.toInt(),
                             // daysDuration: controller.daysDuration.value,
                             icon: controller.colorController.selectedIcon.value,
                             color:
@@ -188,6 +186,10 @@ class AddGroupForm extends StatelessWidget {
                     const SizedBox(
                       height: KSizes.sm,
                     ),
+                    DurationPicker(),
+                    const SizedBox(
+                      height: KSizes.sm,
+                    ),
                     // const KDivider(),
                     WorkingDaysWidget(),
                     const SizedBox(height: KSizes.spaceBtwInputFields),
@@ -256,7 +258,7 @@ class HourSelectionWidget extends StatelessWidget {
             Expanded(
               flex: 1,
               child: InkWell(
-                onTap: () => controller.selectTime(context, true),
+                onTap: () => controller.selectTime(context),
                 child: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 5),
                   padding:
@@ -278,39 +280,70 @@ class HourSelectionWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              'الي',
-              style: Theme.of(context).textTheme.titleMedium!,
-            ),
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                onTap: () => controller.selectTime(context, false),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color:
-                        Color(controller.colorController.selectedColor.value),
-                  ),
-                  child: Center(
-                    child: FittedBox(
-                      child: Text(
-                        ' ${controller.selectedEndTime.value.format(context)} ',
-                        // 'الوقت:  ${controller.selectedTime.value.format(context)} ',
-                        style: Theme.of(context).textTheme.titleMedium!,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),
     );
   }
 }
+
 //------------------------
+class DurationPicker extends StatelessWidget {
+  final WeeklyCalendarController controller =
+      Get.put(WeeklyCalendarController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(KSizes.sm),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: KSizes.sm),
+            child: Text(
+              'لمدة',
+              style: Theme.of(context).textTheme.titleMedium!,
+            ),
+          ),
+          Expanded(
+              flex: 2,
+              child: Obx(
+                () => Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color:
+                        Color(controller.colorController.selectedColor.value),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '${(controller.duration.value ~/ 60).toString().padLeft(1, '0')}h ${(controller.duration.value % 60 ~/ 1).toString().padLeft(2, '0')}m',
+                      style: Theme.of(context).textTheme.titleMedium!,
+                    ),
+                  ),
+                ),
+              )),
+          Expanded(
+            flex: 4,
+            child: Obx(() => Slider(
+                  value: controller.duration.value,
+                  activeColor:
+                      Color(controller.colorController.selectedColor.value),
+                  inactiveColor: Colors.grey.shade800,
+                  min: 15,
+                  max: 10 * 60, // 10 hours in minutes
+                  divisions: (10 * 60 - 15) ~/ 15, // 15-minute intervals
+                  label:
+                      '${(controller.duration.value ~/ 60).toString().padLeft(1, '0')}h ${(controller.duration.value % 60 ~/ 1).toString().padLeft(2, '0')}m',
+                  onChanged: (double value) {
+                    controller.duration.value = value;
+                  },
+                )),
+          ),
+
+        ],
+      ),
+    );
+  }
+}
