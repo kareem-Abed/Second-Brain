@@ -22,125 +22,115 @@ class IconController extends GetxController {
   static IconController get instance => Get.find();
 
   Rx<IconData> selectedIcon = FontAwesomeIcons.briefcase.obs;
-  RxString selectedName = 'عمل'.obs;
+  RxString selectedName ='عمل'.obs;
   Rx<int> selectedColor = 0xFF2196F3.obs;
 
   // Updated list with FontAwesome icons and color codes
-
   List<iconChoicesModel> iconChoices = [
-    // Work and Study
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.briefcase,
       'name': 'عمل',
-      'color': 0xFF2196F3
+      'color': 0xFF2196F3 // Blue
     }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.code, 'name': 'برمجة', 'color': 0xFF4CAF50}),
+    iconChoicesModel.fromJson({
+      'icon': FontAwesomeIcons.solidBell,
+      'name': 'استيقاظ',
+      'color': 0xFFFF6347 // Amber
+    }),
+    iconChoicesModel(
+        icon: FontAwesomeIcons.utensils,
+        name: 'فطور',
+        color: 0xFFFF9800 // Orange
+    ),
+    iconChoicesModel(
+        icon: FontAwesomeIcons.laptopCode,
+        name: 'المشروع',
+        color: 0xFF4CAF50 // Green
+    ),
+    iconChoicesModel(
+        icon: FontAwesomeIcons.gamepad,
+        name: 'استراحة',
+        color: 0xFF673AB7 // Deep Purple
+    ),
+    iconChoicesModel(
+        icon: FontAwesomeIcons.dumbbell,
+        name: 'تمرين',
+        color: 0xFFE91E63 // Pink
+    ),
+    iconChoicesModel(
+        icon: FontAwesomeIcons.bed,
+        name: 'النوم',
+        color: 0xFF9C27B0 // Purple
+    ),
+    iconChoicesModel.fromJson({
+      'icon': FontAwesomeIcons.book,
+      'name': 'دراسة',
+      'color': 0xFF4CAF50 // Light Green
+    }),
+
+    iconChoicesModel.fromJson({
+      'icon': FontAwesomeIcons.code,
+      'name': 'برمجة',
+      'color': 0xFF009688 // Teal
+    }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.school,
       'name': 'مدرسة',
-      'color': 0xFFFF5722
+      'color': 0xFFD32F2F // Red
     }),
-
-    // Home and Daily Life
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.house, 'name': 'منزل', 'color': 0xFF9C27B0}),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.cartShopping,
       'name': 'تسوق',
-      'color': 0xFFFF9800
+      'color': 0xFFFB8C00 // Deep Orange
     }),
     iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.utensils,
-      'name': 'مطعم',
-      'color': 0xFF795548
+      'icon': FontAwesomeIcons.toilet,
+      'name': 'حمام',
+      'color': 0xFFAB47BC // Purple
     }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.toilet, 'name': 'حمام', 'color': 0xFF607D8B}),
     iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.doorOpen,
+      'icon': FontAwesomeIcons.walking,
       'name': 'خروج',
-      'color': 0xFF607D8B
-    }),
-
-    // Health and Fitness
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.dumbbell,
-      'name': 'لياقة',
-      'color': 0xFFF44336
+      'color': 0xFF1976D2 // Blue
     }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.hospital,
       'name': 'مستشفى',
-      'color': 0xFFFF5252
+      'color': 0xFFD32F2F // Red
     }),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.bicycle,
-      'name': 'دراجة',
-      'color': 0xFF4CAF50
-    }),
-
-    // Events and Activities
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.calendarDay,
       'name': 'حدث',
-      'color': 0xFF009688
+      'color': 0xFF009688 // Teal
     }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.music,
       'name': 'موسيقى',
-      'color': 0xFFE91E63
+      'color': 0xFFE91E63 // Pink
     }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.film, 'name': 'سينما', 'color': 0xFF00BCD4}),
     iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.gamepad,
-      'name': 'ألعاب',
-      'color': 0xFF1E88E5
-    }),
-
-    // Travel and Nature
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.plane, 'name': 'طيران', 'color': 0xFF3F51B5}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.tree, 'name': 'طبيعة', 'color': 0xFF69F0AE}),
-
-    // Miscellaneous
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.book, 'name': 'قراءة', 'color': 0xFFFFC107}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.phone, 'name': 'هاتف', 'color': 0xFF673AB7}),
-    iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.laptop,
-      'name': 'حاسوب',
-      'color': 0xFF03A9F4
+      'icon': FontAwesomeIcons.film,
+      'name': 'سينما',
+      'color': 0xFF00BCD4 // Cyan
     }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.lightbulb,
       'name': 'أفكار',
-      'color': 0xFFFFEB3B
+      'color': 0xFFFFC107  // Yellow
     }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.star, 'name': 'نجمة', 'color': 0xFFFFD740}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.paw, 'name': 'حيوانات', 'color': 0xFFCDDC39}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.mosque, 'name': 'صلاة', 'color': 0xFF00BFA5}),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.bed, 'name': 'نوم', 'color': 0xFF8E24AA}),
     iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.userGroup,
-      'name': 'أصدقاء',
-      'color': 0xFF3F51B5
+      'icon': FontAwesomeIcons.mosque,
+      'name': 'صلاة',
+      'color': 0xFF00796B // Teal
     }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.bullseye,
       'name': 'هدف',
-      'color': Colors.red.value
+      'color': 0xFFD32F2F // Red
     }),
-    iconChoicesModel.fromJson(
-        {'icon': FontAwesomeIcons.trash, 'name': 'قمامة', 'color': 0xFFFF8A80}),
   ];
+
+
   void changeIcon(IconData icon, String name, int color) {
     selectedIcon.value = icon;
     selectedName.value = name;
@@ -159,7 +149,7 @@ class IconSelector extends StatelessWidget {
       children: [
         // Icon Selection (Top)
         Container(
-          padding: const EdgeInsets.all(KSizes.sm),
+          padding: const EdgeInsets.all(KSizes.sm / 2),
           // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
             color: Colors.grey[850],
@@ -210,10 +200,15 @@ class IconSelector extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: KSizes.sm),
-              Wrap(
-                spacing: KSizes.sm,
-                alignment: WrapAlignment.center,
-                children: iconController.iconChoices.map((iconChoice) {
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4,
+                ),
+                itemCount: iconController.iconChoices.length,
+                itemBuilder: (context, index) {
+                  final iconChoice = iconController.iconChoices[index];
                   return InkWell(
                     onTap: () => iconController.changeIcon(
                       iconChoice.icon,
@@ -225,38 +220,84 @@ class IconSelector extends StatelessWidget {
                       children: [
                         Ink(
                           width: 48,
-                          height: 48,
+                          // height: 48,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Color(
-                                iconChoice.color), // Fixed color handling
+                            color: Color(iconChoice.color),
                           ),
-                          child: Icon(iconChoice.icon,
-                              color: Color(iconChoice.color)),
+                          child: Icon(
+                            iconChoice.icon,
+                            color: Color(iconChoice.color),
+                          ),
                         ),
                         const SizedBox(height: KSizes.sm / 4),
-                        Text(
-                          iconChoice.name,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                color: Color(iconChoice.color),
-                              ),
-                          // style: TextStyle(
-                          //   color: Color(iconChoice.color), // Fi
-                          //   fontSize: 12,
-                          // ),
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            iconChoice.name,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                      color: Color(iconChoice.color),
+                                    ),
+                          ),
                         ),
-                        SizedBox(
-                          height: KSizes.md,
-                          width: 40,
-                        ),
+                        // SizedBox(
+                        //   height: KSizes.md,
+                        //   width: 40,
+                        // ),
                       ],
                     ),
                   );
-                }).toList(),
-              ),
+                },
+              )
+
+              // Wrap(
+              //   spacing: KSizes.sm,
+              //   alignment: WrapAlignment.center,
+              //   children: iconController.iconChoices.map((iconChoice) {
+              //     return InkWell(
+              //       onTap: () => iconController.changeIcon(
+              //         iconChoice.icon,
+              //         iconChoice.name,
+              //         iconChoice.color,
+              //       ),
+              //       customBorder: const CircleBorder(),
+              //       child: Column(
+              //         children: [
+              //           Ink(
+              //             width: 48,
+              //             height: 48,
+              //             decoration: BoxDecoration(
+              //               shape: BoxShape.circle,
+              //               color: Color(
+              //                   iconChoice.color), // Fixed color handling
+              //             ),
+              //             child: Icon(iconChoice.icon,
+              //                 color: Color(iconChoice.color)),
+              //           ),
+              //           const SizedBox(height: KSizes.sm / 4),
+              //           Text(
+              //             iconChoice.name,
+              //             style: Theme.of(context)
+              //                 .textTheme
+              //                 .bodyMedium!
+              //                 .copyWith(
+              //                   color: Color(iconChoice.color),
+              //                 ),
+              //             // style: TextStyle(
+              //             //   color: Color(iconChoice.color), // Fi
+              //             //   fontSize: 12,
+              //             // ),
+              //           ),
+              //           SizedBox(
+              //             height: KSizes.md,
+              //             width: 40,
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   }).toList(),
+              // ),
             ],
           ),
         ),

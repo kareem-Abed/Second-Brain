@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:second_brain/common/widgets/loaders/loaders.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/Icon_selector.dart';
@@ -58,7 +59,7 @@ class WeeklyCalendarController extends GetxController {
     'الجمعة',
   ];
   RxInt currentDay = 0.obs;
-  var selectedDays = List<bool>.filled(7, false).obs;
+  var selectedDays = List<bool>.filled(7, true).obs;
 
   //-----------------------------> Initialization Functions <-----------------------------------\\
   @override
@@ -209,8 +210,7 @@ class WeeklyCalendarController extends GetxController {
 
   void getCurrentDay() {
     final now = DateTime.now();
- currentDay.value = (now.weekday + 1) % 7;
-
+    currentDay.value = (now.weekday + 1) % 7;
   }
 
   void loadTasksFromStorage() {
@@ -259,6 +259,129 @@ class WeeklyCalendarController extends GetxController {
     colorController.selectedIcon.value = colorController.iconChoices[0].icon;
   }
   //-----------------------------> Task Management Functions <-----------------------------------\\
+  void addAllTasks() {
+    // قائمة المهام
+    final tasksList = [
+      {
+        'title': 'استيقاظ، فطور، تمرين خفيف',
+        'hour': 6,
+        'minutes': 0,
+        'duration': 60, // 1 ساعة
+        'icon': FontAwesomeIcons.solidBell,
+        'color': 0xFFFF6347, // Amber
+      },
+      {
+        'title': 'دراسة مركزة',
+        'hour': 7,
+        'minutes': 0,
+        'duration': 120, // 2 ساعة
+        'icon': FontAwesomeIcons.book,
+        'color': 0xFF4CAF50, // Light Green
+      },
+      {
+        'title': 'استراحة قصيرة',
+        'hour': 9,
+        'minutes': 0,
+        'duration': 30, // 30 دقيقة
+        'icon': FontAwesomeIcons.gamepad,
+        'color': 0xFF673AB7, // Deep Purple
+      },
+      {
+        'title': 'عمل على المشروع',
+        'hour': 9,
+        'minutes': 30,
+        'duration': 150, // 2.5 ساعة
+        'icon': FontAwesomeIcons.laptopCode,
+        'color': 0xFF4CAF50, // Green
+      },
+      {
+        'title': 'غداء واستراحة',
+        'hour': 12,
+        'minutes': 0,
+        'duration': 60, // 1 ساعة
+        'icon': FontAwesomeIcons.utensils,
+        'color': 0xFFFF9800, // Orange
+      },
+      {
+        'title': 'دراسة',
+        'hour': 13,
+        'minutes': 0,
+        'duration': 90, // 1.5 ساعة
+        'icon': FontAwesomeIcons.book,
+        'color': 0xFF4CAF50, // Light Green
+      },
+      {
+        'title': 'استراحة',
+        'hour': 14,
+        'minutes': 30,
+        'duration': 30, // 30 دقيقة
+        'icon': FontAwesomeIcons.gamepad,
+        'color': 0xFF673AB7, // Deep Purple
+      },
+      {
+        'title': 'عمل على المشروع',
+        'hour': 15,
+        'minutes': 0,
+        'duration': 120, // 2 ساعة
+        'icon': FontAwesomeIcons.laptopCode,
+        'color': 0xFF4CAF50, // Green
+      },
+      {
+        'title': 'تمرين، وقت حر',
+        'hour': 17,
+        'minutes': 0,
+        'duration': 60, // 1 ساعة
+        'icon': FontAwesomeIcons.dumbbell,
+        'color': 0xFFE91E63, // Pink
+      },
+      {
+        'title': 'عشاء واستراحة',
+        'hour': 18,
+        'minutes': 0,
+        'duration': 60, // 1 ساعة
+        'icon': FontAwesomeIcons.utensils,
+        'color': 0xFFFF9800, // Orange
+      },
+      {
+        'title': 'دراسة أو عمل جانبي',
+        'hour': 19,
+        'minutes': 0,
+        'duration': 120, // 2 ساعة
+        'icon': FontAwesomeIcons.book,
+        'color': 0xFF4CAF50, // Light Green
+      },
+      {
+        'title': 'وقت حر',
+        'hour': 21,
+        'minutes': 0,
+        'duration': 60, // 1 ساعة
+        'icon': FontAwesomeIcons.gamepad,
+        'color': 0xFF673AB7, // Deep Purple
+      },
+
+
+    ];
+
+
+
+    // الحصول على الأيام المتصلة
+    final connectedDays = findConnectedDays();
+
+    for (var task in tasksList) {
+      addTask(
+        title: task['title'] as String, // تحويل إلى String
+        hour: task['hour'] as int, // تحويل إلى int
+        minutes: task['minutes'] as int, // تحويل إلى int
+        duration: task['duration'] as int, // تحويل إلى int
+        icon: task['icon'] as IconData,
+        color: task['color'] as int,
+      );
+    }
+
+    // إعلام المستخدم بنجاح العملية
+    TLoaders.successSnackBar(
+        message: 'تمت إضافة المهام بنجاح', title: 'تمت العملية');
+  }
 
   void addTask({
     required String title,
@@ -284,8 +407,7 @@ class WeeklyCalendarController extends GetxController {
     for (var group in connectedDays) {
       final dayIndex = group.first;
       final daysDuration = group.length;
-      int iconIndex = colorController.iconChoices
-          .indexWhere((iconModel) => iconModel.icon == icon);
+      int iconIndex = colorController.iconChoices.indexWhere((iconModel) => iconModel.icon == icon);
       final task = TimePlannerTask(
         color: Color(color),
         icon: icon,
@@ -537,9 +659,9 @@ class WeeklyCalendarController extends GetxController {
     Get.defaultDialog(
       title: 'تفاصيل المهمة',
       content: Text(
-        '${title} في sessionTime لمدة ${duration} دقيقة',
+        ' الاسم : ${title}\n  لمدة : ${(duration ~/ 60).toString().padLeft(2, '0')}h ${(duration % 60 ~/ 1).toString().padLeft(2, '0')}m',
         style: Theme.of(Get.context!).textTheme.bodyMedium,
-        textAlign: TextAlign.center,
+        textAlign: TextAlign.right,
       ),
       confirm: ElevatedButton(
         onPressed: () {

@@ -22,6 +22,11 @@ class AddGroupForm extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
+              ElevatedButton(
+                  onPressed: () {
+                    controller.addAllTasks();
+                  },
+                  child: Text('Add Task')),
               Obx(
                 () => Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -341,7 +346,6 @@ class DurationPicker extends StatelessWidget {
                   },
                 )),
           ),
-
         ],
       ),
     );
