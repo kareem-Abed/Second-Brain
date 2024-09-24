@@ -93,7 +93,8 @@ class WeeklyCalendarController extends GetxController {
   void scheduleNotification({
     required String title,
     required String body,
-  }) async {
+  }) async
+  {
     final _winNotifyPlugin = WindowsNotification(
       applicationId: "Second Brain",
     );
