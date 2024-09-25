@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:second_brain/features/habit/datetime/date_time.dart';
 import 'package:second_brain/features/habit/screens/widgets/habit_tile.dart';
 import 'package:second_brain/features/habit/screens/widgets/month_summary.dart';
 import 'package:second_brain/features/habit/screens/widgets/my_alert_box.dart';
 import 'package:second_brain/features/habit/screens/widgets/my_fab.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:second_brain/utils/constants/sizes.dart';
+import '../controllers/Habit_controller.dart';
 import '../data/habit_database.dart';
 
 class HabitScreen extends StatefulWidget {
@@ -16,6 +22,8 @@ class HabitScreen extends StatefulWidget {
 class _HabitScreenState extends State<HabitScreen> {
   HabitDatabase db = HabitDatabase();
   final _myBox = GetStorage();
+
+  final controller = Get.put(HabitController());
 
   @override
   void initState() {
@@ -119,14 +127,49 @@ class _HabitScreenState extends State<HabitScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton:
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+        FloatingActionButton(
+          backgroundColor: Colors.orange,
+          onPressed: () {
+            Get.defaultDialog(
+              title: 'تأكيد الحذف',
+              content: Text(
+                'هل أنت متأكد أنك تريد حذف جميع المهام؟',
+                style: Theme.of(Get.context!).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              confirm: ElevatedButton(
+                onPressed: () {
+                  _myBox.write("START_DATE", todaysDateFormatted());
+                },
+                child: Text('نعم'),
+              ),
+              cancel: ElevatedButton(
+                onPressed: () {
+                  // Get.back();
+                },
+                child: Text('إلغاء'),
+              ),
+            );
+          },
+          child: const Icon(FontAwesomeIcons.trash),
+        ),
+        SizedBox(width: KSizes.md),
+        FloatingActionButton(
+          backgroundColor: Colors.green,
+          onPressed: () => createNewHabit(),
+          child: Icon(FontAwesomeIcons.plus),
+        ),
+      ]),
 
-      floatingActionButton: MyFloatingActionButton(onPressed: createNewHabit),
+      // MyFloatingActionButton(onPressed: createNewHabit),
       body: ListView(
         children: [
           // monthly summary heat map
           MonthlySummary(
             datasets: db.heatMapDataSet,
-            startDate: _myBox.read("START_DATE"),
+            startDate: controller.START_DATE,
           ),
 
           // list of habits

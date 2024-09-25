@@ -8,6 +8,7 @@ class HabitController extends GetxController {
   var todaysHabitList = <List<dynamic>>[].obs;
   var heatMapDataSet = <DateTime, int>{}.obs;
 var now = DateTime.now().add(Duration(days: 0));
+String START_DATE ='';
   @override
   void onInit() {
     super.onInit();
@@ -20,6 +21,7 @@ var now = DateTime.now().add(Duration(days: 0));
     }
 
     updateDatabase();
+    START_DATE=myBox.read("START_DATE");
   }
 
   void createDefaultData() {
