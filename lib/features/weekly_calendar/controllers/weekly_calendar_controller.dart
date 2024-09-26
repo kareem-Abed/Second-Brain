@@ -87,12 +87,10 @@ class WeeklyCalendarController extends GetxController {
     return file.path;
   }
 
-
   void scheduleNotification({
     required String title,
     required String body,
-  }) async
-  {
+  }) async {
     final _winNotifyPlugin = WindowsNotification(
       applicationId: "Second Brain",
     );
@@ -138,7 +136,8 @@ class WeeklyCalendarController extends GetxController {
           // Send notification for task start
           scheduleNotification(
             title: "تذكير بالمهمة",
-            body: "حان وقت ${task.title}، ومدته ${task.minutesDuration} دقائق",
+            body:
+                " حان وقت ${task.title} لمدة : ${(task.minutesDuration ~/ 60) != 0 ? '${(task.minutesDuration ~/ 60).toString().padLeft(1, '0')}h' : ''} ${(task.minutesDuration % 60 ~/ 1).toString().padLeft(2, '0')}m",
           );
         }
 
@@ -404,7 +403,8 @@ class WeeklyCalendarController extends GetxController {
     for (var group in connectedDays) {
       final dayIndex = group.first;
       final daysDuration = group.length;
-      int iconIndex = colorController.iconChoices.indexWhere((iconModel) => iconModel.icon == icon);
+      int iconIndex = colorController.iconChoices
+          .indexWhere((iconModel) => iconModel.icon == icon);
       final task = TimePlannerTask(
         color: Color(color),
         icon: icon,
@@ -540,11 +540,6 @@ class WeeklyCalendarController extends GetxController {
       color: color,
     );
     if (index != null) {
-      final task = tasks[index];
-      print(
-          'Removing task: ${task.color!.value} Title=${task.title}, Duration=${task.minutesDuration}, DateTime=${task.dateTime.day}-${task.dateTime.hour}:${task.dateTime.minutes}');
-      print(
-          'Removing task=> ${color}  Title=${title}, Duration=${duration}, DateTime=${dayIndex}-${hour}:${minutes}');
       tasks.removeAt(index);
       Get.back();
       saveTasksToStorage();
@@ -656,7 +651,7 @@ class WeeklyCalendarController extends GetxController {
     Get.defaultDialog(
       title: 'تفاصيل المهمة',
       content: Text(
-        ' الاسم : ${title}\n  لمدة : ${(duration ~/ 60).toString().padLeft(2, '0')}h ${(duration % 60 ~/ 1).toString().padLeft(2, '0')}m',
+        ' الاسم : ${title}\n  لمدة : ${(duration ~/ 60) != 0 ? '${(duration ~/ 60).toString().padLeft(1, '0')}h' : ''} ${(duration % 60 ~/ 1).toString().padLeft(2, '0')}m',
         style: Theme.of(Get.context!).textTheme.bodyMedium,
         textAlign: TextAlign.right,
       ),
