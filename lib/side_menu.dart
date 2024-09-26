@@ -110,9 +110,22 @@ class _easySideMenuState extends State<EasySideMenu> {
                   children: [
                     Obx(() {
                       final currentHour = timeController.currentHour.value;
-                      final image = currentHour >= 6 && currentHour < 18
-                          ? 'assets/images/sun.png'
-                          : 'assets/images/moon.png';
+
+                      String getTimePeriodImage(int hour) {
+                        if (hour >= 4 && hour < 6) {
+                          return 'assets/images/dawn.png';
+                        } else if (hour >= 6 && hour < 12) {
+                          return 'assets/images/sunrise.png';
+                        } else if (hour >= 12 && hour < 15) {
+                          return 'assets/images/afternoon.png';
+                        } else if (hour >= 15 && hour < 18) {
+                          return 'assets/images/sunset.png';
+                        } else if (hour >= 18 && hour < 21) {
+                          return 'assets/images/evening.png';
+                        } else {
+                          return 'assets/images/midnight.png';
+                        }
+                      }
 
                       String getTimePeriod(int hour) {
                         if (hour >= 4 && hour < 6) {
@@ -132,14 +145,15 @@ class _easySideMenuState extends State<EasySideMenu> {
                         }
                       }
 
+                      final image = getTimePeriodImage(currentHour);
                       final timeOfDayText = getTimePeriod(currentHour);
 
                       return Column(
                         children: [
                           ConstrainedBox(
                             constraints: const BoxConstraints(
-                              maxHeight: 150,
-                              maxWidth: 150,
+                              // maxHeight: 150,
+                              maxWidth: 65,
                             ),
                             child: Image.asset(image),
                           ),
@@ -206,7 +220,6 @@ class _easySideMenuState extends State<EasySideMenu> {
                       // controller.scheduleNotification(
                       //     title: "تذكير بالمهمة",
                       //     body: "حان وقت ${'مذاكره برمجة'}");
-
                     },
                     iconWidget: Obx(
                       () => Icon(FontAwesomeIcons.listCheck,
