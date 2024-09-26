@@ -1,13 +1,9 @@
 
 import 'package:second_brain/utils/constants/colors.dart';
-import 'package:second_brain/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_down_button/pull_down_button.dart';
 
 import '../../models/data.dart';
 import '../../models/task.dart';
-import 'taks_menu.widget.dart';
-import 'task_text_widget.dart';
 
 class TaskCard extends StatelessWidget {
   final KTask task;

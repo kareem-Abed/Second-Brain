@@ -1,6 +1,5 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../data/habit_database.dart';
 import '../datetime/date_time.dart';
 
 class HabitController extends GetxController {

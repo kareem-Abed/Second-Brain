@@ -1,4 +1,4 @@
-import 'package:second_brain/common/widgets/divider/divider.dart';
+
 import 'package:second_brain/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -89,7 +89,7 @@ class IconController extends GetxController {
       'color': 0xFFAB47BC // Purple
     }),
     iconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.walking,
+      'icon': FontAwesomeIcons.personWalking,
       'name': 'خروج',
       'color': 0xFF1976D2 // Blue
     }),

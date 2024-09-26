@@ -1,9 +1,6 @@
 
 import 'package:second_brain/features/trello_bord/models/column.dart';
 import 'package:get/get.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../models/data.dart';

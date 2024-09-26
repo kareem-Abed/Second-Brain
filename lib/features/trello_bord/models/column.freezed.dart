@@ -112,6 +112,7 @@ class _$_KColumn implements _KColumn {
   }
 
   @override
+  // ignore: non_nullable_equals_parameter
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&

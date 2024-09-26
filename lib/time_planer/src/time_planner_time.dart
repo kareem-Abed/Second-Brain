@@ -1,5 +1,4 @@
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
-import 'package:second_brain/time_planer/src/time_planner.dart';
 import 'package:flutter/material.dart';
 import 'package:second_brain/time_planer/src/config/global_config.dart' as config;
 import 'package:get/get.dart';

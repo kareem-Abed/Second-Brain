@@ -7,6 +7,7 @@ import '../../models/data.dart';
 import 'card_column.dart';
 import 'task_card_widget.dart';
 
+// ignore: must_be_immutable
 class KanbanColumn extends StatelessWidget {
   final KColumn column;
   final int index;
@@ -55,10 +56,12 @@ class KanbanColumn extends StatelessWidget {
         ),
         Positioned.fill(
           child: DragTarget<KData>(
+            // ignore: deprecated_member_use
             onWillAccept: (data) {
               return true;
             },
             onLeave: (data) {},
+            // ignore: deprecated_member_use
             onAccept: (data) {
               if (data.from == index) {
                 return;
@@ -161,25 +164,25 @@ class KanbanColumn extends StatelessWidget {
     );
   }
 
-  Widget _buildButtonNewTask(int index) {
-    return ListTile(
-      dense: true,
-      onTap: () {
-        addTaskHandler(index);
-      },
-      leading: const Icon(
-        Icons.add_circle_outline,
-        color: Colors.white,
-        size: 24.0,
-      ),
-      title: const Text(
-        'Add Task',
-        style: TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: Colors.white,
-        ),
-      ),
-    );
-  }
+  // Widget _buildButtonNewTask(int index) {
+  //   return ListTile(
+  //     dense: true,
+  //     onTap: () {
+  //       addTaskHandler(index);
+  //     },
+  //     leading: const Icon(
+  //       Icons.add_circle_outline,
+  //       color: Colors.white,
+  //       size: 24.0,
+  //     ),
+  //     title: const Text(
+  //       'Add Task',
+  //       style: TextStyle(
+  //         fontSize: 14,
+  //         fontWeight: FontWeight.w600,
+  //         color: Colors.white,
+  //       ),
+  //     ),
+  //   );
+  // }
 }
