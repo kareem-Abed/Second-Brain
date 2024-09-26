@@ -4,6 +4,7 @@ import 'package:second_brain/time_planer/src/time_planner_date_time.dart';
 import 'package:second_brain/time_planer/src/config/global_config.dart' as config;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:second_brain/utils/constants/colors.dart';
 
 /// Widget that show on time planner as the tasks
 class TimePlannerTask extends StatelessWidget {
@@ -109,7 +110,19 @@ class TimePlannerTask extends StatelessWidget {
                       width: calculatedWidthTask,
                       decoration: BoxDecoration(
                         borderRadius: config.borderRadius,
-                        color: color ?? Theme.of(context).primaryColor,
+                        color: KColors.darkModeCardBorder,
+                        border: Border.all(
+                          color: color??KColors.darkModeCardBorder,
+                          width: 2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.7),
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: Offset(0, 2),
+                          ),
+                        ],
                       ),
                       child: Center(
                         child: Container(
@@ -134,7 +147,7 @@ class TimePlannerTask extends StatelessWidget {
                                                             0.6);
                                             return Icon(
                                               icon,
-                                              color: Colors.white,
+                                              color: color ?? Colors.white,
                                               size: iconSize,
                                             );
                                           },
@@ -191,7 +204,7 @@ class TimePlannerTask extends StatelessWidget {
                                                         0.6); // Adjust the multiplier and clamp values as needed
                                             return Icon(
                                               icon,
-                                              color: Colors.white,
+                                              color:  color ??Colors.white,
                                               size: iconSize,
                                             );
                                           },
