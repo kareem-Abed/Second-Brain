@@ -66,7 +66,7 @@ class _easySideMenuState extends State<EasySideMenu> {
             ),
             // const VerticalDivider(width: 0, color: Colors.white),
             Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
+              padding: const EdgeInsets.symmetric(vertical: 15),
               decoration: const BoxDecoration(
                 color: KColors.darkModeSideMenuBackground,
                 borderRadius: BorderRadius.only(
@@ -157,10 +157,13 @@ class _easySideMenuState extends State<EasySideMenu> {
                             ),
                             child: Image.asset(image),
                           ),
-                          FittedBox(
-                            child: Text(
-                              timeOfDayText,
-                              style: const TextStyle(color: Colors.white),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal:  2.0),
+                            child: FittedBox(
+                              child: Text(
+                                timeOfDayText,
+                                style: const TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
                         ],
