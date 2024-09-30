@@ -166,10 +166,14 @@ class _HabitScreenState extends State<HabitScreen> {
           ),
 
           // list of habits
-          ListView.builder(
+          GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: db.todaysHabitList.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // Number of columns in the grid
+              childAspectRatio: 5, // Adjust the aspect ratio as needed
+            ),
             itemBuilder: (context, index) {
               return HabitTile(
                 habitName: db.todaysHabitList[index][0],
