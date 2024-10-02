@@ -1,14 +1,14 @@
+import 'package:intl/intl.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:second_brain/time_planer/src/time_planner_style.dart';
 import 'package:second_brain/time_planer/src/time_planner_task.dart';
 import 'package:second_brain/time_planer/src/time_planner_time.dart';
 import 'package:second_brain/time_planer/src/time_planner_title.dart';
-import 'package:second_brain/time_planer/src/config/global_config.dart' as config;
+import 'package:second_brain/time_planer/src/config/global_config.dart'
+    as config;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:async';
-
-
 
 class TimePlanner extends StatefulWidget {
   /// Time start from this, it will start from 0
@@ -66,7 +66,7 @@ class _TimePlannerState extends State<TimePlanner> {
 
   /// Initialize the controller
   // final TimePlannerController controller = Get.put(TimePlannerController());
-  final  controller = Get.put(WeeklyCalendarController());
+  final controller = Get.put(WeeklyCalendarController());
 
   /// check input value rules
   void _checkInputValue() {
@@ -116,7 +116,7 @@ class _TimePlannerState extends State<TimePlanner> {
   void initState() {
     _initData();
     super.initState();
-    controller.updateTime(); // Update the current time
+    // controller.updateTime();
     Future.delayed(Duration.zero).then((_) {
       int hour = DateTime.now().hour;
       if (isAnimated != null && isAnimated == true) {
@@ -213,45 +213,101 @@ class _TimePlannerState extends State<TimePlanner> {
           ),
           Expanded(
             child: SingleChildScrollView(
-
               controller: timeVerticalController,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
+              child: Stack(
+                children: [
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Row(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          for (int i = widget.startHour;
-                              i <= widget.endHour;
-                              i++)
-                            Obx(() => TimePlannerTime(
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              Container(
+                                  height:  config.cellHeight!.toDouble()-20,
+                                  width: 64,
+                               ),
+                              for (int i = widget.startHour+1;
+                                  i <= widget.endHour;
+                                  i++)
+                                TimePlannerTime(
                                   time: formattedTime(i),
                                   setTimeOnAxis: config.setTimeOnAxis,
                                   textColor: controller.currentHour.value == i
                                       ? Colors.blue
                                       : Colors.white,
-                                  textStar: controller.currentHour.value == i
-                                      ? '*'
-                                      : '',
-                                )),
+                                )
+                            ],
+                          ),
+                          Container(
+                            height:
+                                (config.totalHours * config.cellHeight!) + 100,
+                            width: 1,
+                            color: style.dividerColor ??
+                                Theme.of(context).primaryColor,
+                          ),
                         ],
                       ),
-                      Container(
-                        height: (config.totalHours * config.cellHeight!) + 100,
-                        width: 1,
-                        color: style.dividerColor ??
-                            Theme.of(context).primaryColor,
+                      Expanded(
+                        child: buildMainBody(),
                       ),
                     ],
                   ),
-                  Expanded(
-                    child: buildMainBody(),
-                  ),
+                  Obx(
+                    () => Positioned(
+                      top: ((config.cellHeight! *
+                                  (controller.currentHour.value -
+                                      config.startHour)) +
+                              ((controller.currentMinute.value *
+                                      config.cellHeight!) /
+                                  60)) -
+                          10,
+                      left: 0,
+                      right: 0,
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 58,
+                            child: FittedBox(
+                              child: Text(
+                                DateFormat('h:mm a ').format(
+                                  DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    controller.currentHour.value,
+                                    controller.currentMinute.value,
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 12,
+                            width: 12,
+                            decoration: BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          Expanded(
+                            child: Divider(
+                              color: Colors.redAccent,
+                              thickness: 1.8,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -269,7 +325,7 @@ class _TimePlannerState extends State<TimePlanner> {
       builder: (context, constraints) {
         final screenWidth = constraints.maxWidth;
         final calculatedWidth = screenWidth / config.totalDays;
-        final currentDayIndex =6- controller.currentDay.value;
+        final currentDayIndex = 6 - controller.currentDay.value;
 
         List<TimePlannerTask> filteredTasks = tasks.where((task) {
           final taskStartDayIndex = task.dateTime.day;

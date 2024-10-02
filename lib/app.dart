@@ -20,7 +20,7 @@ class App extends StatelessWidget {
       darkTheme: KAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar', 'EG'),
-      home: EasySideMenu(),
+      home: CustomSideMenu(),
 
 
       scrollBehavior: const ScrollBehavior().copyWith(

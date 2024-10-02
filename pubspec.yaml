@@ -40,7 +40,7 @@ dependencies:
   infinite_scroll_pagination: ^4.0.0
   flutter_staggered_animations: ^1.1.1
   pull_down_button: ^0.10.1
-  flutter_slidable: ^3.1.1
+#  flutter_slidable: ^3.1.1
 
   change_app_package_name: ^1.4.0
 

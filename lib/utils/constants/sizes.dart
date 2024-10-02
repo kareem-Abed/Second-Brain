@@ -1,4 +1,3 @@
-
 class KSizes {
   // Padding and margin sizes
   static const double xs = 4.0;
@@ -36,6 +35,7 @@ class KSizes {
   static const double spaceBtwSections = 32.0;
 
   // Border radius
+  static const double borderRadius = 14.0;
   static const double borderRadiusSm = 4.0;
   static const double borderRadiusMd = 8.0;
   static const double borderRadiusLg = 12.0;
@@ -68,6 +68,3 @@ class KSizes {
   // Grid view spacing
   static const double gridViewSpacing = 16.0;
 }
-
-
-
