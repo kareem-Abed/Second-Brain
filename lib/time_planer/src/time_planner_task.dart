@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 
 import 'package:second_brain/time_planer/src/time_planner_date_time.dart';
-import 'package:second_brain/time_planer/src/config/global_config.dart' as config;
+import 'package:second_brain/time_planer/src/config/global_config.dart'
+    as config;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:second_brain/utils/constants/colors.dart';
@@ -75,7 +78,8 @@ class TimePlannerTask extends StatelessWidget {
       final screenWidth = MediaQuery.of(context).size.width;
       final controller = Get.put(WeeklyCalendarController());
       final adjustedScreenWidth =
-          screenWidth - (controller.showAddTask.value ? 486 : 134);
+          // screenWidth - (controller.showAddTask.value ? 486 : 134);
+          screenWidth - (controller.showAddTask.value ? 495 : 179);
 
       final calculatedWidthTask = controller.showFullWidthTask.value
           ? adjustedScreenWidth
@@ -110,27 +114,24 @@ class TimePlannerTask extends StatelessWidget {
                       width: calculatedWidthTask,
                       decoration: BoxDecoration(
                         borderRadius: config.borderRadius,
-                        color: KColors.darkModeCardBorder,
+                        color: KColors.darkModeSubCard,
                         border: Border.all(
-                          color: color??KColors.darkModeCardBorder,
-                          width: 2,
+                          color: color ?? KColors.darkModeCardBorder,
+                          width: 1.5,
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.7),
-                            spreadRadius: 3,
-                            blurRadius: 5,
+                            color: Colors.black.withOpacity(0.3),
+                            spreadRadius: 2,
+                            blurRadius: 3,
                             offset: Offset(0, 2),
                           ),
                         ],
                       ),
                       child: Center(
                         child: Container(
-                          height: double.infinity,
-                          width: double.maxFinite,
                           child: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 2.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 2.0),
                             child: minutesDuration <= 45
                                 ? Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -139,12 +140,13 @@ class TimePlannerTask extends StatelessWidget {
                                         flex: 1,
                                         child: LayoutBuilder(
                                           builder: (context, constraints) {
-                                            double iconSize =
-                                                (constraints.maxHeight * 0.6)
-                                                    .clamp(
-                                                        8.0,
-                                                        constraints.maxWidth *
-                                                            0.6);
+                                            double iconSize = (constraints
+                                                        .maxHeight *
+                                                    0.6)
+                                                .clamp(
+                                                    8.0, // Ensure the minimum value is valid
+                                                    constraints.maxWidth * 0.6);
+
                                             return Icon(
                                               icon,
                                               color: color ?? Colors.white,
@@ -152,9 +154,6 @@ class TimePlannerTask extends StatelessWidget {
                                             );
                                           },
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 5,
                                       ),
                                       Expanded(
                                         flex: 2,
@@ -187,6 +186,8 @@ class TimePlannerTask extends StatelessWidget {
                                   )
                                 : Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
                                         height: 5,
@@ -195,17 +196,19 @@ class TimePlannerTask extends StatelessWidget {
                                         flex: 1,
                                         child: LayoutBuilder(
                                           builder: (context, constraints) {
-                                            double iconSize = (constraints
-                                                        .maxHeight *
-                                                    1.0)
-                                                .clamp(
-                                                    10.0,
-                                                    constraints.maxWidth *
-                                                        0.6); // Adjust the multiplier and clamp values as needed
-                                            return Icon(
-                                              icon,
-                                              color:  color ??Colors.white,
-                                              size: iconSize,
+                                            double iconSize =
+                                                (constraints.maxHeight * 1.0)
+                                                    .clamp(
+                                              10.0,
+                                              constraints.maxWidth * 0.6,
+                                            );
+                                            return Center(
+                                              child: Icon(
+                                                icon,
+                                                applyTextScaling: true,
+                                                color: color ?? Colors.white,
+                                                size: iconSize,
+                                              ),
                                             );
                                           },
                                         ),

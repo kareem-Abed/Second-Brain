@@ -21,8 +21,6 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar', 'EG'),
       home: CustomSideMenu(),
-
-
       scrollBehavior: const ScrollBehavior().copyWith(
         dragDevices: {
           PointerDeviceKind.trackpad,

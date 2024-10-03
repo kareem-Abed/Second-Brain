@@ -144,7 +144,7 @@ class _TimePlannerState extends State<TimePlanner> {
     tasks = widget.tasks ?? [];
 
     return Container(
-      color: style.backgroundColor,
+      // color: style.backgroundColor,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -228,10 +228,10 @@ class _TimePlannerState extends State<TimePlanner> {
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
                               Container(
-                                  height:  config.cellHeight!.toDouble()-20,
-                                  width: 64,
-                               ),
-                              for (int i = widget.startHour+1;
+                                height: config.cellHeight!.toDouble() - 20,
+                                width: 64,
+                              ),
+                              for (int i = widget.startHour + 1;
                                   i <= widget.endHour;
                                   i++)
                                 TimePlannerTime(
@@ -274,7 +274,7 @@ class _TimePlannerState extends State<TimePlanner> {
                             width: 58,
                             child: FittedBox(
                               child: Text(
-                                DateFormat('h:mm a ').format(
+                                DateFormat(' h:mm a ').format(
                                   DateTime(
                                     DateTime.now().year,
                                     DateTime.now().month,
@@ -361,11 +361,28 @@ class _TimePlannerState extends State<TimePlanner> {
                             Column(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
+                                // SizedBox(
+                                //   height: (config.cellHeight! - 1).toDouble(),
+                                // ),
+                                // const Divider(
+                                //   height: 1,
+                                //   color: Colors.grey,
+                                // ),
                                 SizedBox(
-                                  height: (config.cellHeight! - 1).toDouble(),
+                                  height: (config.cellHeight! / 2)-1.toDouble(),
+                                ),
+                                DashedDivider(
+                                  height: 1,
+                                  color: widget.viewCurrentDayOnly ?Colors.grey.withOpacity(0.3):Colors.transparent,
+                                  dashWidth: 5,
+                                  dashSpace: 3,
+                                ),
+                                SizedBox(
+                                  height: (config.cellHeight! / 2 )-1.toDouble(),
                                 ),
                                 const Divider(
                                   height: 1,
+                                  color: Colors.grey,
                                 ),
                               ],
                             )
@@ -387,7 +404,9 @@ class _TimePlannerState extends State<TimePlanner> {
                                     height: (config.totalHours *
                                             config.cellHeight!) +
                                         config.cellHeight!,
-                                    color: Colors.grey.shade800,
+                                    color: i != config.totalDays - 1
+                                        ? Colors.grey
+                                        : Colors.transparent,
                                   )
                                 ],
                               )
@@ -412,5 +431,45 @@ class _TimePlannerState extends State<TimePlanner> {
   DateTime formattedTime(int hour) {
     final now = DateTime.now();
     return DateTime(now.year, now.month, now.day, hour, 0);
+  }
+}
+
+class DashedDivider extends StatelessWidget {
+  final double height;
+  final Color color;
+  final double dashWidth;
+  final double dashSpace;
+  final double dashHeight;
+
+  const DashedDivider({
+    Key? key,
+    this.height = 1,
+    this.color = Colors.black,
+    this.dashWidth = 10,
+    this.dashSpace = 5,
+    this.dashHeight = 1,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final boxWidth = constraints.constrainWidth();
+        final dashCount = (boxWidth / (dashWidth + dashSpace)).floor();
+        return Flex(
+          children: List.generate(dashCount, (_) {
+            return SizedBox(
+              width: dashWidth,
+              height: dashHeight, // Use dashHeight instead of height
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: color),
+              ),
+            );
+          }),
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
+        );
+      },
+    );
   }
 }

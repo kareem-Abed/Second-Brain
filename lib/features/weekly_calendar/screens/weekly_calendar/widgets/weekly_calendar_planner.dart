@@ -41,7 +41,6 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     color: controller.currentDay.value == 0
                         ? Colors.blue
                         : KColors.white),
-                date: controller.currentDay.value == 0 ? '*' : '',
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -53,7 +52,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     color: controller.currentDay.value == 1
                         ? Colors.blue
                         : KColors.white),
-                date: controller.currentDay.value == 1 ? '*' : '',
+
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -65,7 +64,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     color: controller.currentDay.value == 2
                         ? Colors.blue
                         : KColors.white),
-                date: controller.currentDay.value == 2 ? '*' : '',
+
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -77,7 +76,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     color: controller.currentDay.value == 3
                         ? Colors.blue
                         : KColors.white),
-                date: controller.currentDay.value == 3 ? '*' : '',
+
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -89,7 +88,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     color: controller.currentDay.value == 4
                         ? Colors.blue
                         : KColors.white),
-                date: controller.currentDay.value == 4 ? '*' : '',
+
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -101,7 +100,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     color: controller.currentDay.value == 5
                         ? Colors.blue
                         : KColors.white),
-                date: controller.currentDay.value == 5 ? '*' : '',
+
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!
@@ -113,7 +112,7 @@ class WeeklyCalendarPlanner extends StatelessWidget {
                     color: controller.currentDay.value == 6
                         ? Colors.blue
                         : KColors.white),
-                date: controller.currentDay.value == 6 ? '*' : '',
+
                 dateStyle: Theme.of(context)
                     .textTheme
                     .titleLarge!

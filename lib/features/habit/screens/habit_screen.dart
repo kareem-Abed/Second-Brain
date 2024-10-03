@@ -138,7 +138,7 @@ class _HabitScreenState extends State<HabitScreen> {
       body: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 32, left: 32, right: 32),
+            margin: EdgeInsets.only(top: 16, left: 16, right: 16),
             decoration: BoxDecoration(
               color: KColors.darkModeCard,
               border: Border.all(color: KColors.darkModeCardBorder, width: 1),
@@ -161,7 +161,7 @@ class _HabitScreenState extends State<HabitScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 16, left: 30, right: 30),
+            margin: EdgeInsets.only(top: 16, left: 16, right: 16),
             padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             decoration: BoxDecoration(
               color: KColors.darkModeCard,

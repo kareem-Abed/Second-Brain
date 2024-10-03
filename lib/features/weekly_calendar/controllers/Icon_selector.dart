@@ -1,4 +1,4 @@
-
+import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -22,7 +22,7 @@ class IconController extends GetxController {
   static IconController get instance => Get.find();
 
   Rx<IconData> selectedIcon = FontAwesomeIcons.briefcase.obs;
-  RxString selectedName ='عمل'.obs;
+  RxString selectedName = 'عمل'.obs;
   Rx<int> selectedColor = 0xFF2196F3.obs;
 
   // Updated list with FontAwesome icons and color codes
@@ -41,33 +41,30 @@ class IconController extends GetxController {
         icon: FontAwesomeIcons.utensils,
         name: 'فطور',
         color: 0xFFFF9800 // Orange
-    ),
+        ),
     iconChoicesModel(
         icon: FontAwesomeIcons.laptopCode,
         name: 'المشروع',
         color: 0xFF4CAF50 // Green
-    ),
+        ),
     iconChoicesModel(
         icon: FontAwesomeIcons.gamepad,
         name: 'استراحة',
         color: 0xFF673AB7 // Deep Purple
-    ),
+        ),
     iconChoicesModel(
         icon: FontAwesomeIcons.dumbbell,
         name: 'تمرين',
         color: 0xFFE91E63 // Pink
-    ),
+        ),
     iconChoicesModel(
-        icon: FontAwesomeIcons.bed,
-        name: 'النوم',
-        color: 0xFF9C27B0 // Purple
-    ),
+        icon: FontAwesomeIcons.bed, name: 'النوم', color: 0xFF9C27B0 // Purple
+        ),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.book,
       'name': 'دراسة',
       'color': 0xFF4CAF50 // Light Green
     }),
-
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.code,
       'name': 'برمجة',
@@ -116,7 +113,7 @@ class IconController extends GetxController {
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.lightbulb,
       'name': 'أفكار',
-      'color': 0xFFFFC107  // Yellow
+      'color': 0xFFFFC107 // Yellow
     }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.mosque,
@@ -129,7 +126,6 @@ class IconController extends GetxController {
       'color': 0xFFD32F2F // Red
     }),
   ];
-
 
   void changeIcon(IconData icon, String name, int color) {
     selectedIcon.value = icon;
@@ -152,7 +148,7 @@ class IconSelector extends StatelessWidget {
           padding: const EdgeInsets.all(KSizes.sm / 2),
           // width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
-            color: Colors.grey[850],
+            color: KColors.darkModeSubCard,
             borderRadius: BorderRadius.circular(15),
           ),
           child: Column(
@@ -166,10 +162,6 @@ class IconSelector extends StatelessWidget {
                   Obx(() {
                     return Container(
                       padding: EdgeInsets.symmetric(vertical: KSizes.sm),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[850],
-                        borderRadius: BorderRadius.circular(15),
-                      ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -219,12 +211,7 @@ class IconSelector extends StatelessWidget {
                     child: Column(
                       children: [
                         Ink(
-                          width: 48,
-                          // height: 48,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(iconChoice.color),
-                          ),
+                          width: 38,
                           child: Icon(
                             iconChoice.icon,
                             color: Color(iconChoice.color),
@@ -250,101 +237,9 @@ class IconSelector extends StatelessWidget {
                   );
                 },
               )
-
-              // Wrap(
-              //   spacing: KSizes.sm,
-              //   alignment: WrapAlignment.center,
-              //   children: iconController.iconChoices.map((iconChoice) {
-              //     return InkWell(
-              //       onTap: () => iconController.changeIcon(
-              //         iconChoice.icon,
-              //         iconChoice.name,
-              //         iconChoice.color,
-              //       ),
-              //       customBorder: const CircleBorder(),
-              //       child: Column(
-              //         children: [
-              //           Ink(
-              //             width: 48,
-              //             height: 48,
-              //             decoration: BoxDecoration(
-              //               shape: BoxShape.circle,
-              //               color: Color(
-              //                   iconChoice.color), // Fixed color handling
-              //             ),
-              //             child: Icon(iconChoice.icon,
-              //                 color: Color(iconChoice.color)),
-              //           ),
-              //           const SizedBox(height: KSizes.sm / 4),
-              //           Text(
-              //             iconChoice.name,
-              //             style: Theme.of(context)
-              //                 .textTheme
-              //                 .bodyMedium!
-              //                 .copyWith(
-              //                   color: Color(iconChoice.color),
-              //                 ),
-              //             // style: TextStyle(
-              //             //   color: Color(iconChoice.color), // Fi
-              //             //   fontSize: 12,
-              //             // ),
-              //           ),
-              //           SizedBox(
-              //             height: KSizes.md,
-              //             width: 40,
-              //           ),
-              //         ],
-              //       ),
-              //     );
-              //   }).toList(),
-              // ),
             ],
           ),
         ),
-        // const SizedBox(height: KSizes.sm),
-
-        // Display Selected Icon with Fixed Color
-        // Obx(() {
-        //   return Column(
-        //     children: [
-        //       Container(
-        //         padding: EdgeInsets.symmetric(
-        //             vertical: MediaQuery.of(context).size.height * 0.02),
-        //         decoration: BoxDecoration(
-        //           color: Colors.grey[850],
-        //           borderRadius: BorderRadius.circular(15),
-        //           // boxShadow: [
-        //           //   BoxShadow(
-        //           //     color: Colors.black.withOpacity(0.2),
-        //           //     blurRadius: 5,
-        //           //     spreadRadius: 2,
-        //           //     offset: const Offset(0, 2),
-        //           //   ),
-        //           // ],
-        //         ),
-        //         child: Column(
-        //           children: [
-        //             Center(
-        //               child: Icon(
-        //                 iconController.selectedIcon.value,
-        //                 size: 50,
-        //                 color: Color(iconController.selectedColor.value),
-        //               ),
-        //             ),
-        //             Text(
-        //               iconController.selectedName.value,
-        //               style: TextStyle(
-        //                 color: Color(iconController.selectedColor.value),
-        //                 fontSize: 16,
-        //               ),
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //       // const SizedBox(height: 10),
-        //     ],
-        //   );
-        // }),
       ],
     );
   }

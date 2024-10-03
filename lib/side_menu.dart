@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:second_brain/features/habit/screens/habit_screen.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:second_brain/features/weekly_calendar/screens/weekly_calendar/weekly_calendar.dart';
@@ -21,7 +22,6 @@ class CustomSideMenu extends StatefulWidget {
 class _CustomSideMenuState extends State<CustomSideMenu> {
   PageController pageController = PageController();
   final controller = Get.put(WeeklyCalendarController());
-  final timeController = Get.put(WeeklyCalendarController());
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,18 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                     height: 70,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
-                      children: [],
+                      children: [
+                        HeaderButtons(),
+                        const SizedBox(width: KSizes.spaceBtwItems),
+                        SearchWidget(),
+                        const SizedBox(width: KSizes.spaceBtwItems),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              FontAwesomeIcons.bars,
+                              color: Colors.grey,
+                            )),
+                      ],
                     ),
                   ),
                   Expanded(
@@ -89,67 +100,15 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Obx(() {
-                      final currentHour = timeController.currentHour.value;
-
-                      String getTimePeriodImage(int hour) {
-                        if (hour >= 4 && hour < 6) {
-                          return 'assets/images/dawn.png';
-                        } else if (hour >= 6 && hour < 12) {
-                          return 'assets/images/sunrise.png';
-                        } else if (hour >= 12 && hour < 15) {
-                          return 'assets/images/afternoon.png';
-                        } else if (hour >= 15 && hour < 18) {
-                          return 'assets/images/sunset.png';
-                        } else if (hour >= 18 && hour < 21) {
-                          return 'assets/images/evening.png';
-                        } else {
-                          return 'assets/images/midnight.png';
-                        }
-                      }
-
-                      String getTimePeriod(int hour) {
-                        if (hour >= 4 && hour < 6) {
-                          return 'فجر';
-                        } else if (hour >= 6 && hour < 12) {
-                          return 'صباح';
-                        } else if (hour >= 12 && hour < 15) {
-                          return 'ظهر';
-                        } else if (hour >= 15 && hour < 18) {
-                          return 'عصر';
-                        } else if (hour >= 18 && hour < 21) {
-                          return 'مساء';
-                        } else if (hour >= 21 && hour < 24) {
-                          return 'ليل';
-                        } else {
-                          return 'منتصف الليل';
-                        }
-                      }
-
-                      final image = getTimePeriodImage(currentHour);
-                      final timeOfDayText = getTimePeriod(currentHour);
-
-                      return Column(
-                        children: [
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxWidth: 65,
-                            ),
-                            child: Image.asset(image),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 2.0, vertical: 5),
-                            child: FittedBox(
-                              child: Text(
-                                timeOfDayText,
-                                style: const TextStyle(color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    }),
+                    SizedBox(
+                      height: KSizes.sm,
+                    ),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 44,
+                      ),
+                      child: Image.asset('assets/images/second_brain.png'),
+                    ),
                     SizedBox(
                       height: KSizes.sm,
                     ),
@@ -210,6 +169,114 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
   }
 }
 
+class HeaderButtons extends StatelessWidget {
+  const HeaderButtons({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.find<WeeklyCalendarController>();
+    return Row(
+      children: [
+        IconButton(
+            onPressed: () {
+              Get.defaultDialog(
+                title: 'تأكيد الحذف',
+                content: Text(
+                  'هل أنت متأكد أنك تريد حذف جميع المهام؟',
+                  style: Theme.of(Get.context!).textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
+                confirm: ElevatedButton(
+                  onPressed: () {
+                    controller.clearAllTasks();
+                    Get.back();
+                  },
+                  child: Text('نعم'),
+                ),
+                cancel: ElevatedButton(
+                  onPressed: () {
+                    Get.back();
+                  },
+                  child: Text('إلغاء'),
+                ),
+              );
+            },
+            icon: Icon(FontAwesomeIcons.trash, color: Colors.red)),
+        const SizedBox(width: KSizes.spaceBtwItems),
+        IconButton(
+          onPressed: () {
+            controller.showAddTask.value = !controller.showAddTask.value;
+            controller.showUpdateTask.value = false;
+          },
+          icon: Obx(() {
+            return Icon(
+              controller.showAddTask.value
+                  ? FontAwesomeIcons.xmark
+                  : FontAwesomeIcons.plus,
+              color: controller.showAddTask.value ? Colors.red : Colors.blue,
+            );
+          }),
+        ),
+      ],
+    );
+  }
+}
+
+class SearchWidget extends StatelessWidget {
+  const SearchWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 350,
+      height: 50,
+      // padding: const EdgeInsets.all(KSizes.xs),
+      decoration: BoxDecoration(
+        color: KColors.darkModeSubCard,
+        borderRadius: BorderRadius.circular(19),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: TextFormField(
+                onFieldSubmitted: (value) {},
+                decoration: InputDecoration(
+                  hintText: 'Search',
+                  border: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  hintStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        fontSize: 16,
+                        color: KColors.grey,
+                      ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: KSizes.spaceBtwItems),
+          GestureDetector(
+            onTap: () {},
+            child: const Icon(
+              FontAwesomeIcons.magnifyingGlass,
+              color: KColors.grey,
+              size: 20,
+            ),
+          ),
+          const SizedBox(width: KSizes.spaceBtwItems),
+        ],
+      ),
+    );
+  }
+}
+
 class HoverableMenuItem extends StatefulWidget {
   final IconData icon;
   final String title;
@@ -247,6 +314,15 @@ class _HoverableMenuItemState extends State<HoverableMenuItem> {
             if (widget.exit) {
               exit(0);
             } else {
+              if (widget.index == 1) {
+                widget.controller.showFullWidthTask.value = true;
+              } else {
+                widget.controller.showFullWidthTask.value = false;
+              }
+              if (widget.index == 0 || widget.index == 1) {
+                widget.controller.showAddTask.value = false;
+                widget.controller.showUpdateTask.value = false;
+              }
               widget.pageController.jumpToPage(widget.index);
               widget.controller.iconIndex.value = widget.index;
             }
