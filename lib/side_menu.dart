@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/services.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:second_brain/features/habit/screens/habit_screen.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:second_brain/features/weekly_calendar/screens/weekly_calendar/weekly_calendar.dart';
@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
+import 'package:system_tray/system_tray.dart';
 import 'features/trello_bord/screens/widgets/kanban_board.dart';
 
 class CustomSideMenu extends StatefulWidget {
@@ -20,135 +21,200 @@ class CustomSideMenu extends StatefulWidget {
 }
 
 class _CustomSideMenuState extends State<CustomSideMenu> {
+  final AppWindow _appWindow = AppWindow();
+  final SystemTray _systemTray = SystemTray();
+  final Menu _menuMain = Menu();
+
+  @override
+  void initState() {
+    super.initState();
+    initSystemTray();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> initSystemTray() async {
+    await _systemTray.initSystemTray(iconPath: 'assets/images/app_icon.ico');
+    _systemTray.setTitle("Second Brain");
+    _systemTray.setToolTip("Second Brain");
+    _systemTray.registerSystemTrayEventHandler((eventName) {
+      if (eventName == kSystemTrayEventClick) {
+        if (!appWindow.isVisible) {
+          _appWindow.show();
+        }
+      } else if (eventName == kSystemTrayEventRightClick) {
+        _systemTray.popUpContextMenu();
+      }
+    });
+    await _menuMain.buildFrom(
+      [
+        MenuItemLabel(
+          label: 'اخفاء',
+          // image: 'assets/images/second_brain.bmp',
+          onClicked: (menuItem) {
+            _appWindow.hide();
+          },
+        ),
+        MenuSeparator(),
+        MenuItemCheckbox(
+          label: "إظهار الإخطارات",
+          name: "إظهار الإخطارات",
+          checked: true,
+          onClicked: (menuItem) async {
+            debugPrint("click 'Checkbox 1'");
+
+            MenuItemCheckbox? checkbox1 =
+                _menuMain.findItemByName<MenuItemCheckbox>("إظهار الإخطارات");
+            await checkbox1?.setCheck(!checkbox1.checked);
+          },
+        ),
+        MenuSeparator(),
+        MenuItemLabel(
+            label: 'Quit Second Brain',
+            onClicked: (menuItem) => _appWindow.close()),
+      ],
+    );
+    _systemTray.setContextMenu(_menuMain);
+  }
+
   PageController pageController = PageController();
   final controller = Get.put(WeeklyCalendarController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: KColors.darkModeSideMenuBackground,
-                    ),
-                    height: 70,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        HeaderButtons(),
-                        const SizedBox(width: KSizes.spaceBtwItems),
-                        SearchWidget(),
-                        const SizedBox(width: KSizes.spaceBtwItems),
-                        IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              FontAwesomeIcons.bars,
-                              color: Colors.grey,
-                            )),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: PageView(
-                      controller: pageController,
-                      physics: const NeverScrollableScrollPhysics(),
-                      children: [
-                        const WeeklyCalendarScreen(viewCurrentDayOnly: false),
-                        const WeeklyCalendarScreen(viewCurrentDayOnly: true),
-                        KanbanBoard(),
-                        HabitScreen(),
-                        Container(
-                          color: Colors.black,
-                          child: const Center(
-                            child: Text(
-                              'إعدادات',
-                              style:
-                                  TextStyle(fontSize: 35, color: Colors.white),
+      body: Column(
+        children: [
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: KColors.darkModeSideMenuBackground,
+                        ),
+                        height: 70,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            HeaderButtons(),
+                            const SizedBox(width: KSizes.spaceBtwItems),
+                            SearchWidget(),
+                            const SizedBox(width: KSizes.spaceBtwItems),
+                            IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  FontAwesomeIcons.bars,
+                                  color: Colors.grey,
+                                )),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: PageView(
+                          controller: pageController,
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            const WeeklyCalendarScreen(
+                                viewCurrentDayOnly: false),
+                            const WeeklyCalendarScreen(
+                                viewCurrentDayOnly: true),
+                            KanbanBoard(),
+                            HabitScreen(),
+                            Container(
+                              color: Colors.black,
+                              child: const Center(
+                                child: Text(
+                                  'إعدادات',
+                                  style: TextStyle(
+                                      fontSize: 35, color: Colors.white),
+                                ),
+                              ),
                             ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 80,
+                  height: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  decoration: const BoxDecoration(
+                    color: KColors.darkModeSideMenuBackground,
+
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Colors.black38,
+                    //     blurRadius: 4.0,
+                    //     spreadRadius: 0.0,
+                    //     offset: Offset(5, 2),
+                    //   )
+                    // ],
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: KSizes.sm,
+                        ),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth: 44,
                           ),
+                          child: Image.asset('assets/images/second_brain.png'),
+                        ),
+                        SizedBox(
+                          height: KSizes.sm,
+                        ),
+                        _buildMenuItem(
+                          icon: FontAwesomeIcons.calendar,
+                          title: 'اسبوع',
+                          index: 0,
+                        ),
+                        _buildMenuItem(
+                          icon: Icons.calendar_view_day,
+                          title: 'يوم',
+                          index: 1,
+                        ),
+                        _buildMenuItem(
+                          icon: FontAwesomeIcons.tableColumns,
+                          title: 'مهام',
+                          index: 2,
+                        ),
+                        _buildMenuItem(
+                          icon: FontAwesomeIcons.listCheck,
+                          title: 'العادات',
+                          index: 3,
+                        ),
+                        _buildMenuItem(
+                          icon: Icons.settings,
+                          title: 'إعدادات',
+                          index: 5,
+                        ),
+                        _buildMenuItem(
+                          icon: Icons.exit_to_app,
+                          title: 'الخروج',
+                          index: 6,
+                          exit: true,
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-            Container(
-              width: 80,
-              height: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              decoration: const BoxDecoration(
-                color: KColors.darkModeSideMenuBackground,
-
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black38,
-                //     blurRadius: 4.0,
-                //     spreadRadius: 0.0,
-                //     offset: Offset(5, 2),
-                //   )
-                // ],
-              ),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: KSizes.sm,
-                    ),
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(
-                        maxWidth: 44,
-                      ),
-                      child: Image.asset('assets/images/second_brain.png'),
-                    ),
-                    SizedBox(
-                      height: KSizes.sm,
-                    ),
-                    _buildMenuItem(
-                      icon: FontAwesomeIcons.calendar,
-                      title: 'اسبوع',
-                      index: 0,
-                    ),
-                    _buildMenuItem(
-                      icon: Icons.calendar_view_day,
-                      title: 'يوم',
-                      index: 1,
-                    ),
-                    _buildMenuItem(
-                      icon: FontAwesomeIcons.tableColumns,
-                      title: 'مهام',
-                      index: 2,
-                    ),
-                    _buildMenuItem(
-                      icon: FontAwesomeIcons.listCheck,
-                      title: 'العادات',
-                      index: 3,
-                    ),
-                    _buildMenuItem(
-                      icon: Icons.settings,
-                      title: 'إعدادات',
-                      index: 5,
-                    ),
-                    _buildMenuItem(
-                      icon: Icons.exit_to_app,
-                      title: 'الخروج',
-                      index: 6,
-                      exit: true,
-                    ),
-                  ],
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

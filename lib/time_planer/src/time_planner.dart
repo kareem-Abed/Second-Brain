@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:second_brain/time_planer/src/time_planner_style.dart';
 import 'package:second_brain/time_planer/src/time_planner_task.dart';
@@ -227,14 +227,11 @@ class _TimePlannerState extends State<TimePlanner> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             children: <Widget>[
-                              Container(
-                                height: config.cellHeight!.toDouble() - 20,
-                                width: 64,
-                              ),
-                              for (int i = widget.startHour + 1;
+                              for (int i = widget.startHour;
                                   i <= widget.endHour;
                                   i++)
                                 TimePlannerTime(
+                                  oneDayOnlyView: widget.viewCurrentDayOnly,
                                   time: formattedTime(i),
                                   setTimeOnAxis: config.setTimeOnAxis,
                                   textColor: controller.currentHour.value == i
@@ -272,20 +269,23 @@ class _TimePlannerState extends State<TimePlanner> {
                         children: [
                           SizedBox(
                             width: 58,
-                            child: FittedBox(
-                              child: Text(
-                                DateFormat(' h:mm a ').format(
-                                  DateTime(
-                                    DateTime.now().year,
-                                    DateTime.now().month,
-                                    DateTime.now().day,
-                                    controller.currentHour.value,
-                                    controller.currentMinute.value,
+                            child: Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: FittedBox(
+                                child: Text(
+                                  intl.DateFormat(' h:mm a ').format(
+                                    DateTime(
+                                      DateTime.now().year,
+                                      DateTime.now().month,
+                                      DateTime.now().day,
+                                      controller.currentHour.value,
+                                      controller.currentMinute.value,
+                                    ),
                                   ),
-                                ),
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w700,
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),
@@ -369,23 +369,38 @@ class _TimePlannerState extends State<TimePlanner> {
                                 //   color: Colors.grey,
                                 // ),
                                 SizedBox(
-                                  height: (config.cellHeight! / 2)-1.toDouble(),
+                                  height:
+                                      (config.cellHeight! / 2) - 1.toDouble(),
                                 ),
                                 DashedDivider(
                                   height: 1,
-                                  color: widget.viewCurrentDayOnly ?Colors.grey.withOpacity(0.3):Colors.transparent,
+                                  color: widget.viewCurrentDayOnly
+                                      ? Colors.grey.withOpacity(0.3)
+                                      : Colors.transparent,
                                   dashWidth: 5,
                                   dashSpace: 3,
                                 ),
                                 SizedBox(
-                                  height: (config.cellHeight! / 2 )-1.toDouble(),
+                                  height:
+                                      (config.cellHeight! / 2) - 1.toDouble(),
                                 ),
                                 const Divider(
                                   height: 1,
                                   color: Colors.grey,
                                 ),
                               ],
-                            )
+                            ),
+                          SizedBox(
+                            height: (config.cellHeight! / 2) - 1.toDouble(),
+                          ),
+                          DashedDivider(
+                            height: 1,
+                            color: widget.viewCurrentDayOnly
+                                ? Colors.grey.withOpacity(0.3)
+                                : Colors.transparent,
+                            dashWidth: 5,
+                            dashSpace: 3,
+                          ),
                         ],
                       ),
                       Row(

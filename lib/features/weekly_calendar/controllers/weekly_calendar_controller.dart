@@ -30,14 +30,9 @@ class WeeklyCalendarController extends GetxController {
   final TaskDescriptionController = TextEditingController().obs;
   //--------> Task Variables <--------\\
   var selectedStartTime = TimeOfDay.now().obs;
-  // var selectedEndTime = TimeOfDay(
-  //   hour: (TimeOfDay.now().hour + 1) % 24,
-  //   minute: TimeOfDay.now().minute,
-  // ).obs;
   RxDouble duration = 60.0.obs;
   RxInt daysDuration = 0.obs;
   RxInt iconIndex = 0.obs;
-  // RxDouble currentSliderValue = .0.obs;
   var tasks = <TimePlannerTask>[].obs;
   RxInt taskUpdateIndex = 0.obs;
   List<Map<String, dynamic>> monthlySessions = [];
@@ -116,16 +111,12 @@ class WeeklyCalendarController extends GetxController {
 
   void updateTime() {
     var now = DateTime.now();
-    // print('Updating time${now.minute}');
     currentHour.value = now.hour;
     currentMinute.value = now.minute;
-
     if (currentHour.value == 0 && currentMinute.value == 1) {
       getCurrentDay();
     }
-
     int day = 6 - currentDay.value;
-
     // Iterate over all tasks
     for (var task in tasks) {
       if (task.dateTime.day <= day &&
@@ -155,56 +146,10 @@ class WeeklyCalendarController extends GetxController {
             title: "انتهاء المهمة",
             body: "لقد انتهت المهمة ${task.title}",
           );
-
-          // Find the next task
-          // var nextTask = findNextTask(task);
-          // if (nextTask != null) {
-          //   DateTime nextTaskTime = DateTime(
-          //       now.year, now.month, now.day, nextTask.dateTime.hour, nextTask.dateTime.minutes
-          //   );
-          //   int nextTaskInMinutes = nextTaskTime.difference(now).inMinutes;
-          //   scheduleNotification(
-          //     title: "المهمة التالية",
-          //     body: "المهمة التالية ${nextTask.title} تبدأ بعد ${nextTaskInMinutes} دقائق",
-          //   );
-          // }
         }
       }
     }
   }
-
-// // Helper function to compare two TimePlannerDateTime objects
-//   int compareTimePlannerDateTime(TimePlannerDateTime a, TimePlannerDateTime b) {
-//     if (a.day != b.day) {
-//       return a.day.compareTo(b.day);
-//     } else if (a.hour != b.hour) {
-//       return a.hour.compareTo(b.hour);
-//     } else {
-//       return a.minutes.compareTo(b.minutes);
-//     }
-//   }
-//
-// // Helper function to find the next task
-//   TimePlannerTask? findNextTask(TimePlannerTask currentTask) {
-//     var nextTasks = tasks.where((task) {
-//       // Manually compare the TimePlannerDateTime fields
-//       if (task.dateTime.day > currentTask.dateTime.day) {
-//         return true;
-//       } else if (task.dateTime.day == currentTask.dateTime.day) {
-//         if (task.dateTime.hour > currentTask.dateTime.hour) {
-//           return true;
-//         } else if (task.dateTime.hour == currentTask.dateTime.hour) {
-//           return task.dateTime.minutes > currentTask.dateTime.minutes;
-//         }
-//       }
-//       return false;
-//     }).toList();
-//
-//     // Sort tasks based on day, hour, and minute
-//     nextTasks.sort((a, b) => compareTimePlannerDateTime(a.dateTime, b.dateTime));
-//
-//     return nextTasks.isNotEmpty ? nextTasks.first : null;
-//   }
 
   void getCurrentDay() {
     final now = DateTime.now();
@@ -544,6 +489,7 @@ class WeeklyCalendarController extends GetxController {
       Get.back();
       saveTasksToStorage();
 
+      showUpdateTask.value = false;
       TLoaders.successSnackBar(
           message: 'تمت إزالة المهمة بنجاح', title: 'تمت العملية');
     }
@@ -698,55 +644,6 @@ class WeeklyCalendarController extends GetxController {
     );
   }
 
-  // Future<void> selectTime(BuildContext context, bool isStartTime) async {
-  //   final TimeOfDay? picked = await showTimePicker(
-  //     context: context,
-  //     initialTime:
-  //         isStartTime ? selectedStartTime.value : selectedEndTime.value,
-  //     builder: (BuildContext context, Widget? child) {
-  //       return MediaQuery(
-  //         data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
-  //         child: child!,
-  //       );
-  //     },
-  //   );
-  //
-  //   if (picked != null) {
-  //     if (isStartTime) {
-  //       if (picked.hour < selectedEndTime.value.hour ||
-  //           (picked.hour == selectedEndTime.value.hour &&
-  //               picked.minute < selectedEndTime.value.minute)) {
-  //         selectedStartTime.value = picked;
-  //       } else {
-  //         // Show error or adjust the time
-  //         selectedStartTime.value = picked;
-  //         selectedEndTime.value = TimeOfDay(
-  //           hour: (picked.hour + 1) % 24,
-  //           minute: picked.minute,
-  //         );
-  //       }
-  //     } else {
-  //       if (picked.hour > selectedStartTime.value.hour ||
-  //           (picked.hour == selectedStartTime.value.hour &&
-  //               picked.minute > selectedStartTime.value.minute)) {
-  //         selectedEndTime.value = picked;
-  //       } else {
-  //         // Show error or adjust the time
-  //         selectedEndTime.value = TimeOfDay(
-  //           hour: (selectedStartTime.value.hour + 1) % 24,
-  //           minute: selectedStartTime.value.minute,
-  //         );
-  //       }
-  //     }
-  //
-  //     final startMinutes =
-  //         selectedStartTime.value.hour * 60 + selectedStartTime.value.minute;
-  //     final endMinutes =
-  //         selectedEndTime.value.hour * 60 + selectedEndTime.value.minute;
-  //     duration.value = endMinutes - startMinutes;
-  //   }
-  // }
-
   Future<void> selectTime(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -758,25 +655,7 @@ class WeeklyCalendarController extends GetxController {
         );
       },
     );
-    // selectedEndTime.value = picked!;
-    // if (picked != null) {
-    //   // if (isStartTime) {
     selectedStartTime.value = picked!;
-    //   //   final startMinutes = picked.hour * 60 + picked.minute;
-    //   //   final endMinutes = startMinutes + currentSliderValue.value.toInt();
-    //   //   selectedEndTime.value = TimeOfDay(
-    //   //     hour: endMinutes ~/ 60,
-    //   //     minute: endMinutes % 60,
-    //   //   );
-    //   // } else {
-
-    //   // }
-    //   // final startMinutes =
-    //       selectedStartTime.value.hour * 60 + selectedStartTime.value.minute;
-    //   // final endMinutes =
-    //       // selectedEndTime.value.hour * 60 + selectedEndTime.value.minute;
-    //   // duration.value = endMinutes - startMinutes;
-    // }
   }
 
   void toggleDay(int index) {

@@ -3,7 +3,9 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  bitsdojo_window_windows
   screen_retriever
+  system_tray
   window_manager
   windows_notification
 )
