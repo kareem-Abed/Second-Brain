@@ -20,7 +20,6 @@ Future<void> main() async {
       win.title = "Second Brain";
       win.show();
     });
-
   } else {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
