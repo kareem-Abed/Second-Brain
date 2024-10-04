@@ -20,18 +20,7 @@ Future<void> main() async {
       win.title = "Second Brain";
       win.show();
     });
-    // await WindowManager.instance.ensureInitialized();
-    // windowManager.waitUntilReadyToShow().then((_) async {
-    //   await windowManager.setTitleBarStyle(
-    //     TitleBarStyle.normal,
-    //     windowButtonVisibility: true,
-    //   );
-    //   await windowManager.setTitle("Second Brain");
-    //   await windowManager.setBackgroundColor(KColors.darkModeBackground);
-    //   await windowManager.blur();
-    //   await windowManager.setMinimumSize(const Size(900, 500));
-    //   await windowManager.show();
-    // });
+
   } else {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
