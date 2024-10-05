@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
@@ -13,7 +13,7 @@ class TSerchContaner2 extends StatelessWidget {
   const TSerchContaner2({
     super.key,
     required this.text,
-    this.icon = Iconsax.search_normal,
+    this.icon = IconsaxPlusLinear.search_normal,
     this.showBackGround = true,
     this.showBorder = false,
   });
@@ -59,7 +59,7 @@ class TSerchContaner extends StatelessWidget {
   const TSerchContaner(
       {super.key,
       this.hintText,
-      this.icon = Iconsax.search_normal,
+      this.icon = IconsaxPlusLinear.search_normal,
       this.showBackGround = true,
       this.showBorder = false,
       required this.gotoSerch,
@@ -76,7 +76,7 @@ class TSerchContaner extends StatelessWidget {
     final textEditingController = TextEditingController();
 
     return Padding(
-      padding:pading,
+      padding: pading,
       child: Container(
         width: KDeviceUtils.getScreenWidth(context),
         padding: const EdgeInsets.all(KSizes.xs),
@@ -103,7 +103,6 @@ class TSerchContaner extends StatelessWidget {
             Expanded(
               child: TextFormField(
                 controller: textEditingController,
-
                 onFieldSubmitted: (value) {
                   value = value.trim();
                   if (value.isNotEmpty) {}

@@ -3,7 +3,7 @@ import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/helpers/helper_functions.dart';
 // import 'package:audioplayers/audioplayers.dart';
@@ -51,7 +51,7 @@ class TLoaders {
         return ToastCard(
           color: Colors.green.shade600,
           leading: const Icon(
-            Iconsax.check,
+            IconsaxPlusLinear.check,
             size: 32,
             color: KColors.white,
           ),
@@ -91,7 +91,7 @@ class TLoaders {
         return ToastCard(
           color: Colors.orange.shade600,
           leading: const Icon(
-            Iconsax.warning_2,
+            IconsaxPlusLinear.warning_2,
             size: 32,
             color: KColors.white,
           ),
@@ -132,7 +132,7 @@ class TLoaders {
         return ToastCard(
           color: Colors.red.shade600,
           leading: const Icon(
-            Iconsax.warning_2,
+            IconsaxPlusLinear.warning_2,
             size: 32,
             color: KColors.white,
           ),

@@ -15,7 +15,6 @@ Future<void> main() async {
       const initialSize = Size(900, 500);
       win.minSize = initialSize;
       win.size = initialSize;
-
       win.alignment = Alignment.center;
       win.title = "Second Brain";
       win.show();
