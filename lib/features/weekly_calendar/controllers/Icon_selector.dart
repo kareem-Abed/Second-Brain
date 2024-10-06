@@ -45,7 +45,7 @@ class IconController extends GetxController {
     iconChoicesModel(
         icon: FontAwesomeIcons.laptopCode,
         name: 'المشروع',
-        color: 0xFF4CAF50 // Green
+        color: 0xFF4CAF50
         ),
     iconChoicesModel(
         icon: FontAwesomeIcons.gamepad,
@@ -63,7 +63,7 @@ class IconController extends GetxController {
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.book,
       'name': 'دراسة',
-      'color': 0xFF4CAF50 // Light Green
+      'color': 0xFF8BC34A
     }),
     iconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.code,

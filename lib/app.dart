@@ -1,11 +1,11 @@
 import 'dart:ui';
 
-import 'package:second_brain/side_menu.dart';
+import 'package:second_brain/features/side_menu/screens/side_menu.dart';
 import 'package:second_brain/utils/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-
+import 'features/side_menu/controller/side_menu_binding.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -21,6 +21,7 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       locale: const Locale('ar', 'EG'),
       home: CustomSideMenu(),
+      initialBinding: SideMenuBinding(),
       scrollBehavior: const ScrollBehavior().copyWith(
         dragDevices: {
           PointerDeviceKind.trackpad,
@@ -31,5 +32,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-

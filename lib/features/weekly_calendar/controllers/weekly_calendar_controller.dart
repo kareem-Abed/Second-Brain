@@ -32,7 +32,7 @@ class WeeklyCalendarController extends GetxController {
   var selectedStartTime = TimeOfDay.now().obs;
   RxDouble duration = 60.0.obs;
   RxInt daysDuration = 0.obs;
-  RxInt iconIndex = 0.obs;
+
   var tasks = <TimePlannerTask>[].obs;
   RxInt taskUpdateIndex = 0.obs;
   List<Map<String, dynamic>> monthlySessions = [];
@@ -60,7 +60,6 @@ class WeeklyCalendarController extends GetxController {
     getCurrentDay();
     loadTasksFromStorage();
     updateTime();
-
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       checkAndUpdateTime();
     });

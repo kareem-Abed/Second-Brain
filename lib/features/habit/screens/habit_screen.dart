@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/habit/screens/widgets/habit_tile.dart';
 import 'package:second_brain/features/habit/screens/widgets/month_summary.dart';
 import 'package:second_brain/features/habit/screens/widgets/my_alert_box.dart';
@@ -127,14 +128,6 @@ class _HabitScreenState extends State<HabitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: KColors.darkModeBackground,
-      floatingActionButton:
-          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-        FloatingActionButton(
-          backgroundColor: Colors.green,
-          onPressed: () => createNewHabit(),
-          child: Icon(FontAwesomeIcons.plus),
-        ),
-      ]),
       body: ListView(
         children: [
           Container(
@@ -172,10 +165,22 @@ class _HabitScreenState extends State<HabitScreen> {
             ),
             child: Column(
               children: [
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Habits',
-                        style: TextStyle(color: Colors.white, fontSize: 24))),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      backgroundColor: KColors.darkModeSubCard,
+                      onPressed: () => createNewHabit(),
+                      child: Icon(
+                        IconsaxPlusBroken.add,
+                        size: 30,
+                      ),
+                    ),
+                    SizedBox(width: 16),
+                    Text('Habits',
+                        style: TextStyle(color: Colors.white, fontSize: 24)),
+                  ],
+                ),
                 SizedBox(height: 16),
                 AlignedGridView.count(
                   crossAxisCount: 2,
