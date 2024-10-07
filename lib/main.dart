@@ -6,9 +6,11 @@ import 'package:get_storage/get_storage.dart';
 import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:second_brain/app.dart';
+import 'package:simple_audio/simple_audio.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SimpleAudio.init();
 
   if (Platform.isWindows) {
     doWhenWindowReady(() {

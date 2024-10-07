@@ -27,7 +27,13 @@ dependencies:
   iconsax_plus: ^1.0.0
   delightful_toast: ^1.1.0
 #  audioplayers: ^6.0.0
+
+  simple_audio: ^2.0.1
+
+
+
   lottie: ^3.1.2
+  gradient_circular_progress_indicator: ^0.0.4
 
   curved_navigation_bar: ^1.0.3
   launch_at_startup: ^0.3.1
@@ -69,3 +75,5 @@ flutter:
     - assets/sounds/
     - assets/sounds/success.mp3
     - assets/sounds/error.mp3
+    - assets/sounds/clock-alarm.mp3
+    - assets/sounds/timesup.mp3

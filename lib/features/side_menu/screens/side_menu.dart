@@ -1,6 +1,6 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/habit/screens/habit_screen.dart';
-import 'package:second_brain/features/pomodoro/homepage.dart';
+import 'package:second_brain/features/pomodoro/screens/pomodoro.dart';
 import 'package:second_brain/features/side_menu/screens/widgets/header_buttons.dart';
 import 'package:second_brain/features/side_menu/screens/widgets/hoverable_menu_item.dart';
 import 'package:second_brain/features/side_menu/screens/widgets/search_widget.dart';
@@ -73,16 +73,7 @@ class PageViewWidget extends StatelessWidget {
           const WeeklyCalendarScreen(viewCurrentDayOnly: false),
           const WeeklyCalendarScreen(viewCurrentDayOnly: true),
           KanbanBoard(),
-          HomePage(),
-          // Container(
-          //   color: KColors.darkModeBackground,
-          //   child: const Center(
-          //     child: Text(
-          //       'pomodoro ',
-          //       style: TextStyle(fontSize: 35, color: Colors.white),
-          //     ),
-          //   ),
-          // ),
+          Pomodoro(),
           HabitScreen(),
           Container(
             color: KColors.darkModeBackground,

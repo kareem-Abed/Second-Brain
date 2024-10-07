@@ -36,9 +36,7 @@ class _DataState extends State<Data> {
       _data = box.read('time') ?? '';
       final split = _data.split('/');
 
-      _sessions = {
-        for (int i = 0; i < split.length; i++) i: split[i]
-      };
+      _sessions = {for (int i = 0; i < split.length; i++) i: split[i]};
       for (int i = 1; i < _sessions.length; i++) {
         _dates.add(_sessions[i]!.split(' ')[2]);
       }
