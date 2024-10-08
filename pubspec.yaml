@@ -26,11 +26,9 @@ dependencies:
   flutter_heatmap_calendar: ^1.0.5
   iconsax_plus: ^1.0.0
   delightful_toast: ^1.1.0
-#  audioplayers: ^6.0.0
-
-  simple_audio: ^2.0.1
 
 
+  windows_audio: ^1.0.0
 
   lottie: ^3.1.2
   gradient_circular_progress_indicator: ^0.0.4

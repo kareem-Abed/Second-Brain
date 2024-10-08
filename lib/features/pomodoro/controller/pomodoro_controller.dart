@@ -1,12 +1,16 @@
 import 'dart:async';
-
+import 'dart:ffi';
+// import 'package:flame_audio/flame_audio.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import 'package:path/path.dart' as path;
 import 'dart:io';
 
-import 'package:simple_audio/simple_audio.dart';
+import 'package:windows_audio/windows_audio.dart';
+
+// import 'package:simple_audio/simple_audio.dart';
 
 class PomodoroController extends GetxController {
   //History variables
@@ -33,7 +37,7 @@ class PomodoroController extends GetxController {
   Duration _remainingDuration = Duration(minutes: 25);
 
   final box = GetStorage();
-
+  final _windowsAudioPlugin = WindowsAudio();
   @override
   void onInit() {
     super.onInit();
@@ -115,16 +119,26 @@ class PomodoroController extends GetxController {
     }
   }
 
-  playAudio(String path) async {
-    final SimpleAudio player = SimpleAudio(shouldNormalizeVolume: true);
-    player.playbackState.listen((state) => print(state));
-    player.progressState.listen((state) => print(state));
+  Completer<void>? _audioCompleter;
 
-    player.open(path);
+  Future<void> playAudio(String path) async {
+    if (_audioCompleter != null && !_audioCompleter!.isCompleted) return;
+
+    _audioCompleter = Completer<void>();
+
+    try {
+      await _windowsAudioPlugin.load(path);
+      await _windowsAudioPlugin.play();
+      await Future.delayed(Duration(seconds: 1));
+    } catch (e) {
+      print(e);
+    } finally {
+      _audioCompleter?.complete();
+    }
   }
 
   Future<void> _startTimer(Duration duration, String sessionName) async {
-    await playAudio('assets/sounds/timesup.mp3');
+    // await playAudio("assets/sounds/timesup.mp3");
 
     _remainingDuration = duration;
     _timer?.cancel();
@@ -143,13 +157,14 @@ class PomodoroController extends GetxController {
       } else {
         timer.cancel();
 
-        await playAudio('assets/sounds/clock-alarm.mp3');
+        await playAudio("assets/sounds/clock-alarm.mp3");
         if (isBreak.value) {
           isBreak.value = false;
           progress.value = 1.0;
           timerString.value =
               _formatDuration(Duration(minutes: focusDuration.value));
-        } else {
+        }
+        else {
           isBreak.value = true;
           progress.value = 1.0;
           sessionCount.value += 1;

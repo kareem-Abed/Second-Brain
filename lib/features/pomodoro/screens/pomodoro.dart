@@ -84,6 +84,7 @@ class Pomodoro extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(height: 20),
                                   Row(
                                     children: [
                                       Obx(() {
@@ -109,6 +110,7 @@ class Pomodoro extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(height: 20),
                                   Row(
                                     children: [
                                       Obx(() {
@@ -134,6 +136,7 @@ class Pomodoro extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(height: 20),
                                   Row(
                                     children: [
                                       Obx(() {
@@ -157,6 +160,7 @@ class Pomodoro extends StatelessWidget {
                                       ),
                                     ],
                                   ),
+                                  SizedBox(height: 20),
                                   Row(
                                     children: [
                                       Obx(() {
@@ -364,9 +368,10 @@ class TimerWidget extends StatelessWidget {
             alignment: Alignment.topRight,
             child: Container(
               child: IconButton(
-                onPressed: () {
-                  controller.showSettings.value =
-                      !controller.showSettings.value;
+                onPressed: () async {
+                  controller.playAudio("assets/sounds/success.mp3");
+                  // controller.showSettings.value =
+                  //     !controller.showSettings.value;
                 },
                 icon: Obx(() {
                   return Icon(
