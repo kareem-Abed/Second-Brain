@@ -2,10 +2,7 @@ import 'package:second_brain/features/weekly_calendar/controllers/weekly_calenda
 import 'package:second_brain/features/weekly_calendar/screens/weekly_calendar/widgets/weekly_calendar_add_update.dart';
 import 'package:second_brain/features/weekly_calendar/screens/weekly_calendar/widgets/weekly_calendar_planner.dart';
 import 'package:second_brain/utils/constants/colors.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
 

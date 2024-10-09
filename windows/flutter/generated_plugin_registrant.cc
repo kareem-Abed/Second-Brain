@@ -7,6 +7,8 @@
 #include "generated_plugin_registrant.h"
 
 #include <bitsdojo_window_windows/bitsdojo_window_plugin.h>
+#include <irondash_engine_context/irondash_engine_context_plugin_c_api.h>
+#include <super_native_extensions/super_native_extensions_plugin_c_api.h>
 #include <system_tray/system_tray_plugin.h>
 #include <windows_audio/windows_audio_plugin_c_api.h>
 #include <windows_notification/windows_notification_plugin_c_api.h>
@@ -14,6 +16,10 @@
 void RegisterPlugins(flutter::PluginRegistry* registry) {
   BitsdojoWindowPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("BitsdojoWindowPlugin"));
+  IrondashEngineContextPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("IrondashEngineContextPluginCApi"));
+  SuperNativeExtensionsPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("SuperNativeExtensionsPluginCApi"));
   SystemTrayPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("SystemTrayPlugin"));
   WindowsAudioPluginCApiRegisterWithRegistrar(

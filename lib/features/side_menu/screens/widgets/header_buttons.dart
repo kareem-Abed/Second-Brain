@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:second_brain/utils/constants/colors.dart';
 
 import '../../../../utils/constants/sizes.dart';
 import '../../../weekly_calendar/controllers/weekly_calendar_controller.dart';
@@ -24,6 +25,7 @@ class HeaderButtons extends StatelessWidget {
                 IconButton(
                     onPressed: () {
                       Get.defaultDialog(
+                        backgroundColor: KColors.darkModeCard,
                         title: 'تأكيد الحذف',
                         content: Text(
                           'هل أنت متأكد أنك تريد حذف جميع المهام؟',
