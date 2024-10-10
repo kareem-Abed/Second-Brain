@@ -1,144 +1,65 @@
+import 'dart:collection';
 
-import 'package:second_brain/features/trello_bord/models/column.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-
-import '../models/data.dart';
-import '../models/task.dart';
+import 'package:second_brain/features/trello_bord/models/item.dart';
 
 class KanbanController extends GetxController {
-  var columns = <KColumn>[].obs;
-  final box = GetStorage();
-  final tasksMap = <String, List<String>>{}.obs;
+  Rx<LinkedHashMap<String, List<Item>>> board =
+      LinkedHashMap<String, List<Item>>().obs;
 
   @override
   void onInit() {
     super.onInit();
-    // clearAllTasks();
-    loadTasks();
+    // Initialize the board with default values
+    board.value.addAll({
+      "1": [
+        Item(id: "1", listId: "1", title: "Pear"),
+        Item(id: "2", listId: "1", title: "Potato"),
+        Item(id: "q", listId: "1", title: "Potato"),
+      ],
+      "2": [
+        Item(id: "3", listId: "2", title: "Car"),
+        Item(id: "4", listId: "2", title: "Bicycle"),
+        Item(id: "5", listId: "2", title: "On foot"),
+      ],
+      "3": [
+        Item(id: "6", listId: "3", title: "Chile"),
+        Item(id: "7", listId: "3", title: "Madagascar"),
+        Item(id: "8", listId: "3", title: "Japan"),
+      ],
+      "4": [
+        Item(id: "6", listId: "3", title: "Chile"),
+        Item(id: "7", listId: "3", title: "Madagascar"),
+        Item(id: "8", listId: "3", title: "Japan"),
+      ],
+    });
   }
 
-  void addColumn(String title) {
-    columns.add(KColumn(
-      title: title,
-      children: List.of([]),
-    ));
-    columns.refresh();
-    saveTasks();
-  }
-void moveColumn(int currentIndex, bool isNext) {
-  if (isNext&& currentIndex < columns.length - 1) {
-    final temp = columns[currentIndex];
-    columns[currentIndex] = columns[currentIndex + 1];
-    columns[currentIndex + 1] = temp;
-  } else if (!isNext && currentIndex > 0) {
-    final temp = columns[currentIndex];
-    columns[currentIndex] = columns[currentIndex - 1];
-    columns[currentIndex - 1] = temp;
-  }
-  columns.refresh();
-  saveTasks();
-}
-  void deleteItem(int columnIndex, String taskTitle) {
-    String columnTitle = columns[columnIndex].title.toString();
-    columns[columnIndex]
-        .children
-        .removeWhere((task) => task.title == taskTitle);
-    tasksMap[columnTitle]?.remove(taskTitle);
-    columns.refresh();
-    saveTasks();
-  }
+  void moveItem(Item data, String listId, int targetPosition) {
+    final currentList = board.value[data.listId]!;
 
-  void handleReOrder(int oldIndex, int newIndex, int columnIndex) {
-    final task = columns[columnIndex].children.removeAt(oldIndex);
-    columns[columnIndex].children.insert(newIndex, task);
-
-    // Update tasksMap to reflect the new order
-    final columnTitle = columns[columnIndex].title;
-    tasksMap[columnTitle]?.remove(task.title);
-    tasksMap[columnTitle]?.insert(newIndex, task.title);
-
-    columns.refresh();
-    saveTasks();
-  }
-
-  void addTask(String title, int column) {
-    final columnTitle = columns[column].title;
-    columns[column].children.add(KTask(title: title));
-    tasksMap.putIfAbsent(columnTitle, () => []);
-    tasksMap[columnTitle]?.add(title);
-    columns.refresh();
-    saveTasks();
-  }
-
-  void dragHandler(KData data, int index) {
-    final task = data.task;
-    final fromColumn = columns[data.from];
-    final toColumn = columns[index];
-
-    fromColumn.children.remove(task);
-    toColumn.children.add(task);
-
-    tasksMap[fromColumn.title]?.remove(task.title);
-    tasksMap.putIfAbsent(toColumn.title, () => []);
-    tasksMap[toColumn.title]?.add(task.title);
-
-    columns.refresh();
-    saveTasks();
-  }
-
-  void saveTasks() {
-    final columnsJson = columns
-        .map((column) => {
-              'title': column.title,
-              'tasks': tasksMap[column.title] ?? [],
-            })
-        .toList();
-    box.write('columns', columnsJson);
-  }
-
-  void loadTasks() {
-    columns.value = [];
-    final columnsJson = box.read<List<dynamic>>('columns') ?? [];
-    for (var columnData in columnsJson) {
-      final columnTitle = columnData['title'];
-      final tasks = List<String>.from(columnData['tasks']);
-      columns.add(KColumn(
-          title: columnTitle,
-          children:
-              tasks.map((taskTitle) => KTask(title: taskTitle)).toList()));
-      tasksMap[columnTitle] = tasks;
+    currentList.remove(data);
+    data.listId = listId;
+    if (board.value[listId]!.length > targetPosition) {
+      board.value[listId]?.insert(targetPosition + 1, data);
+    } else {
+      board.value[listId]?.add(data);
     }
-    columns.refresh();
+    board.refresh(); // Notify the UI of the changes
   }
-  void clearAllTasks() {
-    box.write('columns', []);
+
+  void reorderLists(String listId, String incomingListId) {
+    LinkedHashMap<String, List<Item>> reorderedBoard = LinkedHashMap();
+    for (String key in board.value.keys) {
+      if (key == incomingListId) {
+        reorderedBoard[listId] = board.value[listId]!;
+      } else if (key == listId) {
+        reorderedBoard[incomingListId] = board.value[incomingListId]!;
+      } else {
+        reorderedBoard[key] = board.value[key]!;
+      }
+    }
+    board.value = reorderedBoard;
+    board.refresh(); // Notify the UI of the changes
   }
 }
-
-// class Data {
-//   static List<KColumn> getColumns() {
-//     return List.from([
-//       KColumn(
-//         title: 'To Do',
-//         children: [
-//           KTask(title: 'ToDo 1'),
-//           KTask(title: 'ToDo 2'),
-//         ],
-//       ),
-//       KColumn(
-//         title: 'In Progress',
-//         children: [
-//           KTask(title: 'ToDo 3'),
-//         ],
-//       ),
-//       KColumn(
-//         title: 'Done',
-//         children: [
-//           KTask(title: 'ToDo 4'),
-//           KTask(title: 'ToDo 5'),
-//         ],
-//       )
-//     ]);
-//   }
-// }
