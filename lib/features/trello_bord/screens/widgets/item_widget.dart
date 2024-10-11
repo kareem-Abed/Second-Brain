@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pull_down_button/pull_down_button.dart';
 import 'package:second_brain/features/trello_bord/controller/kanban_board_controller.dart';
 import 'package:second_brain/features/trello_bord/models/item.dart';
-
 import '../../../../utils/constants/colors.dart';
 
 class ItemWidget extends StatefulWidget {
@@ -27,7 +25,7 @@ class _ItemWidgetState extends State<ItemWidget> {
   bool isHovered = false;
 
   void _showOverlayMenu(BuildContext context) {
-    final overlay = Overlay.of(context)?.context.findRenderObject();
+    final overlay = Overlay.of(context).context.findRenderObject();
     final button = context.findRenderObject() as RenderBox;
     final position = button.localToGlobal(Offset.zero);
 
@@ -96,7 +94,7 @@ class _ItemWidgetState extends State<ItemWidget> {
             // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: Container(
               width: 300,
-              height: 50 + (widget.item.title.length * 3.0),
+              // height: 50 + (widget.item.title.length * 2.0),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(64, 75, 96, .9),
                 border: Border.all(

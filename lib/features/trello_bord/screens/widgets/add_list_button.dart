@@ -41,22 +41,25 @@ class AddListButton extends StatelessWidget {
                       padding: EdgeInsets.all(10.0),
                       child: Column(
                         children: [
-                          TextField(
-                            controller: controller.listNameController.value,
-                            decoration: InputDecoration(
-                              hintText: 'Enter list name',
+                          Obx(
+                            () => TextField(
+                              controller: controller.listNameController.value,
+                              focusNode: controller.listNameFocusNode.value,
+                              decoration: InputDecoration(
+                                hintText: 'Enter list name',
+                              ),
+                              onSubmitted: (value) {
+                                if (controller
+                                    .listNameController.value.text.isEmpty) {
+                                  return;
+                                }
+                                controller.addList(
+                                  controller.listNameController.value.text,
+                                );
+                                controller.ShowListNameTextField.value = false;
+                                controller.listNameController.value.clear();
+                              },
                             ),
-                            onSubmitted: (value) {
-                              if (controller
-                                  .listNameController.value.text.isEmpty) {
-                                return;
-                              }
-                              controller.addList(
-                                controller.listNameController.value.text,
-                              );
-                              controller.ShowListNameTextField.value = false;
-                              controller.listNameController.value.clear();
-                            },
                           ),
                           SizedBox(height: 8.0),
                           Row(
@@ -108,6 +111,8 @@ class AddListButton extends StatelessWidget {
                       key: ValueKey(2),
                       onTap: () {
                         controller.ShowListNameTextField.value = true;
+                        controller.listNameFocusNode.value.requestFocus();
+
                       },
                       child: Container(
                           decoration: BoxDecoration(

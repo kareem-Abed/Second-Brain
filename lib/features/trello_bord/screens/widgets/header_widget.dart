@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:pull_down_button/pull_down_button.dart';
 import 'package:second_brain/features/trello_bord/controller/kanban_board_controller.dart';
+import 'package:second_brain/utils/constants/colors.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({
@@ -43,21 +45,29 @@ class HeaderWidget extends StatelessWidget {
               ),
             ),
           ),
-          // Container(
-          //   width: 25,
-          //   height: 25,
-          //   margin: EdgeInsets.symmetric(horizontal: 8.0),
-          //   decoration: BoxDecoration(
-          //     color: KColors.darkModeBackground,
-          //     shape: BoxShape.circle,
-          //   ),
-          //   child: FittedBox(
-          //       fit: BoxFit.scaleDown,
-          //       child: Text('3',
-          //           style: Theme.of(context).textTheme.headlineMedium)),
-          // ),
           Container(
-            width: 220.0,
+            width: 25,
+            height: 25,
+            margin: EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: BoxDecoration(
+              color: KColors.darkModeBackground,
+              shape: BoxShape.circle,
+            ),
+            child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Obx(() {
+                  return Padding(
+                    padding: const EdgeInsets.all(4.0),
+                    child: Text(
+                        (controller.board.value[listId]?.length ?? '0')
+                            .toString(),
+                        style: Theme.of(context).textTheme.headlineMedium),
+                  );
+                })),
+          ),
+          Container(
+            width: 180.0,
+            // width: 220.0,
             child: Text(title,
                 textAlign: TextAlign.end,
                 maxLines: 2,

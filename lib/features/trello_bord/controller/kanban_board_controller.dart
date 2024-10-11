@@ -9,14 +9,25 @@ class KanbanController extends GetxController {
       LinkedHashMap<String, List<Item>>().obs;
   RxMap<String, String> listNames = <String, String>{}.obs;
   final box = GetStorage();
+  var isDragging = false.obs;
+  var draggingListId = ''.obs;
   final listNameController = TextEditingController().obs;
+  var listNameFocusNode = FocusNode().obs;
+
   final ItemNameController = TextEditingController().obs;
+  final ItemNameFocusNode = FocusNode().obs;
   final RxBool ShowListNameTextField = false.obs;
   final RxBool ShowItemNameTextField = false.obs;
   @override
   void onInit() {
     super.onInit();
     loadBoardState();
+  }
+
+  void focusItemName() {
+    // ItemNameFocusNode.value.unfocus();
+    // listNameFocusNode.value.unfocus();
+    ItemNameFocusNode.value.requestFocus();
   }
 
   void loadBoardState() {

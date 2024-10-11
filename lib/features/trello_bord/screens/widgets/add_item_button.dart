@@ -4,19 +4,6 @@ import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/trello_bord/controller/kanban_board_controller.dart';
 import 'package:second_brain/utils/constants/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:second_brain/features/trello_bord/controller/kanban_board_controller.dart';
-import 'package:second_brain/utils/constants/colors.dart';
-
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:second_brain/features/trello_bord/controller/kanban_board_controller.dart';
-import 'package:second_brain/utils/constants/colors.dart';
 
 class AddItemButton extends StatelessWidget {
   final KanbanController controller = Get.find();
@@ -36,6 +23,13 @@ class AddItemButton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 3.0),
+            child: Divider(
+              color: KColors.darkModeSubCard,
+              thickness: 3.0,
+            ),
+          ),
           Obx(
             () => controller.ShowItemNameTextField.value &&
                     activeListId == listId
@@ -51,6 +45,7 @@ class AddItemButton extends StatelessWidget {
                         TextField(
                           maxLines: 2,
                           controller: controller.ItemNameController.value,
+                          focusNode: controller.ItemNameFocusNode.value,
                           decoration: InputDecoration(
                             hintText: 'Enter list name',
                             hintStyle:
