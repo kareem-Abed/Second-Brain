@@ -2,11 +2,11 @@ import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/helpers/helper_functions.dart';
-// import 'package:audioplayers/audioplayers.dart';
 
 class TLoaders {
   // static final AudioPlayer player = AudioPlayer();
@@ -157,7 +157,9 @@ class TLoaders {
       },
       position: DelightSnackbarPosition.top,
       autoDismiss: true,
-      snackbarDuration: const Duration(seconds: 3,),
+      snackbarDuration: const Duration(
+        seconds: 3,
+      ),
     ).show(
       Get.context!,
     );
