@@ -172,6 +172,8 @@ class SideMenuWidget extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final sideMenuController = Get.find<SideMenuController>();
+
     return Container(
       width: 80,
       height: double.infinity,
@@ -187,11 +189,16 @@ class SideMenuWidget extends StatelessWidget {
             SizedBox(
               height: KSizes.sm,
             ),
-            ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: 44,
+            GestureDetector(
+              onTap: () {
+                sideMenuController.updateSelectedIndex(0);
+              },
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(
+                  maxWidth: 44,
+                ),
+                child: Image.asset('assets/images/second_brain.png'),
               ),
-              child: Image.asset('assets/images/second_brain.png'),
             ),
             SizedBox(
               height: KSizes.sm,

@@ -91,10 +91,8 @@ class _ItemWidgetState extends State<ItemWidget> {
         children: [
           Card(
             elevation: 8.0,
-            // margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
             child: Container(
               width: 300,
-              // height: 50 + (widget.item.title.length * 2.0),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(64, 75, 96, .9),
                 border: Border.all(
@@ -106,7 +104,11 @@ class _ItemWidgetState extends State<ItemWidget> {
               child: Text(
                 widget.item.title,
                 textAlign: TextAlign.end,
-                style: TextStyle(color: Colors.white),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Colors.white),
+                // style: TextStyle(color: Colors.white),
               ),
             ),
           ),
@@ -116,11 +118,13 @@ class _ItemWidgetState extends State<ItemWidget> {
             child: Visibility(
               visible: widget.showHover ? isHovered : false,
               child: Padding(
-                padding: const EdgeInsets.only(top: 4.0, right: 9.0),
+                padding: const EdgeInsets.only(top: 0.0, right: 2.0),
                 child: IconButton(
                   onPressed: () => _showOverlayMenu(context),
                   icon: const Icon(
                     FontAwesomeIcons.ellipsis,
+                    color: KColors.white,
+                    weight: 4,
                   ),
                 ),
               ),
