@@ -50,6 +50,7 @@ class _KanbanBoardState extends State<KanbanBoard> {
       body: Obx(
         () => SingleChildScrollView(
           scrollDirection: Axis.horizontal,
+          reverse: true,
           child: Container(
             height: double.infinity,
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
