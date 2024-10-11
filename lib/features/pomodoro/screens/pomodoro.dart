@@ -119,16 +119,16 @@ class HistoryWidget extends StatelessWidget {
               itemCount: controller.sessionHistory.length,
               itemBuilder: (context, index) {
                 return StatCard(
-                  sessionName: controller.sessionHistory.value
+                  sessionName: controller.sessionHistory
                       .elementAt(index)['sessionName']
                       .toString(),
-                  sessionRounds: controller.sessionHistory.value
+                  sessionRounds: controller.sessionHistory
                       .elementAt(index)['sessionRounds']
                       .toString(),
-                  totalDuration: controller.sessionHistory.value
+                  totalDuration: controller.sessionHistory
                       .elementAt(index)['totalDuration']
                       .toString(),
-                  date: controller.sessionHistory.value
+                  date: controller.sessionHistory
                       .elementAt(index)['date']
                       .toString(),
                 );

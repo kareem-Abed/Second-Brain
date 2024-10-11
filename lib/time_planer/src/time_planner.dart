@@ -28,9 +28,6 @@ class TimePlanner extends StatefulWidget {
   /// Style of time planner
   final TimePlannerStyle? style;
 
-  /// When widget loaded scroll to current time with an animation. Default is true
-  final bool? currentTimeAnimation;
-
   /// Whether time is displayed in 24 hour format or am/pm format in the time column on the left.
   final bool use24HourFormat;
 
@@ -50,7 +47,6 @@ class TimePlanner extends StatefulWidget {
     this.style,
     this.use24HourFormat = false,
     this.setTimeOnAxis = false,
-    this.currentTimeAnimation,
     this.viewCurrentDayOnly = true,
   }) : super(key: key);
 
@@ -62,7 +58,7 @@ class _TimePlannerState extends State<TimePlanner> {
   ScrollController timeVerticalController = ScrollController();
   TimePlannerStyle style = TimePlannerStyle();
   List<TimePlannerTask> tasks = [];
-  bool? isAnimated = true;
+  // bool? isAnimated = true;
 
   /// Initialize the controller
   // final TimePlannerController controller = Get.put(TimePlannerController());
@@ -108,7 +104,6 @@ class _TimePlannerState extends State<TimePlanner> {
     config.use24HourFormat = widget.use24HourFormat;
     config.setTimeOnAxis = widget.setTimeOnAxis;
     config.borderRadius = style.borderRadius;
-    isAnimated = widget.currentTimeAnimation;
     tasks = widget.tasks ?? [];
   }
 
@@ -116,20 +111,15 @@ class _TimePlannerState extends State<TimePlanner> {
   void initState() {
     _initData();
     super.initState();
-    // controller.updateTime();
     Future.delayed(Duration.zero).then((_) {
       int hour = DateTime.now().hour;
-      if (isAnimated != null && isAnimated == true) {
-        if (hour > widget.startHour) {
-          double scrollOffset =
-              (hour - widget.startHour) * config.cellHeight!.toDouble();
-          timeVerticalController.animateTo(
-            scrollOffset,
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.easeOutCirc,
-          );
-        }
-      }
+      double scrollOffset =
+          (hour - widget.startHour) * config.cellHeight!.toDouble();
+      timeVerticalController.animateTo(
+        scrollOffset,
+        duration: const Duration(milliseconds: 800),
+        curve: Curves.easeOutCirc,
+      );
     });
   }
 

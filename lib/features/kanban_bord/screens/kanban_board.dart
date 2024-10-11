@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:second_brain/features/trello_bord/controller/kanban_board_controller.dart';
-import 'package:second_brain/features/trello_bord/models/item.dart';
-import 'package:second_brain/features/trello_bord/screens/widgets/add_item_button.dart';
-import 'package:second_brain/features/trello_bord/screens/widgets/add_list_button.dart';
-import 'package:second_brain/features/trello_bord/screens/widgets/floating_widget.dart';
-import 'package:second_brain/features/trello_bord/screens/widgets/header_widget.dart';
-import 'package:second_brain/features/trello_bord/screens/widgets/item_widget.dart';
+import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
+import 'package:second_brain/features/kanban_bord/models/item.dart';
+import 'package:second_brain/features/kanban_bord/screens/widgets/add_item_button.dart';
+import 'package:second_brain/features/kanban_bord/screens/widgets/add_list_button.dart';
+import 'package:second_brain/features/kanban_bord/screens/widgets/floating_widget.dart';
+import 'package:second_brain/features/kanban_bord/screens/widgets/header_widget.dart';
+import 'package:second_brain/features/kanban_bord/screens/widgets/item_widget.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 
 class KanbanBoard extends StatefulWidget {

@@ -2,7 +2,8 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:second_brain/features/trello_bord/models/item.dart';
+import 'package:second_brain/features/kanban_bord/models/item.dart';
+
 
 class KanbanController extends GetxController {
   Rx<LinkedHashMap<String, List<Item>>> board =
@@ -77,7 +78,7 @@ class KanbanController extends GetxController {
               key,
               value.map((item) => item.toJson()).toList(),
             )));
-    box.write('listNames', listNames.value);
+    box.write('listNames', listNames);
   }
 
   void editItem(String itemId, String newTitle) {

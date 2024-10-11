@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:gradient_circular_progress_indicator/gradient_circular_progress_indicator.dart';
-import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/pomodoro/controller/pomodoro_controller.dart';
-
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 
@@ -167,6 +163,7 @@ class TimeandRoundWidget extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class DurationWidget extends StatelessWidget {
   DurationWidget({
     super.key,

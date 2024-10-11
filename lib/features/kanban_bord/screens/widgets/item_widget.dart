@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:second_brain/features/trello_bord/controller/kanban_board_controller.dart';
-import 'package:second_brain/features/trello_bord/models/item.dart';
+import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
+import 'package:second_brain/features/kanban_bord/models/item.dart';
 import '../../../../utils/constants/colors.dart';
 
 class ItemWidget extends StatefulWidget {

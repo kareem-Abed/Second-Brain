@@ -1,18 +1,10 @@
 import 'dart:async';
-import 'dart:ffi';
-// import 'package:flame_audio/flame_audio.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
-import 'package:path/path.dart' as path;
-import 'dart:io';
-
 import 'package:windows_audio/windows_audio.dart';
 
-// import 'package:simple_audio/simple_audio.dart';
-
 class PomodoroController extends GetxController {
+
   //History variables
   // RxInt totalMin = 0.obs;
   // RxInt longestSesh = 0.obs;
@@ -85,8 +77,8 @@ class PomodoroController extends GetxController {
     box.write('sessionName', sessionName.value);
     box.write('sessionCount', sessionRounds.value);
     box.write('numberOfSessionRounds', numberOfSessionRounds.value);
-    box.write('sessionHistory', sessionHistory.value);
-    print(sessionHistory.value);
+    box.write('sessionHistory', sessionHistory);
+    print(sessionHistory);
     // _getPrefs();
   }
 

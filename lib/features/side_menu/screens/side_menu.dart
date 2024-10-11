@@ -9,7 +9,8 @@ import 'package:second_brain/utils/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
-import '../../trello_bord/screens/kanban_board.dart';
+
+import '../../kanban_bord/screens/kanban_board.dart';
 import '../controller/side_menu_controller.dart';
 
 class CustomSideMenu extends StatefulWidget {
