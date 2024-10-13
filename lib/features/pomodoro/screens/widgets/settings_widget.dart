@@ -20,8 +20,8 @@ class SettingsWidget extends StatelessWidget {
               flex: 1,
               child: Container(
                 height: 640,
-                padding: EdgeInsets.all(8),
-                margin: EdgeInsets.only(
+                padding: const EdgeInsets.all(8),
+                margin: const EdgeInsets.only(
                   top: 16,
                   right: 16,
                   bottom: 16,
@@ -35,7 +35,7 @@ class SettingsWidget extends StatelessWidget {
                 child: TimeandRoundWidget(controller: controller),
               ),
             )
-          : SizedBox();
+          : const SizedBox();
     });
   }
 }
@@ -59,7 +59,7 @@ class TimeandRoundWidget extends StatelessWidget {
             Text('settings', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
-        Spacer(),
+        const Spacer(),
         Obx(() {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -96,7 +96,7 @@ class TimeandRoundWidget extends StatelessWidget {
             ),
           );
         }),
-        Spacer(),
+        const Spacer(),
         Obx(() {
           return DurationWidget(
             title: 'Study Duration',
@@ -111,7 +111,7 @@ class TimeandRoundWidget extends StatelessWidget {
             minText: 'min',
           );
         }),
-        Spacer(),
+        const Spacer(),
         Obx(() {
           return DurationWidget(
             title: 'Short break duration',
@@ -126,7 +126,7 @@ class TimeandRoundWidget extends StatelessWidget {
             minText: 'min',
           );
         }),
-        Spacer(),
+        const Spacer(),
         Obx(() {
           return DurationWidget(
             title: 'Long break duration',
@@ -141,7 +141,7 @@ class TimeandRoundWidget extends StatelessWidget {
             minText: 'min',
           );
         }),
-        Spacer(),
+        const Spacer(),
         Obx(() {
           return DurationWidget(
             title: 'Rounds',
@@ -157,7 +157,7 @@ class TimeandRoundWidget extends StatelessWidget {
             minText: '',
           );
         }),
-        Spacer(),
+        const Spacer(),
       ],
     );
   }
@@ -190,7 +190,7 @@ class DurationWidget extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                  child: Text(title + ": $sliderValue",
+                  child: Text("$title: $sliderValue",
                       textAlign: TextAlign.end,
                       style: Theme.of(context).textTheme.titleMedium)),
             ],

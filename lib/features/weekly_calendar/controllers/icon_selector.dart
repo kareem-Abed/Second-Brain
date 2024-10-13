@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
-class iconChoicesModel {
+class IconChoicesModel {
   IconData icon;
   String name;
   int color;
 
-  iconChoicesModel(
+  IconChoicesModel(
       {required this.icon, required this.name, required this.color});
 
-  iconChoicesModel.fromJson(Map<String, dynamic> json)
+  IconChoicesModel.fromJson(Map<String, dynamic> json)
       : icon = json['icon'],
         name = json['name'],
         color = json['color'];
@@ -26,101 +26,101 @@ class IconController extends GetxController {
   Rx<int> selectedColor = 0xFF2196F3.obs;
 
   // Updated list with FontAwesome icons and color codes
-  List<iconChoicesModel> iconChoices = [
-    iconChoicesModel.fromJson({
+  List<IconChoicesModel> iconChoices = [
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.briefcase,
       'name': 'عمل',
       'color': 0xFF2196F3 // Blue
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.solidBell,
       'name': 'استيقاظ',
       'color': 0xFFFF6347 // Amber
     }),
-    iconChoicesModel(
+    IconChoicesModel(
         icon: FontAwesomeIcons.utensils,
         name: 'فطور',
         color: 0xFFFF9800 // Orange
         ),
-    iconChoicesModel(
+    IconChoicesModel(
         icon: FontAwesomeIcons.laptopCode,
         name: 'المشروع',
         color: 0xFF4CAF50
         ),
-    iconChoicesModel(
+    IconChoicesModel(
         icon: FontAwesomeIcons.gamepad,
         name: 'استراحة',
         color: 0xFF673AB7 // Deep Purple
         ),
-    iconChoicesModel(
+    IconChoicesModel(
         icon: FontAwesomeIcons.dumbbell,
         name: 'تمرين',
         color: 0xFFE91E63 // Pink
         ),
-    iconChoicesModel(
+    IconChoicesModel(
         icon: FontAwesomeIcons.bed, name: 'النوم', color: 0xFF9C27B0 // Purple
         ),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.book,
       'name': 'دراسة',
       'color': 0xFF8BC34A
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.code,
       'name': 'برمجة',
       'color': 0xFF009688 // Teal
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.school,
       'name': 'مدرسة',
       'color': 0xFFD32F2F // Red
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.cartShopping,
       'name': 'تسوق',
       'color': 0xFFFB8C00 // Deep Orange
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.toilet,
       'name': 'حمام',
       'color': 0xFFAB47BC // Purple
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.personWalking,
       'name': 'خروج',
       'color': 0xFF1976D2 // Blue
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.hospital,
       'name': 'مستشفى',
       'color': 0xFFD32F2F // Red
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.calendarDay,
       'name': 'حدث',
       'color': 0xFF009688 // Teal
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.music,
       'name': 'موسيقى',
       'color': 0xFFE91E63 // Pink
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.film,
       'name': 'سينما',
       'color': 0xFF00BCD4 // Cyan
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.lightbulb,
       'name': 'أفكار',
       'color': 0xFFFFC107 // Yellow
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.mosque,
       'name': 'صلاة',
       'color': 0xFF00796B // Teal
     }),
-    iconChoicesModel.fromJson({
+    IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.bullseye,
       'name': 'هدف',
       'color': 0xFFD32F2F // Red
@@ -161,7 +161,7 @@ class IconSelector extends StatelessWidget {
                       style: Theme.of(context).textTheme.headlineSmall!),
                   Obx(() {
                     return Container(
-                      padding: EdgeInsets.symmetric(vertical: KSizes.sm),
+                      padding: const EdgeInsets.symmetric(vertical: KSizes.sm),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -195,7 +195,7 @@ class IconSelector extends StatelessWidget {
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 4,
                 ),
                 itemCount: iconController.iconChoices.length,

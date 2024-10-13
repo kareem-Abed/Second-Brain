@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:second_brain/common/widgets/loaders/loaders.dart';
-import 'package:second_brain/features/weekly_calendar/controllers/Icon_selector.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/icon_selector.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +26,8 @@ class WeeklyCalendarController extends GetxController {
 
   //--------> Form Variables <--------\\
   final formKey = GlobalKey<FormState>();
-  final TaskNameController = TextEditingController().obs;
-  final TaskDescriptionController = TextEditingController().obs;
+  final taskNameController = TextEditingController().obs;
+  final taskDescriptionController = TextEditingController().obs;
   //--------> Task Variables <--------\\
   var selectedStartTime = TimeOfDay.now().obs;
   RxDouble duration = 60.0.obs;
@@ -51,7 +51,7 @@ class WeeklyCalendarController extends GetxController {
     'الجمعة',
   ];
   RxInt currentDay = 0.obs;
-  var selectedDays = List<bool>.filled(7, true).obs;
+  var selectedDays = List<bool>.filled(7, false).obs;
 
   //-----------------------------> Initialization Functions <-----------------------------------\\
   @override
@@ -85,7 +85,7 @@ class WeeklyCalendarController extends GetxController {
     required String title,
     required String body,
   }) async {
-    final _winNotifyPlugin = WindowsNotification(
+    final winNotifyPlugin = WindowsNotification(
       applicationId: "Second Brain",
     );
     const String url = "assets/images/second_brain.png";
@@ -98,7 +98,7 @@ class WeeklyCalendarController extends GetxController {
       body,
       image: imageDir,
     );
-    _winNotifyPlugin.showNotificationPluginTemplate(message);
+    winNotifyPlugin.showNotificationPluginTemplate(message);
   }
 
   void checkAndUpdateTime() {
@@ -192,8 +192,8 @@ class WeeklyCalendarController extends GetxController {
   }
 
   void resetFormFields() {
-    TaskNameController.value.text = '';
-    TaskDescriptionController.value.text = '';
+    taskNameController.value.text = '';
+    taskDescriptionController.value.text = '';
     selectedStartTime.value = TimeOfDay.now();
 
     duration.value = 15;
@@ -378,13 +378,14 @@ class WeeklyCalendarController extends GetxController {
       tasks.add(task);
     }
 
-    TaskNameController.value.clear();
+    taskNameController.value.clear();
     saveTasksToStorage();
 
     TLoaders.successSnackBar(
         message: 'تمت إضافة المهمة بنجاح', title: 'تمت العملية');
   }
 
+  // ignore: non_constant_identifier_names
   void UpdateTask({
     required int? index,
     required String title,
@@ -452,7 +453,7 @@ class WeeklyCalendarController extends GetxController {
 
       saveTasksToStorage();
 
-      TaskNameController.value.clear();
+      taskNameController.value.clear();
       showUpdateTask.value = false;
       colorController.selectedIcon.value = Icons.work;
       colorController.selectedName.value = "عمل";
@@ -507,13 +508,13 @@ class WeeklyCalendarController extends GetxController {
     );
 
     if (index != null) {
-      TaskNameController.value.text = task['title'];
+      taskNameController.value.text = task['title'];
       selectedStartTime.value = TimeOfDay(
           hour: task['dateTime']['hour'], minute: task['dateTime']['minutes']);
 
       // Calculate end time based on start time and duration
 
-      this.duration.value = task['minutesDuration'].toDouble();
+      duration.value = task['minutesDuration'].toDouble();
       // final startMinutes =
       // task['dateTime']['hour'] * 60 + task['dateTime']['minutes'];
       // final endMinutes = startMinutes + task['minutesDuration'];
@@ -527,10 +528,11 @@ class WeeklyCalendarController extends GetxController {
       // Update selectedDays based on daysDuration and dayIndex
       for (int i = 0; i < daysOfWeek.length; i++) {
         if ((6 - i) >= task['dateTime']['day'] &&
-            (6 - i) < task['dateTime']['day'] + task['daysDuration'])
+            (6 - i) < task['dateTime']['day'] + task['daysDuration']) {
           selectedDays[i] = true;
-        else
+        } else {
           selectedDays[i] = false;
+        }
       }
 
       taskUpdateIndex.value = index;
@@ -596,7 +598,7 @@ class WeeklyCalendarController extends GetxController {
     Get.defaultDialog(
       title: 'تفاصيل المهمة',
       content: Text(
-        ' الاسم : ${title}\n  لمدة : ${(duration ~/ 60) != 0 ? '${(duration ~/ 60).toString().padLeft(1, '0')}h' : ''} ${(duration % 60 ~/ 1).toString().padLeft(2, '0')}m',
+        ' الاسم : $title\n  لمدة : ${(duration ~/ 60) != 0 ? '${(duration ~/ 60).toString().padLeft(1, '0')}h' : ''} ${(duration % 60 ~/ 1).toString().padLeft(2, '0')}m',
         style: Theme.of(Get.context!).textTheme.bodyMedium,
         textAlign: TextAlign.right,
       ),
@@ -604,7 +606,7 @@ class WeeklyCalendarController extends GetxController {
         onPressed: () {
           Get.back();
         },
-        child: Text('إغلاق'),
+        child: const Text('إغلاق'),
       ),
       cancel: ElevatedButton(
         onPressed: () {
@@ -619,7 +621,7 @@ class WeeklyCalendarController extends GetxController {
             color: color,
           );
         },
-        child: Text('حذف'),
+        child: const Text('حذف'),
       ),
       actions: [
         ElevatedButton(
@@ -637,7 +639,7 @@ class WeeklyCalendarController extends GetxController {
               'iconIndex': iconIndex,
             });
           },
-          child: Text('تحديث'),
+          child: const Text('تحديث'),
         ),
       ],
     );

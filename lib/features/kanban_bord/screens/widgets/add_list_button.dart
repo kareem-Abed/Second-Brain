@@ -4,21 +4,25 @@ import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
 import 'package:second_brain/utils/constants/colors.dart';
+import 'package:second_brain/utils/validators/validation.dart';
 
 class AddListButton extends StatelessWidget {
-  final KanbanController controller = Get.find();
+
+
+  const AddListButton({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final KanbanController controller = Get.find();
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       width: 300,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Obx(
             () => AnimatedSwitcher(
-              duration: Duration(milliseconds: 300),
+              duration: const Duration(milliseconds: 300),
               transitionBuilder: (Widget child, Animation<double> animation) {
                 return SlideTransition(
                   position: Tween<Offset>(
@@ -31,74 +35,103 @@ class AddListButton extends StatelessWidget {
                   child: child,
                 );
               },
-              child: controller.ShowListNameTextField.value
+              child: controller.showListNameTextField.value
                   ? Container(
-                      key: ValueKey(1),
+                      key: const ValueKey(1),
                       decoration: BoxDecoration(
                         color: KColors.darkModeCard,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
-                      padding: EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         children: [
                           Obx(
-                            () => TextField(
+                            () => TextFormField(
                               controller: controller.listNameController.value,
                               focusNode: controller.listNameFocusNode.value,
+                              validator: (value) =>
+                                  KValidator.validateEmptyText(
+                                      'اسم المهمة', value),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
                               decoration: InputDecoration(
-                                hintText: 'Enter list name',
+                                hintText: controller.isListEditMode.value
+                                    ? 'Edit list name'
+                                    : 'Enter list name',
                               ),
-                              onSubmitted: (value) {
-                                if (controller
-                                    .listNameController.value.text.isEmpty) {
-                                  return;
-                                }
-                                controller.addList(
-                                  controller.listNameController.value.text,
-                                );
-                                controller.ShowListNameTextField.value = false;
-                                controller.listNameController.value.clear();
-                              },
+                              // onFieldSubmitted: (value) {
+                              //   if (controller
+                              //       .listNameController.value.text.isEmpty) {
+                              //     return;
+                              //   }
+                              //   if (controller.isListEditMode.value) {
+                              //     controller.editList(
+                              //       controller.editingListId.value,
+                              //       controller.listNameController.value.text,
+                              //     );
+                              //   } else {
+                              //     controller.addList(
+                              //       controller.listNameController.value.text,
+                              //     );
+                              //   }
+                              //   controller.showListNameTextField.value = false;
+                              //   controller.listNameController.value.clear();
+                              //   controller.isListEditMode.value = false;
+                              // },
                             ),
                           ),
-                          SizedBox(height: 8.0),
+                          const SizedBox(height: 8.0),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               IconButton(
-                                icon: Icon(FontAwesomeIcons.xmark),
+                                icon: const Icon(FontAwesomeIcons.xmark),
                                 onPressed: () {
-                                  controller.ShowListNameTextField.value =
+                                  controller.showListNameTextField.value =
                                       false;
+                                  controller.listNameController.value.clear();
+                                  controller.isListEditMode.value = false;
                                 },
                               ),
-                              SizedBox(width: 8.0),
+                              const SizedBox(width: 8.0),
                               InkWell(
                                 onTap: () {
                                   if (controller
                                       .listNameController.value.text.isEmpty) {
                                     return;
                                   }
-                                  controller.addList(
-                                    controller.listNameController.value.text,
-                                  );
-                                  controller.ShowListNameTextField.value =
+                                  if (controller.isListEditMode.value) {
+                                    controller.editList(
+                                      controller.editingListId.value,
+                                      controller.listNameController.value.text,
+                                    );
+                                  } else {
+                                    controller.addList(
+                                      controller.listNameController.value.text,
+                                    );
+                                  }
+                                  controller.showListNameTextField.value =
                                       false;
                                   controller.listNameController.value.clear();
+                                  controller.isListEditMode.value = false;
                                 },
                                 child: Container(
                                     decoration: BoxDecoration(
                                       color: KColors.darkModeSubCard,
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    padding: EdgeInsets.all(10.0),
+                                    padding: const EdgeInsets.all(10.0),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        Text('Add list'),
-                                        SizedBox(width: 8.0),
-                                        Icon(IconsaxPlusLinear.add),
+                                        Text(controller.isListEditMode.value
+                                            ? 'Edit list'
+                                            : 'Add list'),
+                                        const SizedBox(width: 8.0),
+                                        Icon(controller.isListEditMode.value
+                                            ? IconsaxPlusLinear.edit
+                                            : IconsaxPlusLinear.add),
                                       ],
                                     )),
                               ),
@@ -108,19 +141,19 @@ class AddListButton extends StatelessWidget {
                       ),
                     )
                   : InkWell(
-                      key: ValueKey(2),
+                      key: const ValueKey(2),
                       onTap: () {
-                        controller.ShowListNameTextField.value = true;
+                    controller.showListNameTextField.value = false;
+                        controller.showListNameTextField.value = true;
                         controller.listNameFocusNode.value.requestFocus();
-
                       },
                       child: Container(
                           decoration: BoxDecoration(
                             color: KColors.darkModeCard,
                             borderRadius: BorderRadius.circular(8.0),
                           ),
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
+                          padding: const EdgeInsets.all(10.0),
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text('Add another list'),
@@ -131,7 +164,7 @@ class AddListButton extends StatelessWidget {
                     ),
             ),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
         ],
       ),
     );

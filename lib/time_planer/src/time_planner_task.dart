@@ -53,7 +53,7 @@ class TimePlannerTask extends StatelessWidget {
   }
 
   /// Widget that show on time planner as the tasks
-  TimePlannerTask({
+  const TimePlannerTask({
     Key? key,
     required this.minutesDuration,
     required this.dateTime,
@@ -120,128 +120,126 @@ class TimePlannerTask extends StatelessWidget {
                             color: Colors.black.withOpacity(0.3),
                             spreadRadius: 2,
                             blurRadius: 3,
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
                       child: Center(
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                            child: minutesDuration <= 45
-                                ? Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        flex: 1,
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            double iconSize = (constraints
-                                                        .maxHeight *
-                                                    0.6)
-                                                .clamp(
-                                                    8.0, // Ensure the minimum value is valid
-                                                    constraints.maxWidth * 0.6);
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                          child: minutesDuration <= 45
+                              ? Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      flex: 1,
+                                      child: LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          double iconSize = (constraints
+                                                      .maxHeight *
+                                                  0.6)
+                                              .clamp(
+                                                  8.0, // Ensure the minimum value is valid
+                                                  constraints.maxWidth * 0.6);
 
-                                            return Icon(
+                                          return Icon(
+                                            icon,
+                                            color: color ?? Colors.white,
+                                            size: iconSize,
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          double textSize =
+                                              (constraints.maxWidth * 0.12)
+                                                  .clamp(10.0, 15.0);
+                                          return Center(
+                                            child: Text(
+                                              title,
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(Get.context!)
+                                                  .textTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                    fontSize: textSize,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                  ],
+                                )
+                              : Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                  children: [
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          double iconSize =
+                                              (constraints.maxHeight * 1.0)
+                                                  .clamp(
+                                            10.0,
+                                            constraints.maxWidth * 0.6,
+                                          );
+                                          return Center(
+                                            child: Icon(
                                               icon,
+                                              applyTextScaling: true,
                                               color: color ?? Colors.white,
                                               size: iconSize,
-                                            );
-                                          },
-                                        ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            double textSize =
-                                                (constraints.maxWidth * 0.12)
-                                                    .clamp(10.0, 15.0);
-                                            return Center(
-                                              child: Text(
-                                                title,
-                                                textAlign: TextAlign.center,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: Theme.of(Get.context!)
-                                                    .textTheme
-                                                    .titleSmall!
-                                                    .copyWith(
-                                                      fontSize: textSize,
-                                                    ),
-                                              ),
-                                            );
-                                          },
-                                        ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Expanded(
+                                      flex: 2,
+                                      child: LayoutBuilder(
+                                        builder: (context, constraints) {
+                                          double textSize =
+                                              (constraints.maxWidth * 0.12)
+                                                  .clamp(10.0, 15.0);
+                                          return Center(
+                                            child: Text(
+                                              title,
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(Get.context!)
+                                                  .textTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                    fontSize: textSize,
+                                                  ),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                    ],
-                                  )
-                                : Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Expanded(
-                                        flex: 1,
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            double iconSize =
-                                                (constraints.maxHeight * 1.0)
-                                                    .clamp(
-                                              10.0,
-                                              constraints.maxWidth * 0.6,
-                                            );
-                                            return Center(
-                                              child: Icon(
-                                                icon,
-                                                applyTextScaling: true,
-                                                color: color ?? Colors.white,
-                                                size: iconSize,
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: LayoutBuilder(
-                                          builder: (context, constraints) {
-                                            double textSize =
-                                                (constraints.maxWidth * 0.12)
-                                                    .clamp(10.0, 15.0);
-                                            return Center(
-                                              child: Text(
-                                                title,
-                                                textAlign: TextAlign.center,
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: Theme.of(Get.context!)
-                                                    .textTheme
-                                                    .titleSmall!
-                                                    .copyWith(
-                                                      fontSize: textSize,
-                                                    ),
-                                              ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                    ],
-                                  ),
-                          ),
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                  ],
+                                ),
                         ),
                       ),
                     ),

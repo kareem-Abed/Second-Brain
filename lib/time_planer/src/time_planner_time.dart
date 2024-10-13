@@ -24,7 +24,7 @@ class TimePlannerTime extends StatelessWidget {
     final controller = Get.put(WeeklyCalendarController());
 
     double height = config.cellHeight!.toDouble();
-    return Container(
+    return SizedBox(
       height:
           (intl.DateFormat('ha').format(time) == '12AM') ? height - 25 : height,
       width: 64,
@@ -64,7 +64,7 @@ class TimePlannerTime extends StatelessWidget {
                                           .format(time)
                                           .toString(),
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 15,
                                   ),
@@ -73,7 +73,7 @@ class TimePlannerTime extends StatelessWidget {
                             ),
                           ),
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   if (oneDayOnlyView! &&
                       !(controller.currentHour.value == time.hour &&
                           controller.currentMinute >= 26 &&

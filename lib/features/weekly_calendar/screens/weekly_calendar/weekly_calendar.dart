@@ -21,7 +21,7 @@ class WeeklyCalendarScreen extends StatelessWidget {
           Obx(() {
             if (controller.showAddTask.value) {
               return Container(
-                margin: EdgeInsets.only(top: 16, right: 16, bottom: 16),
+                margin: const EdgeInsets.only(top: 16, right: 16, bottom: 16),
                 decoration: BoxDecoration(
                   color: KColors.darkModeCard,
                   border:
@@ -38,7 +38,7 @@ class WeeklyCalendarScreen extends StatelessWidget {
           Expanded(
               flex: 2,
               child: Container(
-                  margin: EdgeInsets.all(16),
+                  margin: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
                     color: KColors.darkModeCard,
                     border:

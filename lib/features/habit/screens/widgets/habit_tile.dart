@@ -25,7 +25,7 @@ class HabitTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(6.0),
       child: Container(
-        padding: EdgeInsets.all(24),
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
           color: KColors.darkModeSubCard,
           border: Border.all(color: KColors.darkModeCardBorder, width: 1),

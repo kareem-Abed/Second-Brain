@@ -6,25 +6,30 @@ import 'package:second_brain/features/kanban_bord/controller/kanban_board_contro
 import 'package:second_brain/utils/constants/colors.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({
-    Key? key,
-    required this.title,
+  const HeaderWidget({super.key,
+
     required this.controller,
     required this.listId,
   });
-  final String title, listId;
+  final String listId;
   final KanbanController controller;
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 50,
-      padding: EdgeInsets.only(left: 6.0),
+      padding: const EdgeInsets.only(left: 6.0),
       child: Row(
         children: [
           PullDownButton(
             itemBuilder: (context) => [
               PullDownMenuItem(
-                onTap: () {},
+                onTap: () {
+                  controller.listNameController.value.text =
+                      controller.listNames[listId]!.value;
+                  controller.isListEditMode.value = true;
+                  controller.editingListId.value = listId;
+                  controller.showListNameTextField.value = true;
+                },
                 title: 'edit',
                 isDestructive: false,
                 icon: Icons.edit,
@@ -48,8 +53,8 @@ class HeaderWidget extends StatelessWidget {
           Container(
             width: 25,
             height: 25,
-            margin: EdgeInsets.symmetric(horizontal: 8.0),
-            decoration: BoxDecoration(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            decoration: const BoxDecoration(
               color: KColors.darkModeBackground,
               shape: BoxShape.circle,
             ),
@@ -65,14 +70,16 @@ class HeaderWidget extends StatelessWidget {
                   );
                 })),
           ),
-          Container(
+          SizedBox(
             width: 180.0,
             // width: 220.0,
-            child: Text(title,
-                textAlign: TextAlign.end,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: Theme.of(context).textTheme.headlineSmall),
+            child: Obx(
+              () => Text(controller.listNames[listId]!.value,
+                  textAlign: TextAlign.end,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.headlineSmall),
+            ),
           ),
         ],
       ),

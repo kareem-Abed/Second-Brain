@@ -4,7 +4,7 @@ import 'package:second_brain/common/widgets/custom_shaps/curved_edges/curved_edg
 import 'package:second_brain/utils/constants/colors.dart';
 
 class TPrimaryHeaderContainer2 extends StatelessWidget {
-  TPrimaryHeaderContainer2({
+  const TPrimaryHeaderContainer2({
     super.key,
     required this.child,
   });

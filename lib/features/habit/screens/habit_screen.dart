@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/habit/screens/widgets/habit_tile.dart';
@@ -9,7 +8,7 @@ import 'package:second_brain/features/habit/screens/widgets/my_alert_box.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
-import '../controllers/Habit_controller.dart';
+import '../controllers/habit_controller.dart';
 import '../data/habit_database.dart';
 
 class HabitScreen extends StatefulWidget {
@@ -131,7 +130,7 @@ class _HabitScreenState extends State<HabitScreen> {
       body: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+            margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
             decoration: BoxDecoration(
               color: KColors.darkModeCard,
               border: Border.all(color: KColors.darkModeCardBorder, width: 1),
@@ -139,8 +138,8 @@ class _HabitScreenState extends State<HabitScreen> {
             ),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
+                const Padding(
+                  padding: EdgeInsets.only(top: 16, left: 16, right: 16),
                   child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text('Habit Tracker',
@@ -148,13 +147,13 @@ class _HabitScreenState extends State<HabitScreen> {
                 ),
                 MonthlySummary(
                   datasets: db.heatMapDataSet,
-                  startDate: controller.START_DATE,
+                  startDate: controller.startDate,
                 ),
               ],
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+            margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
             padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             decoration: BoxDecoration(
               color: KColors.darkModeCard,
@@ -171,17 +170,17 @@ class _HabitScreenState extends State<HabitScreen> {
                     FloatingActionButton(
                       backgroundColor: KColors.darkModeSubCard,
                       onPressed: () => createNewHabit(),
-                      child: Icon(
+                      child: const Icon(
                         IconsaxPlusBroken.add,
                         size: 30,
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Text('Habits',
+                    const SizedBox(width: 16),
+                    const Text('Habits',
                         style: TextStyle(color: Colors.white, fontSize: 24)),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 AlignedGridView.count(
                   crossAxisCount: 2,
                   shrinkWrap: true,
@@ -198,7 +197,7 @@ class _HabitScreenState extends State<HabitScreen> {
                   mainAxisSpacing: 1.0,
                   crossAxisSpacing: 1.0,
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               ],
             ),
           ),

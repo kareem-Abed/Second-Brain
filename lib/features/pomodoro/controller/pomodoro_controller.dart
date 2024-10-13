@@ -27,7 +27,7 @@ class PomodoroController extends GetxController {
   RxList<Map<String, dynamic>> sessionHistory = <Map<String, dynamic>>[].obs;
 
   Timer? _timer;
-  Duration _remainingDuration = Duration(minutes: 25);
+  Duration _remainingDuration = const Duration(minutes: 25);
 
   final box = GetStorage();
   final _windowsAudioPlugin = WindowsAudio();
@@ -78,7 +78,6 @@ class PomodoroController extends GetxController {
     box.write('sessionCount', sessionRounds.value);
     box.write('numberOfSessionRounds', numberOfSessionRounds.value);
     box.write('sessionHistory', sessionHistory);
-    print(sessionHistory);
     // _getPrefs();
   }
 
@@ -112,9 +111,7 @@ class PomodoroController extends GetxController {
     try {
       await _windowsAudioPlugin.load(path);
       await _windowsAudioPlugin.play();
-      await Future.delayed(Duration(seconds: 1));
-    } catch (e) {
-      print(e);
+      await Future.delayed(const Duration(seconds: 1));
     } finally {
       _audioCompleter?.complete();
     }
@@ -123,9 +120,9 @@ class PomodoroController extends GetxController {
   Future<void> _startTimer(Duration duration, String sessionName) async {
     _remainingDuration = duration;
     _timer?.cancel();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) async {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
       if (_remainingDuration.inSeconds > 0) {
-        _remainingDuration -= Duration(seconds: 1);
+        _remainingDuration -= const Duration(seconds: 1);
         progress.value = _remainingDuration.inSeconds /
             Duration(
                     minutes: isBreak.value

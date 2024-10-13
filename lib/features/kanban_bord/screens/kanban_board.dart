@@ -10,7 +10,10 @@ import 'package:second_brain/features/kanban_bord/screens/widgets/item_widget.da
 import 'package:second_brain/utils/constants/colors.dart';
 
 class KanbanBoard extends StatefulWidget {
+  const KanbanBoard({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _KanbanBoardState createState() => _KanbanBoardState();
 }
 
@@ -19,13 +22,13 @@ class _KanbanBoardState extends State<KanbanBoard> {
   final double headerHeight = 80;
   final double tileWidth = 300;
   final KanbanController kanbanController = Get.put(KanbanController());
-  String? activeColumnId;
 
   void setActiveColumn(String columnId) {
     setState(() {
-      activeColumnId = columnId;
-      kanbanController.ItemNameController.value.clear();
-      kanbanController.ShowItemNameTextField.value = true;
+      kanbanController.showListNameTextField.value = false;
+      kanbanController.activeListId.value = columnId;
+      kanbanController.itemNameController.value.clear();
+      kanbanController.showItemNameTextField.value = true;
     });
     kanbanController.focusItemName();
   }
@@ -51,22 +54,22 @@ class _KanbanBoardState extends State<KanbanBoard> {
         () => SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           reverse: true,
-          child: Container(
+          child: SizedBox(
             height: double.infinity,
             child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              AddListButton(),
+              const AddListButton(),
               ...kanbanController.board.value.keys
                   .toList()
                   .reversed
                   .map((String key) {
                 return Container(
                   width: tileWidth,
-                  margin: EdgeInsets.all(8.0),
+                  margin: const EdgeInsets.all(8.0),
                   child:
                       buildKanbanList(key, kanbanController.board.value[key]!),
                 );
               }).toList(),
-              SizedBox(width: 8.0),
+              const SizedBox(width: 8.0),
             ]),
           ),
         ),
@@ -75,25 +78,24 @@ class _KanbanBoardState extends State<KanbanBoard> {
   }
 
   buildColumns(String listId, List<Item> items) {
-    final listName = kanbanController.listNames[listId] ?? "Unnamed List";
+    // final listName = kanbanController.listNames[listId] ?? "Unnamed List";
 
-    return Column(
-      children: [
-        Draggable<String>(
-          data: listId,
-          onDragStarted: () {
-            kanbanController.isDragging.value = true;
-            kanbanController.draggingListId.value = listId;
-          },
-          onDragEnd: (details) {
-            kanbanController.isDragging.value = false;
-            kanbanController.draggingListId.value = '';
-          },
-          //----------------- --------------
-          childWhenDragging: Opacity(
-            opacity: 0.5,
-            child: SingleChildScrollView(
-              padding: EdgeInsets.all(0),
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Draggable<String>(
+            data: listId,
+            onDragStarted: () {
+              kanbanController.isDragging.value = true;
+              kanbanController.draggingListId.value = listId;
+            },
+            onDragEnd: (details) {
+              kanbanController.isDragging.value = false;
+              kanbanController.draggingListId.value = '';
+            },
+            //----------------- --------------
+            childWhenDragging: Opacity(
+              opacity: 0.5,
               child: Container(
                 width: tileWidth,
                 decoration: BoxDecoration(
@@ -103,12 +105,11 @@ class _KanbanBoardState extends State<KanbanBoard> {
                 child: Column(
                   children: [
                     HeaderWidget(
-                      title: listName,
                       controller: kanbanController,
                       listId: listId,
                     ),
                     ListView.builder(
-                      padding: EdgeInsets.all(0),
+                      padding: const EdgeInsets.all(0),
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
                       itemCount: items.length,
@@ -120,60 +121,57 @@ class _KanbanBoardState extends State<KanbanBoard> {
                     AddItemButton(
                       onActivate: () => setActiveColumn(listId),
                       listId: listId,
-                      activeListId: activeColumnId ?? '',
                     )
                   ],
                 ),
               ),
             ),
-          ),
-          feedback: Opacity(
-            opacity: 0.8,
-            child: Transform.rotate(
-              angle: 0.1,
-              child: Container(
-                width: tileWidth,
-                decoration: BoxDecoration(
-                  color: KColors.darkModeCard,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Column(
-                  children: [
-                    HeaderWidget(
-                      title: listName,
-                      controller: kanbanController,
-                      listId: listId,
-                    ),
-                    ...items
-                        .map((item) => ItemWidget(
-                            item: item, controller: kanbanController))
-                        .toList(),
-                    Card(
-                      elevation: 0,
-                      child: Container(
-                          decoration: BoxDecoration(
-                            color: KColors.darkModeCard,
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text('Add another list'),
-                              SizedBox(width: 8.0),
-                              Icon(Icons.add),
-                            ],
-                          )),
-                    ),
-                  ],
+
+            feedback: Opacity(
+              opacity: 0.8,
+              child: Transform.rotate(
+                angle: 0.1,
+                child: Container(
+                  width: tileWidth,
+                  decoration: BoxDecoration(
+                    color: KColors.darkModeCard,
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: Column(
+                    children: [
+                      HeaderWidget(
+                        controller: kanbanController,
+                        listId: listId,
+                      ),
+                      ...items
+                          .map((item) => ItemWidget(
+                              item: item, controller: kanbanController))
+                          .toList(),
+                      Card(
+                        elevation: 0,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: KColors.darkModeCard,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            padding: const EdgeInsets.all(10.0),
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text('Add another list'),
+                                SizedBox(width: 8.0),
+                                Icon(Icons.add),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          //----------------- --------------
-          child: SingleChildScrollView(
+            //----------------- --------------
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: KColors.darkModeCard,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(10.0),
@@ -196,7 +194,6 @@ class _KanbanBoardState extends State<KanbanBoard> {
                         List<dynamic> rejectedData) {
                       if (data.isEmpty) {
                         return HeaderWidget(
-                          title: listName,
                           controller: kanbanController,
                           listId: listId,
                         );
@@ -204,7 +201,6 @@ class _KanbanBoardState extends State<KanbanBoard> {
                         return Column(
                           children: [
                             HeaderWidget(
-                              title: listName,
                               controller: kanbanController,
                               listId: listId,
                             ),
@@ -224,13 +220,11 @@ class _KanbanBoardState extends State<KanbanBoard> {
               ),
             ),
           ),
-        ),
-        Obx(() => kanbanController.isDragging.value &&
-                kanbanController.draggingListId.value == listId
-            ? Container()
-            : SingleChildScrollView(
-                child: Container(
-                  decoration: BoxDecoration(
+          Obx(() => kanbanController.isDragging.value &&
+                  kanbanController.draggingListId.value == listId
+              ? Container()
+              : Container(
+                  decoration: const BoxDecoration(
                     color: KColors.darkModeCard,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10.0),
@@ -248,17 +242,13 @@ class _KanbanBoardState extends State<KanbanBoard> {
                             children: [
                               Draggable<Item>(
                                 data: items[index],
-                                child: ItemWidget(
-                                    item: items[index],
-                                    showHover: true,
-                                    controller: kanbanController),
                                 childWhenDragging: Opacity(
                                   opacity: 0.2,
                                   child: ItemWidget(
                                       item: items[index],
                                       controller: kanbanController),
                                 ),
-                                feedback: Container(
+                                feedback: SizedBox(
                                   width: tileWidth,
                                   child: FloatingWidget(
                                     child: ItemWidget(
@@ -266,6 +256,10 @@ class _KanbanBoardState extends State<KanbanBoard> {
                                         controller: kanbanController),
                                   ),
                                 ),
+                                child: ItemWidget(
+                                    item: items[index],
+                                    showHover: true,
+                                    controller: kanbanController),
                               ),
                               DragTarget<Item>(
                                 onWillAccept: (Item? data) {
@@ -299,12 +293,12 @@ class _KanbanBoardState extends State<KanbanBoard> {
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                           ),
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 8.0, vertical: 10.0),
                                           child: Text(
                                             items[index].title,
                                             textAlign: TextAlign.end,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 color: Colors.transparent),
                                           ),
                                         ),
@@ -329,13 +323,13 @@ class _KanbanBoardState extends State<KanbanBoard> {
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
                                               ),
-                                              padding: EdgeInsets.symmetric(
+                                              padding: const EdgeInsets.symmetric(
                                                   horizontal: 8.0,
                                                   vertical: 10.0),
                                               child: Text(
                                                 items[index].title,
                                                 textAlign: TextAlign.end,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     color: Colors.transparent),
                                               ),
                                             ),
@@ -375,7 +369,6 @@ class _KanbanBoardState extends State<KanbanBoard> {
                             return AddItemButton(
                               onActivate: () => setActiveColumn(listId),
                               listId: listId,
-                              activeListId: activeColumnId ?? '',
                             );
                           } else {
                             return Column(
@@ -393,8 +386,8 @@ class _KanbanBoardState extends State<KanbanBoard> {
                                       color: KColors.darkModeCard,
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Row(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: const Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         Text('Add another list'),
@@ -409,9 +402,9 @@ class _KanbanBoardState extends State<KanbanBoard> {
                       ),
                     ],
                   ),
-                ),
-              )),
-      ],
+                )),
+        ],
+      ),
     );
   }
 

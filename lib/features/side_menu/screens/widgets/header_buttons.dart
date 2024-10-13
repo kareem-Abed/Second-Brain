@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 
@@ -37,17 +36,17 @@ class HeaderButtons extends StatelessWidget {
                             controller.clearAllTasks();
                             Get.back();
                           },
-                          child: Text('نعم'),
+                          child: const Text('نعم'),
                         ),
                         cancel: ElevatedButton(
                           onPressed: () {
                             Get.back();
                           },
-                          child: Text('إلغاء'),
+                          child: const Text('إلغاء'),
                         ),
                       );
                     },
-                    icon: Icon(IconsaxPlusBroken.trash,
+                    icon: const Icon(IconsaxPlusBroken.trash,
                         color: Colors.red, size: 30)),
                 const SizedBox(width: KSizes.spaceBtwItems),
                 IconButton(
@@ -70,7 +69,7 @@ class HeaderButtons extends StatelessWidget {
                 ),
               ],
             )
-          : SizedBox();
+          : const SizedBox();
     });
   }
 }

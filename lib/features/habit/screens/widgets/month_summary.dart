@@ -22,7 +22,7 @@ class MonthlySummary extends StatelessWidget {
         textDirection: TextDirection.ltr,
         child: HeatMap(
           startDate: createDateTimeObject(startDate),
-          endDate: DateTime.now().add(Duration(days: 0)),
+          endDate: DateTime.now().add(const Duration(days: 0)),
           datasets: datasets,
           colorMode: ColorMode.color,
           defaultColor: KColors.darkModeSubCard,

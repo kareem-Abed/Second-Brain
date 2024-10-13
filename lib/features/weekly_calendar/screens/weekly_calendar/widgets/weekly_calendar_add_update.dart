@@ -1,4 +1,4 @@
-import 'package:second_brain/features/weekly_calendar/controllers/Icon_selector.dart';
+import 'package:second_brain/features/weekly_calendar/controllers/icon_selector.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
@@ -21,7 +21,7 @@ class AddTaskForm extends StatelessWidget {
           Stack(
             alignment: Alignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: double.infinity,
                 height: 50,
               ),
@@ -32,7 +32,7 @@ class AddTaskForm extends StatelessWidget {
                   onPressed: () {
                     controller.showAddTask.value = false;
                   },
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.close,
                     color: Colors.red,
                   ),
@@ -70,7 +70,7 @@ class AddTaskForm extends StatelessWidget {
                           if (controller.showUpdateTask.value) {
                             controller.UpdateTask(
                               index: controller.taskUpdateIndex.value,
-                              title: controller.TaskNameController.value.text,
+                              title: controller.taskNameController.value.text,
                               hour: controller.selectedStartTime.value.hour,
                               minutes: controller.selectedStartTime.value.minute,
                               // dayIndex: controller.dayIndex.value,
@@ -79,9 +79,9 @@ class AddTaskForm extends StatelessWidget {
                               icon: controller.colorController.selectedIcon.value,
                               color: controller.colorController.selectedColor.value,
                             );
-                          } else
+                          } else {
                             controller.addTask(
-                              title: controller.TaskNameController.value.text,
+                              title: controller.taskNameController.value.text,
                               hour: controller.selectedStartTime.value.hour,
                               minutes: controller.selectedStartTime.value.minute,
                               // dayIndex: controller.dayIndex.value,
@@ -90,6 +90,7 @@ class AddTaskForm extends StatelessWidget {
                               icon: controller.colorController.selectedIcon.value,
                               color: controller.colorController.selectedColor.value,
                             );
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(12),
@@ -108,7 +109,7 @@ class AddTaskForm extends StatelessWidget {
                       ),
                       (controller.showUpdateTask.value)
                           ? const SizedBox(height: KSizes.spaceBtwItems)
-                          : SizedBox(),
+                          : const SizedBox(),
                       (controller.showUpdateTask.value)
                           ? InkWell(
                               onTap: () {
@@ -129,7 +130,7 @@ class AddTaskForm extends StatelessWidget {
                                 ),
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                     ],
                   );
                 }),
@@ -139,7 +140,7 @@ class AddTaskForm extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: controller.TaskNameController.value,
+                        controller: controller.taskNameController.value,
                         maxLines: 2,
                         keyboardType: TextInputType.text,
                         validator: (value) =>
@@ -186,16 +187,16 @@ class AddTaskForm extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: KSizes.sm),
-                      HourSelectionWidget(),
+                      const HourSelectionWidget(),
                       const SizedBox(
                         height: KSizes.sm,
                       ),
-                      DurationPicker(),
+                      const DurationPicker(),
                       const SizedBox(
                         height: KSizes.sm,
                       ),
                       // const KDivider(),
-                      WorkingDaysWidget(),
+                      const WorkingDaysWidget(),
                       const SizedBox(height: KSizes.spaceBtwInputFields),
                       // const KDivider(),
                     ],
@@ -214,6 +215,8 @@ class AddTaskForm extends StatelessWidget {
 }
 
 class WorkingDaysWidget extends StatelessWidget {
+  const WorkingDaysWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(WeeklyCalendarController());
@@ -245,10 +248,13 @@ class WorkingDaysWidget extends StatelessWidget {
 }
 
 class HourSelectionWidget extends StatelessWidget {
-  final controller = Get.put(WeeklyCalendarController());
+
+
+  const HourSelectionWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(WeeklyCalendarController());
     return Padding(
       padding: const EdgeInsets.all(KSizes.sm),
       child: Obx(
@@ -294,11 +300,14 @@ class HourSelectionWidget extends StatelessWidget {
 
 //------------------------
 class DurationPicker extends StatelessWidget {
-  final WeeklyCalendarController controller =
-      Get.put(WeeklyCalendarController());
+
+
+  const DurationPicker({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final WeeklyCalendarController controller =
+    Get.put(WeeklyCalendarController());
     return Padding(
       padding: const EdgeInsets.only(right: KSizes.sm),
       child: Row(

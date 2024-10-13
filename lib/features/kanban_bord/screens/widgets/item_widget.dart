@@ -17,6 +17,7 @@ class ItemWidget extends StatefulWidget {
       : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ItemWidgetState createState() => _ItemWidgetState();
 }
 
@@ -41,22 +42,28 @@ class _ItemWidgetState extends State<ItemWidget> {
       items: [
         PopupMenuItem(
           child: ListTile(
-            leading: Icon(Icons.edit, color: Colors.white),
+            leading: const Icon(Icons.edit, color: Colors.white),
             title: Text('Edit',
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
                     .copyWith(color: Colors.white)),
             onTap: () {
-              //widget.controller.editItem(widget.item);
+              widget.controller.isItemEditMode.value = true;
+              widget.controller.showItemNameTextField.value = true;
+              widget.controller.itemNameController.value.text =
+                  widget.item.title;
+              widget.controller.editingItemId.value = widget.item.id;
+              widget.controller.editingItemListId.value = widget.item.listId;
+              widget.controller.activeListId.value = widget.item.listId;
+              widget.controller.showListNameTextField.value = false;
               Navigator.pop(context);
-              print('Edit');
             },
           ),
         ),
         PopupMenuItem(
           child: ListTile(
-            leading: Icon(Icons.delete, color: Colors.red),
+            leading: const Icon(Icons.delete, color: Colors.red),
             title: Text('Delete',
                 style: Theme.of(context)
                     .textTheme
@@ -94,13 +101,13 @@ class _ItemWidgetState extends State<ItemWidget> {
             child: Container(
               width: 300,
               decoration: BoxDecoration(
-                color: Color.fromRGBO(64, 75, 96, .9),
+                color: const Color.fromRGBO(64, 75, 96, .9),
                 border: Border.all(
                     color: widget.showHover ? borderColor : Colors.transparent,
                     width: 2),
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
               child: Text(
                 widget.item.title,
                 textAlign: TextAlign.end,

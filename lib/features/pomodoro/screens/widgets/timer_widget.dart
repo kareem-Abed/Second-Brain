@@ -11,7 +11,7 @@ import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/sizes.dart';
 
 class TimerWidget extends StatelessWidget {
-  TimerWidget({
+  const TimerWidget({super.key,
     required this.controller,
   });
   final PomodoroController controller;
@@ -22,8 +22,8 @@ class TimerWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: controller.isFullScreen.value ? max(610, height - 100) : 610,
-      margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(32),
+      margin: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(32),
       decoration: BoxDecoration(
         color: KColors.darkModeCard,
         border: Border.all(color: KColors.darkModeCardBorder, width: 1),
@@ -65,7 +65,7 @@ class TimerWidget extends StatelessWidget {
                       color: KColors.darkModeSubCard,
                       shape: BoxShape.circle,
                       boxShadow: [
-                        BoxShadow(
+                        const BoxShadow(
                           color: KColors.darkModeBackground,
                           blurRadius: 25,
                           spreadRadius: 10,
@@ -75,13 +75,13 @@ class TimerWidget extends StatelessWidget {
                           color: Colors.white.withOpacity(0.1),
                           blurRadius: 50,
                           spreadRadius: 1,
-                          offset: Offset(-1, -1),
+                          offset: const Offset(-1, -1),
                         ),
                         BoxShadow(
                           color: KColors.darkModeBackground.withOpacity(0.5),
                           blurRadius: 50,
                           spreadRadius: 1,
-                          offset: Offset(20, 20),
+                          offset: const Offset(20, 20),
                         ),
                       ],
                     ),
@@ -93,7 +93,7 @@ class TimerWidget extends StatelessWidget {
                       color: KColors.darkModeSubCard,
                       shape: BoxShape.circle,
                       boxShadow: [
-                        BoxShadow(
+                        const BoxShadow(
                           color: KColors.darkModeBackground,
                           blurRadius: 25,
                           spreadRadius: 10,
@@ -103,13 +103,13 @@ class TimerWidget extends StatelessWidget {
                           color: Colors.white.withOpacity(0.1),
                           blurRadius: 50,
                           spreadRadius: 1,
-                          offset: Offset(-1, -1),
+                          offset: const Offset(-1, -1),
                         ),
                         BoxShadow(
                           color: KColors.darkModeBackground.withOpacity(0.5),
                           blurRadius: 50,
                           spreadRadius: 1,
-                          offset: Offset(20, 20),
+                          offset: const Offset(20, 20),
                         ),
                       ],
                     ),
@@ -118,14 +118,14 @@ class TimerWidget extends StatelessWidget {
                           gradient: LinearGradient(
                             colors: controller.isBreak.value
                                 ? [
-                                    Color(0xFFFFA726),
-                                    Color(0xFFFF7043),
-                                    Color(0xFFD32F2F)
+                                    const Color(0xFFFFA726),
+                                    const Color(0xFFFF7043),
+                                    const Color(0xFFD32F2F)
                                   ]
                                 : [
-                                    Color(0xFF1BFFFF),
+                                    const Color(0xFF1BFFFF),
                                     Colors.lightBlue,
-                                    Color(0xFF2E3192)
+                                    const Color(0xFF2E3192)
                                   ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -143,12 +143,12 @@ class TimerWidget extends StatelessWidget {
                           )),
                       Obx(() => Text(
                           controller.isBreak.value ? 'Break' : 'Focus',
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 20,
                               fontWeight: FontWeight.w600))),
                       Obx(() => Text(controller.timerString.value,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.white,
                               fontSize: 70,
                               fontWeight: FontWeight.bold))),
@@ -161,7 +161,7 @@ class TimerWidget extends StatelessWidget {
                                   color: Colors.white.withOpacity(0.8),
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600))),
-                          Text('/',
+                          const Text('/',
                               style: TextStyle(
                                   color: KColors.primary,
                                   fontSize: 20,
@@ -174,7 +174,7 @@ class TimerWidget extends StatelessWidget {
                         ],
                       ),
                       Obx(() => Text(controller.sessionName.value,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 20,
                               fontWeight: FontWeight.bold))),
@@ -182,7 +182,7 @@ class TimerWidget extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -196,11 +196,11 @@ class TimerWidget extends StatelessWidget {
                           color: Colors.black.withOpacity(0.5),
                           blurRadius: 50,
                           spreadRadius: 2,
-                          offset: Offset(5, 5),
+                          offset: const Offset(5, 5),
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: IconButton(
                       onPressed: () {
                         controller.isFullScreen.value = false;
@@ -208,7 +208,7 @@ class TimerWidget extends StatelessWidget {
                         controller.showSettings.value =
                             !controller.showSettings.value;
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         IconsaxPlusLinear.setting_2,
                         color: Colors.white,
                         size: 30,
@@ -241,7 +241,7 @@ class TimerWidget extends StatelessWidget {
                               color: Colors.black.withOpacity(0.5),
                               blurRadius: 50,
                               spreadRadius: 2,
-                              offset: Offset(5, 5),
+                              offset: const Offset(5, 5),
                             ),
                           ],
                         ),
@@ -251,26 +251,26 @@ class TimerWidget extends StatelessWidget {
                         child: Obx(() {
                           if (controller.progress.value == 1.0 &&
                               !controller.isBreak.value) {
-                            return Text('START',
+                            return const Text('START',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold));
                           } else if (controller.progress.value == 1.0 &&
                               controller.isBreak.value) {
-                            return Text('START Break',
+                            return const Text('START Break',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold));
                           } else if (controller.isPaused.value) {
-                            return Text('RESUME',
+                            return const Text('RESUME',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold));
                           } else {
-                            return Text('PAUSE',
+                            return const Text('PAUSE',
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontSize: 24,
@@ -290,16 +290,16 @@ class TimerWidget extends StatelessWidget {
                           color: Colors.black.withOpacity(0.5),
                           blurRadius: 50,
                           spreadRadius: 2,
-                          offset: Offset(5, 5),
+                          offset: const Offset(5, 5),
                         ),
                       ],
                     ),
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: IconButton(
                       onPressed: () {
                         controller.resetTimer();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         IconsaxPlusLinear.repeat,
                         color: Colors.white,
                         size: 30,

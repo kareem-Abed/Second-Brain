@@ -17,6 +17,7 @@ class CustomSideMenu extends StatefulWidget {
   const CustomSideMenu({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _CustomSideMenuState createState() => _CustomSideMenuState();
 }
 
@@ -33,12 +34,12 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
                 Expanded(
                   child: Column(
                     children: [
-                      HeaderWidget(),
+                      const HeaderWidget(),
                       PageViewWidget(),
                     ],
                   ),
                 ),
-                SideMenuWidget(),
+                const SideMenuWidget(),
               ],
             ),
           ),
@@ -73,9 +74,9 @@ class PageViewWidget extends StatelessWidget {
           ),
           const WeeklyCalendarScreen(viewCurrentDayOnly: false),
           const WeeklyCalendarScreen(viewCurrentDayOnly: true),
-          KanbanBoard(),
-          Pomodoro(),
-          HabitScreen(),
+          const KanbanBoard(),
+          const Pomodoro(),
+          const HabitScreen(),
           Container(
             color: KColors.darkModeBackground,
             child: const Center(
@@ -98,7 +99,7 @@ class HeaderWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: KColors.darkModeSideMenuBackground,
       ),
       height: 70,
@@ -106,7 +107,7 @@ class HeaderWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
           IconButton(
@@ -116,13 +117,13 @@ class HeaderWidget extends StatelessWidget {
               color: Colors.grey,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
-          Column(
+          const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
-            children: const [
+            children: [
               Text(
                 'Second Brain',
                 style: TextStyle(
@@ -139,26 +140,26 @@ class HeaderWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
-          CircleAvatar(
+          const CircleAvatar(
             radius: 24,
-            backgroundImage: const AssetImage('assets/images/second_brain.png'),
+            backgroundImage: AssetImage('assets/images/second_brain.png'),
           ),
-          SizedBox(
+          const SizedBox(
             width: 16,
           ),
           IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 IconsaxPlusBold.notification_bing,
                 color: KColors.primary,
               )),
-          Spacer(),
-          HeaderButtons(),
+          const Spacer(),
+          const HeaderButtons(),
           const SizedBox(width: KSizes.spaceBtwItems),
-          SearchWidget(),
+          const SearchWidget(),
           const SizedBox(width: KSizes.sm),
         ],
       ),
@@ -186,7 +187,7 @@ class SideMenuWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(
+            const SizedBox(
               height: KSizes.sm,
             ),
             GestureDetector(
@@ -200,20 +201,20 @@ class SideMenuWidget extends StatelessWidget {
                 child: Image.asset('assets/images/second_brain.png'),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: KSizes.sm,
             ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusBold.category,
               title: 'Dashboard',
               index: 0,
             ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusBold.calendar,
               title: 'اسبوع',
               index: 1,
             ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusBold.code,
               title: 'يوم',
               index: 2,
@@ -223,30 +224,30 @@ class SideMenuWidget extends StatelessWidget {
             //   title: 'مهام',
             //   index: 3,
             // ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusBold.task_square,
               title: 'مهام',
               index: 3,
             ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusBold.clock,
               title: 'Pomodoro ',
               index: 4,
             ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusBold.tree,
               title: 'العادات',
               index: 5,
             ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusBold.setting_2,
               title: 'إعدادات',
               index: 6,
             ),
-            SizedBox(
+            const SizedBox(
               height: 58,
             ),
-            HoverableMenuItem(
+            const HoverableMenuItem(
               icon: IconsaxPlusLinear.arrow_square_left,
               title: 'الخروج',
               index: 7,

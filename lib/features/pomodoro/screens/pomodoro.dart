@@ -9,10 +9,13 @@ import '../../../utils/constants/sizes.dart';
 import 'package:get/get.dart';
 
 class Pomodoro extends StatelessWidget {
-  final PomodoroController controller = Get.put(PomodoroController());
+
+
+  const Pomodoro({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final PomodoroController controller = Get.put(PomodoroController());
     return Scaffold(
       backgroundColor: KColors.darkModeBackground,
       body: Obx(() {
@@ -62,13 +65,13 @@ class HistoryWidget extends StatelessWidget {
     return Container(
       // height: double.infinity,
       width: double.infinity,
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         // top: 16,
         right: 16,
         left: 16,
         bottom: 16,
       ),
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: KColors.darkModeCard,
         border: Border.all(color: KColors.darkModeCardBorder, width: 1),
@@ -80,7 +83,7 @@ class HistoryWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                icon: Icon(IconsaxPlusLinear.trash),
+                icon: const Icon(IconsaxPlusLinear.trash),
                 onPressed: () {
                   Get.defaultDialog(
                     backgroundColor: KColors.darkModeCard,
@@ -95,23 +98,23 @@ class HistoryWidget extends StatelessWidget {
                         controller.clearHistory();
                         Get.back();
                       },
-                      child: Text('نعم'),
+                      child: const Text('نعم'),
                     ),
                     cancel: ElevatedButton(
                       onPressed: () {
                         Get.back();
                       },
-                      child: Text('إلغاء'),
+                      child: const Text('إلغاء'),
                     ),
                   );
                 },
               ),
-              SizedBox(width: 16),
+              const SizedBox(width: 16),
               Text('Sessions History',
                   style: Theme.of(context).textTheme.headlineMedium),
             ],
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Obx(
             () => AlignedGridView.count(
               crossAxisCount: 2,
@@ -176,7 +179,7 @@ class StatCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     sessionName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Arial',
@@ -190,7 +193,7 @@ class StatCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     sessionRounds,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Arial',
@@ -209,7 +212,7 @@ class StatCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     totalDuration,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Arial',
@@ -223,7 +226,7 @@ class StatCard extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
                     date,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'Arial',

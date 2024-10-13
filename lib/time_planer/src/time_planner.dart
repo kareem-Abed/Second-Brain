@@ -51,6 +51,7 @@ class TimePlanner extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _TimePlannerState createState() => _TimePlannerState();
 }
 
@@ -133,40 +134,52 @@ class _TimePlannerState extends State<TimePlanner> {
   Widget build(BuildContext context) {
     tasks = widget.tasks ?? [];
 
-    return Container(
-      // color: style.backgroundColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final screenWidth = constraints.maxWidth;
-              final adjustedScreenWidth = screenWidth - 65;
-              final calculatedWidth = adjustedScreenWidth /
-                  (widget.viewCurrentDayOnly ? 1 : config.totalDays);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final screenWidth = constraints.maxWidth;
+            final adjustedScreenWidth = screenWidth - 65;
+            final calculatedWidth = adjustedScreenWidth /
+                (widget.viewCurrentDayOnly ? 1 : config.totalDays);
 
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  const SizedBox(
-                    width: 64,
-                    child: Center(
-                      child: FittedBox(
-                        child: Text(
-                          ' الساعه / اليوم ',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const SizedBox(
+                  width: 64,
+                  child: Center(
+                    child: FittedBox(
+                      child: Text(
+                        ' الساعه / اليوم ',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
                         ),
                       ),
                     ),
                   ),
-                  if (widget.viewCurrentDayOnly)
+                ),
+                if (widget.viewCurrentDayOnly)
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        right: BorderSide(
+                          color: style.dividerColor!.withOpacity(0.9),
+                          width: 1.2,
+                        ),
+                      ),
+                    ),
+                    width: calculatedWidth,
+                    child: widget.headers[controller.currentDay.value],
+                  )
+                else
+                  for (int i = 0; i < config.totalDays; i++)
                     Container(
                       decoration: BoxDecoration(
                         border: Border(
@@ -177,139 +190,124 @@ class _TimePlannerState extends State<TimePlanner> {
                         ),
                       ),
                       width: calculatedWidth,
-                      child: widget.headers[controller.currentDay.value],
-                    )
-                  else
-                    for (int i = 0; i < config.totalDays; i++)
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            right: BorderSide(
-                              color: style.dividerColor!.withOpacity(0.9),
-                              width: 1.2,
-                            ),
-                          ),
+                      child: widget.headers[i],
+                    ),
+              ],
+            );
+          },
+        ),
+        Container(
+          height: 1,
+          color: style.dividerColor ?? Theme.of(context).primaryColor,
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            controller: timeVerticalController,
+            child: Stack(
+              children: [
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            for (int i = widget.startHour;
+                                i <= widget.endHour;
+                                i++)
+                              TimePlannerTime(
+                                oneDayOnlyView: widget.viewCurrentDayOnly,
+                                time: formattedTime(i),
+                                setTimeOnAxis: config.setTimeOnAxis,
+                                textColor: controller.currentHour.value == i
+                                    ? Colors.blue
+                                    : Colors.white,
+                              )
+                          ],
                         ),
-                        width: calculatedWidth,
-                        child: widget.headers[i],
-                      ),
-                ],
-              );
-            },
-          ),
-          Container(
-            height: 1,
-            color: style.dividerColor ?? Theme.of(context).primaryColor,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              controller: timeVerticalController,
-              child: Stack(
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              for (int i = widget.startHour;
-                                  i <= widget.endHour;
-                                  i++)
-                                TimePlannerTime(
-                                  oneDayOnlyView: widget.viewCurrentDayOnly,
-                                  time: formattedTime(i),
-                                  setTimeOnAxis: config.setTimeOnAxis,
-                                  textColor: controller.currentHour.value == i
-                                      ? Colors.blue
-                                      : Colors.white,
-                                )
-                            ],
-                          ),
-                          Container(
-                            height:
-                                (config.totalHours * config.cellHeight!) + 100,
-                            width: 1,
-                            color: style.dividerColor ??
-                                Theme.of(context).primaryColor,
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: buildMainBody(),
-                      ),
-                    ],
-                  ),
-                  Obx(
-                    () => Positioned(
-                      top: ((config.cellHeight! *
-                                  (controller.currentHour.value -
-                                      config.startHour)) +
-                              ((controller.currentMinute.value *
-                                      config.cellHeight!) /
-                                  60)) -
-                          10,
-                      left: 0,
-                      right: 0,
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 58,
-                            child: Directionality(
-                              textDirection: TextDirection.ltr,
-                              child: FittedBox(
-                                child: Text(
-                                  intl.DateFormat(' h:mm a ').format(
-                                    DateTime(
-                                      DateTime.now().year,
-                                      DateTime.now().month,
-                                      DateTime.now().day,
-                                      controller.currentHour.value,
-                                      controller.currentMinute.value,
-                                    ),
+                        Container(
+                          height:
+                              (config.totalHours * config.cellHeight!) + 100,
+                          width: 1,
+                          color: style.dividerColor ??
+                              Theme.of(context).primaryColor,
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: buildMainBody(),
+                    ),
+                  ],
+                ),
+                Obx(
+                  () => Positioned(
+                    top: ((config.cellHeight! *
+                                (controller.currentHour.value -
+                                    config.startHour)) +
+                            ((controller.currentMinute.value *
+                                    config.cellHeight!) /
+                                60)) -
+                        10,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 58,
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: FittedBox(
+                              child: Text(
+                                intl.DateFormat(' h:mm a ').format(
+                                  DateTime(
+                                    DateTime.now().year,
+                                    DateTime.now().month,
+                                    DateTime.now().day,
+                                    controller.currentHour.value,
+                                    controller.currentMinute.value,
                                   ),
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                                ),
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700,
                                 ),
                               ),
                             ),
                           ),
-                          Container(
-                            height: 12,
-                            width: 12,
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              shape: BoxShape.circle,
-                            ),
+                        ),
+                        Container(
+                          height: 12,
+                          width: 12,
+                          decoration: const BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
                           ),
-                          Expanded(
-                            child: Divider(
-                              color: Colors.redAccent,
-                              thickness: 1.8,
-                            ),
+                        ),
+                        const Expanded(
+                          child: Divider(
+                            color: Colors.redAccent,
+                            thickness: 1.8,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Widget buildMainBody() {
-    final crossAxisAlignment = CrossAxisAlignment.start;
-    final mainAxisAlignment = MainAxisAlignment.start;
+    const crossAxisAlignment = CrossAxisAlignment.start;
+    const mainAxisAlignment = MainAxisAlignment.start;
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -462,6 +460,8 @@ class DashedDivider extends StatelessWidget {
         final boxWidth = constraints.constrainWidth();
         final dashCount = (boxWidth / (dashWidth + dashSpace)).floor();
         return Flex(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          direction: Axis.horizontal,
           children: List.generate(dashCount, (_) {
             return SizedBox(
               width: dashWidth,
@@ -471,8 +471,6 @@ class DashedDivider extends StatelessWidget {
               ),
             );
           }),
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          direction: Axis.horizontal,
         );
       },
     );

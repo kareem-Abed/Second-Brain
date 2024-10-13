@@ -27,8 +27,7 @@ Future<void> main() async {
       packageName: packageInfo.packageName,
     );
     await launchAtStartup.enable();
-    bool isEnabled = await launchAtStartup.isEnabled();
-    print(isEnabled);
+    // bool isEnabled = await launchAtStartup.isEnabled();
   } else {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
