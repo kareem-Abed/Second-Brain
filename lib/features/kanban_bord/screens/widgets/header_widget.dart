@@ -1,16 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:pull_down_button/pull_down_button.dart';
+
 import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key,
-
+  const HeaderWidget({
+    super.key,
     required this.controller,
     required this.listId,
   });
+
+  void _showOverlayMenu(BuildContext context) {
+    final overlay = Overlay.of(context).context.findRenderObject();
+    final button = context.findRenderObject() as RenderBox;
+    final position = button.localToGlobal(Offset.zero);
+
+    showMenu(
+      color: KColors.darkModeSubCard,
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx + button.size.width,
+        position.dy,
+        overlay?.semanticBounds.size.width ?? 0 - position.dx,
+        0,
+      ),
+      items: [
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.edit, color: Colors.white),
+            title: Text('Edit',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.white)),
+            onTap: () {
+              controller.listNameController.value.text =
+                  controller.listNames[listId]!.value;
+              controller.isListEditMode.value = true;
+              controller.editingListId.value = listId;
+              controller.showListNameTextField.value = true;
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        PopupMenuItem(
+          child: ListTile(
+            leading: const Icon(Icons.delete, color: Colors.red),
+            title: Text('Delete',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(color: Colors.red)),
+            onTap: () {
+              controller.removeColumn(listId);
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
   final String listId;
   final KanbanController controller;
   @override
@@ -20,34 +72,42 @@ class HeaderWidget extends StatelessWidget {
       padding: const EdgeInsets.only(left: 6.0),
       child: Row(
         children: [
-          PullDownButton(
-            itemBuilder: (context) => [
-              PullDownMenuItem(
-                onTap: () {
-                  controller.listNameController.value.text =
-                      controller.listNames[listId]!.value;
-                  controller.isListEditMode.value = true;
-                  controller.editingListId.value = listId;
-                  controller.showListNameTextField.value = true;
-                },
-                title: 'edit',
-                isDestructive: false,
-                icon: Icons.edit,
-              ),
-              PullDownMenuItem(
-                onTap: () {
-                  controller.removeColumn(listId);
-                },
-                title: 'Delete',
-                isDestructive: true,
-                icon: Icons.delete,
-              ),
-            ],
-            buttonBuilder: (context, showMenu) => IconButton(
-              onPressed: showMenu,
-              icon: const Icon(
-                FontAwesomeIcons.ellipsis,
-              ),
+          // PullDownButton(
+          //   itemBuilder: (context) => [
+          //     PullDownMenuItem(
+          //       onTap: () {
+          //         controller.listNameController.value.text =
+          //             controller.listNames[listId]!.value;
+          //         controller.isListEditMode.value = true;
+          //         controller.editingListId.value = listId;
+          //         controller.showListNameTextField.value = true;
+          //       },
+          //       title: 'edit',
+          //       isDestructive: false,
+          //       icon: Icons.edit,
+          //     ),
+          //     PullDownMenuItem(
+          //       onTap: () {
+          //         controller.removeColumn(listId);
+          //       },
+          //       title: 'Delete',
+          //       isDestructive: true,
+          //       icon: Icons.delete,
+          //     ),
+          //   ],
+          //   buttonBuilder: (context, showMenu) => IconButton(
+          //     onPressed: showMenu,
+          //     icon: const Icon(
+          //       FontAwesomeIcons.ellipsis,
+          //     ),
+          //   ),
+          // ),
+          IconButton(
+            onPressed: () => _showOverlayMenu(context),
+            icon: const Icon(
+              FontAwesomeIcons.ellipsis,
+              color: KColors.white,
+              weight: 4,
             ),
           ),
           Container(

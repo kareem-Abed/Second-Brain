@@ -1,50 +1,23 @@
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
+import 'package:elegant_notification/elegant_notification.dart';
+import 'package:elegant_notification/resources/stacked_options.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:second_brain/utils/constants/colors.dart';
-import 'package:second_brain/utils/helpers/helper_functions.dart';
 
 class TLoaders {
-  // static final AudioPlayer player = AudioPlayer();
-
+  final windowsAudioPlayer = Player();
   static hideSnackBar() {
     ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar();
   }
 
-  static void customToast({required message}) {
-    // player.play(AssetSource('sounds/error.mp3'));
-    ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
-      elevation: 0,
-      duration: const Duration(seconds: 2),
-      backgroundColor: Colors.transparent,
-      content: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0),
-        child: Container(
-            padding: const EdgeInsets.all(12.0),
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
-              color: KHelperFunctions.isDarkMode(Get.context!)
-                  ? KColors.darkGrey.withOpacity(0.9)
-                  : KColors.grey.withOpacity(0.9),
-            ),
-            child: Center(
-              child: Text(
-                message,
-                style: Theme.of(Get.context!).textTheme.labelLarge,
-              ),
-            )),
-      ),
-    ));
-  }
-
-  static void successSnackBar(
-      {required String title, message = '', duration = 1}) {
-    // player.play(volume: 100,AssetSource('sounds/success.mp3'));
+  void successSnackBar({required String title, message = '', duration = 1}) {
+    windowsAudioPlayer.open(Media("asset:///assets/sounds/timesup.mp3"));
 
     DelightToastBar(
       builder: (context) {
@@ -81,11 +54,12 @@ class TLoaders {
     );
   }
 
-  static void warningSnackBar({
+  void warningSnackBar({
     required String title,
     message = '',
   }) {
-    // player.play(AssetSource('sounds/error.mp3'));
+    windowsAudioPlayer.open(Media("asset:///assets/sounds/error.mp3"));
+
     DelightToastBar(
       builder: (context) {
         return ToastCard(
@@ -122,46 +96,85 @@ class TLoaders {
     );
   }
 
-  static void errorSnackBar({
-    required String title,
-    message = '',
-  }) {
-    // player.play(AssetSource('sounds/error.mp3'));
-    DelightToastBar(
-      builder: (context) {
-        return ToastCard(
-          color: Colors.red.shade600,
-          leading: const Icon(
-            IconsaxPlusLinear.warning_2,
-            size: 32,
-            color: KColors.white,
-          ),
-          title: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 14,
-              fontFamily: 'MontserratArabic',
-              color: KColors.white,
-            ),
-          ),
-          subtitle: Text(
-            message,
-            style: const TextStyle(
-              fontSize: 12,
-              fontFamily: 'MontserratArabic',
-              color: KColors.white,
-            ),
-          ),
-        );
-      },
-      position: DelightSnackbarPosition.top,
-      autoDismiss: true,
-      snackbarDuration: const Duration(
-        seconds: 3,
+  void errorSnackBar({required String title, message = '', required context}) {
+    windowsAudioPlayer.open(Media("asset:///assets/sounds/error.mp3"));
+    ElegantNotification.error(
+      width: 360,
+      height: 100,
+      background: KColors.darkModeSubCard,
+      isDismissable: true,
+      stackedOptions: StackedOptions(
+        key: 'top',
+        type: StackedType.same,
+        itemOffset: const Offset(-5, -5),
       ),
-    ).show(
-      Get.context!,
-    );
+      title: Text(
+        title,
+        style: const TextStyle(
+          fontWeight: FontWeight.w700,
+          fontSize: 14,
+          fontFamily: 'MontserratArabic',
+          color: KColors.white,
+        ),
+      ),
+      description: Text(
+        message,
+        style: const TextStyle(
+          fontSize: 12,
+          fontFamily: 'MontserratArabic',
+          color: KColors.white,
+        ),
+      ),
+      autoDismiss: true,
+      onDismiss: () {
+        //Message when the notification is dismissed
+      },
+      onNotificationPressed: () {
+        //Message when the notification is pressed
+      },
+      border: const Border(
+        bottom: BorderSide(
+          color: Colors.red,
+          width: 1,
+        ),
+      ),
+    ).show(context);
+
+    // DelightToastBar(
+    //   builder: (context) {
+    //     return ToastCard(
+    //       color: Colors.red.shade600,
+    //       leading: const Icon(
+    //         IconsaxPlusLinear.warning_2,
+    //         size: 32,
+    //         color: KColors.white,
+    //       ),
+    //       title: Text(
+    //         title,
+    //         style: const TextStyle(
+    //           fontWeight: FontWeight.w700,
+    //           fontSize: 14,
+    //           fontFamily: 'MontserratArabic',
+    //           color: KColors.white,
+    //         ),
+    //       ),
+    //       subtitle: Text(
+    //         message,
+    //         style: const TextStyle(
+    //           fontSize: 12,
+    //           fontFamily: 'MontserratArabic',
+    //           color: KColors.white,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    //   position: DelightSnackbarPosition.top,
+    //   autoDismiss: true,
+    //   snackbarDuration: const Duration(
+    //     seconds: 3,
+    //   ),
+    // ).show(
+    //   Get.context!,
+    // );
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+// import 'package:lottie/lottie.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
 
@@ -21,10 +21,10 @@ class TAnimationLoaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(children: [
-        Lottie.asset(
-          animation,
-          width: MediaQuery.of(context).size.width * 0.8,
-        ),
+        // Lottie.asset(
+        //   animation,
+        //   width: MediaQuery.of(context).size.width * 0.8,
+        // ),
         const SizedBox(
           height: KSizes.sm,
         ),

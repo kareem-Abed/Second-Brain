@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pull_down_button/pull_down_button.dart';
 import 'package:second_brain/utils/constants/colors.dart';
-// import 'package:flutter_slidable/flutter_slidable.dart';
+
 
 class HabitTile extends StatelessWidget {
   final String habitName;
@@ -39,28 +37,28 @@ class HabitTile extends StatelessWidget {
               onChanged: onChanged,
             ),
             Expanded(child: Text(habitName)),
-            PullDownButton(
-              itemBuilder: (context) => [
-                PullDownMenuItem(
-                  onTap: () => settingsTapped?.call(context),
-                  title: 'edit',
-                  isDestructive: false,
-                  icon: Icons.edit,
-                ),
-                PullDownMenuItem(
-                  onTap: () => deleteTapped?.call(context),
-                  title: 'Delete',
-                  isDestructive: true,
-                  icon: Icons.delete,
-                ),
-              ],
-              buttonBuilder: (context, showMenu) => InkWell(
-                onTap: showMenu,
-                child: const Icon(
-                  FontAwesomeIcons.ellipsisVertical,
-                ),
-              ),
-            )
+            // PullDownButton(
+            //   itemBuilder: (context) => [
+            //     PullDownMenuItem(
+            //       onTap: () => settingsTapped?.call(context),
+            //       title: 'edit',
+            //       isDestructive: false,
+            //       icon: Icons.edit,
+            //     ),
+            //     PullDownMenuItem(
+            //       onTap: () => deleteTapped?.call(context),
+            //       title: 'Delete',
+            //       isDestructive: true,
+            //       icon: Icons.delete,
+            //     ),
+            //   ],
+            //   buttonBuilder: (context, showMenu) => InkWell(
+            //     onTap: showMenu,
+            //     child: const Icon(
+            //       FontAwesomeIcons.ellipsisVertical,
+            //     ),
+            //   ),
+            // )
           ],
         ),
       ),

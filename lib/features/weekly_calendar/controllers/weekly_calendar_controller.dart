@@ -27,7 +27,7 @@ class WeeklyCalendarController extends GetxController {
   //--------> Form Variables <--------\\
   final formKey = GlobalKey<FormState>();
   final taskNameController = TextEditingController().obs;
-  final taskDescriptionController = TextEditingController().obs;
+  // final taskDescriptionController = TextEditingController().obs;
   //--------> Task Variables <--------\\
   var selectedStartTime = TimeOfDay.now().obs;
   RxDouble duration = 60.0.obs;
@@ -69,6 +69,7 @@ class WeeklyCalendarController extends GetxController {
 
   @override
   void onClose() {
+    taskNameController.value.dispose();
     timer?.cancel();
     super.onClose();
   }
@@ -76,8 +77,9 @@ class WeeklyCalendarController extends GetxController {
   Future<String> getLocalImagePath(String assetPath) async {
     final supportDir = await getApplicationSupportDirectory();
     final byteData = await rootBundle.load(assetPath);
-    final file = File('${supportDir.path}/moon.png');
+    final file = File('${supportDir.path}/${assetPath.split('/').last}');
     await file.writeAsBytes(byteData.buffer.asUint8List());
+
     return file.path;
   }
 
@@ -131,9 +133,6 @@ class WeeklyCalendarController extends GetxController {
           );
         }
 
-        // Calculate task end time
-        // DateTime taskEndTime = task.dateTime.add(Duration(minutes: task.minutesDuration));
-
         DateTime taskEndTime = DateTime(now.year, now.month, now.day,
             task.dateTime.hour, task.dateTime.minutes + task.minutesDuration);
 
@@ -165,7 +164,6 @@ class WeeklyCalendarController extends GetxController {
             .iconChoices[colorController.iconChoices
                 .indexWhere((iconModel) => iconModel.color == task['color'])]
             .icon,
-        // icon: colorController.iconChoices[task['iconIndex'] ?? 0].icon,
         title: task['title'],
         dateTime: TimePlannerDateTime(
           day: task['dateTime']['day'],
@@ -193,135 +191,13 @@ class WeeklyCalendarController extends GetxController {
 
   void resetFormFields() {
     taskNameController.value.text = '';
-    taskDescriptionController.value.text = '';
+    // taskDescriptionController.value.text = '';
     selectedStartTime.value = TimeOfDay.now();
-
     duration.value = 15;
     colorController.selectedColor.value = colorController.iconChoices[0].color;
     colorController.selectedIcon.value = colorController.iconChoices[0].icon;
   }
   //-----------------------------> Task Management Functions <-----------------------------------\\
-  // void addAllTasks() {
-  //   // قائمة المهام
-  //   final tasksList = [
-  //     {
-  //       'title': 'استيقاظ، فطور، تمرين خفيف',
-  //       'hour': 6,
-  //       'minutes': 0,
-  //       'duration': 60, // 1 ساعة
-  //       'icon': FontAwesomeIcons.solidBell,
-  //       'color': 0xFFFF6347, // Amber
-  //     },
-  //     {
-  //       'title': 'دراسة مركزة',
-  //       'hour': 7,
-  //       'minutes': 0,
-  //       'duration': 120, // 2 ساعة
-  //       'icon': FontAwesomeIcons.book,
-  //       'color': 0xFF4CAF50, // Light Green
-  //     },
-  //     {
-  //       'title': 'استراحة قصيرة',
-  //       'hour': 9,
-  //       'minutes': 0,
-  //       'duration': 30, // 30 دقيقة
-  //       'icon': FontAwesomeIcons.gamepad,
-  //       'color': 0xFF673AB7, // Deep Purple
-  //     },
-  //     {
-  //       'title': 'عمل على المشروع',
-  //       'hour': 9,
-  //       'minutes': 30,
-  //       'duration': 150, // 2.5 ساعة
-  //       'icon': FontAwesomeIcons.laptopCode,
-  //       'color': 0xFF4CAF50, // Green
-  //     },
-  //     {
-  //       'title': 'غداء واستراحة',
-  //       'hour': 12,
-  //       'minutes': 0,
-  //       'duration': 60, // 1 ساعة
-  //       'icon': FontAwesomeIcons.utensils,
-  //       'color': 0xFFFF9800, // Orange
-  //     },
-  //     {
-  //       'title': 'دراسة',
-  //       'hour': 13,
-  //       'minutes': 0,
-  //       'duration': 90, // 1.5 ساعة
-  //       'icon': FontAwesomeIcons.book,
-  //       'color': 0xFF4CAF50, // Light Green
-  //     },
-  //     {
-  //       'title': 'استراحة',
-  //       'hour': 14,
-  //       'minutes': 30,
-  //       'duration': 30, // 30 دقيقة
-  //       'icon': FontAwesomeIcons.gamepad,
-  //       'color': 0xFF673AB7, // Deep Purple
-  //     },
-  //     {
-  //       'title': 'عمل على المشروع',
-  //       'hour': 15,
-  //       'minutes': 0,
-  //       'duration': 120, // 2 ساعة
-  //       'icon': FontAwesomeIcons.laptopCode,
-  //       'color': 0xFF4CAF50, // Green
-  //     },
-  //     {
-  //       'title': 'تمرين، وقت حر',
-  //       'hour': 17,
-  //       'minutes': 0,
-  //       'duration': 60, // 1 ساعة
-  //       'icon': FontAwesomeIcons.dumbbell,
-  //       'color': 0xFFE91E63, // Pink
-  //     },
-  //     {
-  //       'title': 'عشاء واستراحة',
-  //       'hour': 18,
-  //       'minutes': 0,
-  //       'duration': 60, // 1 ساعة
-  //       'icon': FontAwesomeIcons.utensils,
-  //       'color': 0xFFFF9800, // Orange
-  //     },
-  //     {
-  //       'title': 'دراسة أو عمل جانبي',
-  //       'hour': 19,
-  //       'minutes': 0,
-  //       'duration': 120, // 2 ساعة
-  //       'icon': FontAwesomeIcons.book,
-  //       'color': 0xFF4CAF50, // Light Green
-  //     },
-  //     {
-  //       'title': 'وقت حر',
-  //       'hour': 21,
-  //       'minutes': 0,
-  //       'duration': 60, // 1 ساعة
-  //       'icon': FontAwesomeIcons.gamepad,
-  //       'color': 0xFF673AB7, // Deep Purple
-  //     },
-  //
-  //
-  //   ];
-  //
-  //
-  //
-  //
-  //   for (var task in tasksList) {
-  //     addTask(
-  //       title: task['title'] as String, // تحويل إلى String
-  //       hour: task['hour'] as int, // تحويل إلى int
-  //       minutes: task['minutes'] as int, // تحويل إلى int
-  //       duration: task['duration'] as int, // تحويل إلى int
-  //       icon: task['icon'] as IconData,
-  //       color: task['color'] as int,
-  //     );
-  //   }
-  //
-  //   // إعلام المستخدم بنجاح العملية
-  //   TLoaders.successSnackBar(
-  //       message: 'تمت إضافة المهام بنجاح', title: 'تمت العملية');
-  // }
 
   void addTask({
     required String title,
@@ -330,17 +206,22 @@ class WeeklyCalendarController extends GetxController {
     required int duration,
     required IconData icon,
     required int color,
+    required context,
   }) {
     final connectedDays = findConnectedDays();
     if (title.isEmpty) {
-      TLoaders.errorSnackBar(
-          message: 'العنوان لا يمكن أن يكون فارغًا', title: 'خطأ');
+      TLoaders().errorSnackBar(
+          message: 'العنوان لا يمكن أن يكون فارغًا',
+          title: 'خطأ',
+          context: context);
       return;
     }
 
     if (!selectedDays.contains(true)) {
-      TLoaders.errorSnackBar(
-          message: 'يجب اختيار يوم واحد على الأقل', title: 'خطأ');
+      TLoaders().errorSnackBar(
+          context: context,
+          message: 'يجب اختيار يوم واحد على الأقل',
+          title: 'خطأ');
       return;
     }
 
@@ -381,7 +262,7 @@ class WeeklyCalendarController extends GetxController {
     taskNameController.value.clear();
     saveTasksToStorage();
 
-    TLoaders.successSnackBar(
+    TLoaders().successSnackBar(
         message: 'تمت إضافة المهمة بنجاح', title: 'تمت العملية');
   }
 
@@ -394,6 +275,7 @@ class WeeklyCalendarController extends GetxController {
     required int duration,
     required IconData icon,
     required int color,
+    required context,
   }) {
     if (index != null) {
       // Remove the old version of the task
@@ -402,14 +284,18 @@ class WeeklyCalendarController extends GetxController {
       // Find connected days based on the toggled days
       final connectedDays = findConnectedDays();
       if (title.isEmpty) {
-        TLoaders.errorSnackBar(
-            message: 'العنوان لا يمكن أن يكون فارغًا', title: 'خطأ');
+        TLoaders().errorSnackBar(
+            context: context,
+            message: 'العنوان لا يمكن أن يكون فارغًا',
+            title: 'خطأ');
         return;
       }
 
       if (!selectedDays.contains(true)) {
-        TLoaders.errorSnackBar(
-            message: 'يجب اختيار يوم واحد على الأقل', title: 'خطأ');
+        TLoaders().errorSnackBar(
+            context: context,
+            message: 'يجب اختيار يوم واحد على الأقل',
+            title: 'خطأ');
         return;
       }
 
@@ -445,7 +331,6 @@ class WeeklyCalendarController extends GetxController {
             );
           },
         );
-
         // Insert the task at the correct position
         tasks.insert(index!, task);
         index++;
@@ -459,7 +344,7 @@ class WeeklyCalendarController extends GetxController {
       colorController.selectedName.value = "عمل";
       colorController.selectedColor.value = 0xFF2196F3;
 
-      TLoaders.successSnackBar(
+      TLoaders().successSnackBar(
           message: 'تم تحديث المهمة بنجاح', title: 'تمت العملية');
     }
   }
@@ -490,7 +375,7 @@ class WeeklyCalendarController extends GetxController {
       saveTasksToStorage();
 
       showUpdateTask.value = false;
-      TLoaders.successSnackBar(
+      TLoaders().successSnackBar(
           message: 'تمت إزالة المهمة بنجاح', title: 'تمت العملية');
     }
   }
@@ -513,18 +398,10 @@ class WeeklyCalendarController extends GetxController {
           hour: task['dateTime']['hour'], minute: task['dateTime']['minutes']);
 
       // Calculate end time based on start time and duration
-
       duration.value = task['minutesDuration'].toDouble();
-      // final startMinutes =
-      // task['dateTime']['hour'] * 60 + task['dateTime']['minutes'];
-      // final endMinutes = startMinutes + task['minutesDuration'];
-      // selectedEndTime.value = TimeOfDay(hour: endMinutes ~/ 60, minute: endMinutes % 60);
-      // this.dayIndex.value = task['dateTime']['day'];
-
       colorController.selectedColor.value = task['color'];
       colorController.selectedIcon.value =
           colorController.iconChoices[task['iconIndex'] ?? 0].icon;
-
       // Update selectedDays based on daysDuration and dayIndex
       for (int i = 0; i < daysOfWeek.length; i++) {
         if ((6 - i) >= task['dateTime']['day'] &&
@@ -534,14 +411,13 @@ class WeeklyCalendarController extends GetxController {
           selectedDays[i] = false;
         }
       }
-
       taskUpdateIndex.value = index;
       showUpdateTask.value = true;
       showAddTask.value = true;
       Get.back();
     } else {
-      TLoaders.warningSnackBar(
-          title: 'خطأ', message: 'لم يتم العثور على المهمة');
+      TLoaders()
+          .warningSnackBar(title: 'خطأ', message: 'لم يتم العثور على المهمة');
     }
   }
 
@@ -672,10 +548,8 @@ class WeeklyCalendarController extends GetxController {
   List<List<int>> findConnectedDays() {
     List<List<int>> connectedDays = [];
     List<int> currentGroup = [];
-
     // Convert selectedDays from right-to-left to left-to-right
     List<bool> convertedSelectedDays = List.from(selectedDays.reversed);
-
     for (int i = 0; i < convertedSelectedDays.length; i++) {
       if (convertedSelectedDays[i]) {
         currentGroup.add(i);

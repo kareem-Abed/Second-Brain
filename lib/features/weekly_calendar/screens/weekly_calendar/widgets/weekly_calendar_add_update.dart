@@ -15,7 +15,7 @@ class AddTaskForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only( bottom: 16.0),
+      padding: const EdgeInsets.only(bottom: 16.0),
       child: Column(
         children: [
           Stack(
@@ -39,11 +39,10 @@ class AddTaskForm extends StatelessWidget {
                 ),
               ),
               Positioned(
-
                 top: 16,
                 child: SizedBox(
                   child: Obx(
-                        () => Text(
+                    () => Text(
                         controller.showUpdateTask.value
                             ? 'تعديل علي  مهمة'
                             : 'اضافة مهمة جديدة',
@@ -55,12 +54,10 @@ class AddTaskForm extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only( right: 16.0,left: 16.0),
+            padding: const EdgeInsets.only(right: 16.0, left: 16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-
-
                 const SizedBox(height: KSizes.spaceBtwItems),
                 Obx(() {
                   return Column(
@@ -72,23 +69,30 @@ class AddTaskForm extends StatelessWidget {
                               index: controller.taskUpdateIndex.value,
                               title: controller.taskNameController.value.text,
                               hour: controller.selectedStartTime.value.hour,
-                              minutes: controller.selectedStartTime.value.minute,
+                              minutes:
+                                  controller.selectedStartTime.value.minute,
                               // dayIndex: controller.dayIndex.value,
                               duration: controller.duration.value.toInt(),
                               // daysDuration: controller.daysDuration.value,
-                              icon: controller.colorController.selectedIcon.value,
-                              color: controller.colorController.selectedColor.value,
+                              icon:
+                                  controller.colorController.selectedIcon.value,
+                              color: controller
+                                  .colorController.selectedColor.value,             context: context,
                             );
                           } else {
                             controller.addTask(
                               title: controller.taskNameController.value.text,
                               hour: controller.selectedStartTime.value.hour,
-                              minutes: controller.selectedStartTime.value.minute,
+                              minutes:
+                                  controller.selectedStartTime.value.minute,
                               // dayIndex: controller.dayIndex.value,
                               duration: controller.duration.value.toInt(),
                               // daysDuration: controller.daysDuration.value,
-                              icon: controller.colorController.selectedIcon.value,
-                              color: controller.colorController.selectedColor.value,
+                              icon:
+                                  controller.colorController.selectedIcon.value,
+                              color: controller
+                                  .colorController.selectedColor.value,
+                              context: context,
                             );
                           }
                         },
@@ -96,12 +100,14 @@ class AddTaskForm extends StatelessWidget {
                           padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
-                            color:
-                                Color(controller.colorController.selectedColor.value),
+                            color: Color(
+                                controller.colorController.selectedColor.value),
                           ),
                           child: Center(
                             child: Text(
-                              controller.showUpdateTask.value ? 'تعديل' : 'اضافة',
+                              controller.showUpdateTask.value
+                                  ? 'تعديل'
+                                  : 'اضافة',
                               style: Theme.of(context).textTheme.titleMedium!,
                             ),
                           ),
@@ -125,7 +131,9 @@ class AddTaskForm extends StatelessWidget {
                                 child: Center(
                                   child: Text(
                                     'الغاء',
-                                    style: Theme.of(context).textTheme.titleMedium!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!,
                                   ),
                                 ),
                               ),
@@ -182,7 +190,8 @@ class AddTaskForm extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('ميعاد المهمة',
-                                style: Theme.of(context).textTheme.headlineSmall!),
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall!),
                           ],
                         ),
                       ),
@@ -248,8 +257,6 @@ class WorkingDaysWidget extends StatelessWidget {
 }
 
 class HourSelectionWidget extends StatelessWidget {
-
-
   const HourSelectionWidget({super.key});
 
   @override
@@ -300,14 +307,12 @@ class HourSelectionWidget extends StatelessWidget {
 
 //------------------------
 class DurationPicker extends StatelessWidget {
-
-
   const DurationPicker({super.key});
 
   @override
   Widget build(BuildContext context) {
     final WeeklyCalendarController controller =
-    Get.put(WeeklyCalendarController());
+        Get.put(WeeklyCalendarController());
     return Padding(
       padding: const EdgeInsets.only(right: KSizes.sm),
       child: Row(

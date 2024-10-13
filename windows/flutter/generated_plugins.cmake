@@ -4,14 +4,13 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   bitsdojo_window_windows
-  irondash_engine_context
-  super_native_extensions
+  media_kit_libs_windows_audio
   system_tray
-  windows_audio
   windows_notification
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST
+  media_kit_native_event_loop
 )
 
 set(PLUGIN_BUNDLED_LIBRARIES)

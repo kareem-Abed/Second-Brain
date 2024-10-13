@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:windows_audio/windows_audio.dart';
+import 'package:media_kit/media_kit.dart';
 
 class PomodoroController extends GetxController {
-
   //History variables
   // RxInt totalMin = 0.obs;
   // RxInt longestSesh = 0.obs;
@@ -30,12 +29,20 @@ class PomodoroController extends GetxController {
   Duration _remainingDuration = const Duration(minutes: 25);
 
   final box = GetStorage();
-  final _windowsAudioPlugin = WindowsAudio();
+
+  final _windowsAudioPlayer = Player();
   @override
   void onInit() {
     super.onInit();
     loadValues();
     timerString.value = _formatDuration(Duration(minutes: focusDuration.value));
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+
+    super.onClose();
   }
 
   void loadValues() {
@@ -101,23 +108,14 @@ class PomodoroController extends GetxController {
         sessionName.value);
   }
 
-  Completer<void>? _audioCompleter;
-
   Future<void> playAudio(String path) async {
-    if (_audioCompleter != null && !_audioCompleter!.isCompleted) return;
-
-    _audioCompleter = Completer<void>();
-
     try {
-      await _windowsAudioPlugin.load(path);
-      await _windowsAudioPlugin.play();
-      await Future.delayed(const Duration(seconds: 1));
-    } finally {
-      _audioCompleter?.complete();
-    }
+      _windowsAudioPlayer.open(Media("asset:///$path"));
+    } finally {}
   }
 
   Future<void> _startTimer(Duration duration, String sessionName) async {
+    await playAudio("assets/sounds/timesup.mp3");
     _remainingDuration = duration;
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
@@ -208,11 +206,5 @@ class PomodoroController extends GetxController {
     String minutes = twoDigits(duration.inMinutes.remainder(61));
     String seconds = twoDigits(duration.inSeconds.remainder(60));
     return "$minutes:$seconds";
-  }
-
-  @override
-  void onClose() {
-    _timer?.cancel();
-    super.onClose();
   }
 }

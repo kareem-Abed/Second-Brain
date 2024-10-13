@@ -236,6 +236,18 @@ class KanbanController extends GetxController {
     loadBoardState();
   }
 
+  @override
+  void onClose() {
+    // Dispose of TextEditingController instances
+    listNameController.value.dispose();
+    itemNameController.value.dispose();
+    // Dispose of FocusNode instances
+    listNameFocusNode.value.dispose();
+    itemNameFocusNode.value.dispose();
+    // Call super.onClose() to ensure any inherited cleanup is performed
+    super.onClose();
+  }
+
   void focusItemName() {
     itemNameFocusNode.value.requestFocus();
   }
@@ -325,10 +337,8 @@ class KanbanController extends GetxController {
         item.title = newTitle;
         board.refresh();
         saveBoardState();
-      } else {
-      }
-    } else {
-    }
+      } else {}
+    } else {}
   }
 
   void editList(String listId, String newName) {
@@ -336,8 +346,7 @@ class KanbanController extends GetxController {
       listNames[listId]?.value = newName;
       listNames.refresh();
       saveBoardState();
-    } else {
-    }
+    } else {}
   }
 
   void addItem(String listId, String itemName) {
@@ -348,8 +357,7 @@ class KanbanController extends GetxController {
       board.value[listId]?.add(newItem);
       board.refresh();
       saveBoardState();
-    } else {
-    }
+    } else {}
   }
 
   void addList(String listName) {
@@ -360,8 +368,7 @@ class KanbanController extends GetxController {
       board.refresh();
       listNames.refresh();
       saveBoardState();
-    } else {
-    }
+    } else {}
   }
 
   void removeItem(String listId, String itemId) {
@@ -381,8 +388,7 @@ class KanbanController extends GetxController {
     if (itemRemoved) {
       board.refresh();
       saveBoardState();
-    } else {
-    }
+    } else {}
   }
 
   void renameColumn(String listId, String newName) {
@@ -390,8 +396,7 @@ class KanbanController extends GetxController {
       listNames[listId]?.value = newName;
       listNames.refresh();
       saveBoardState();
-    } else {
-    }
+    } else {}
   }
 
   void removeColumn(String listId) {

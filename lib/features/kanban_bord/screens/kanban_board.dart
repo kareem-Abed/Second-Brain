@@ -78,8 +78,6 @@ class _KanbanBoardState extends State<KanbanBoard> {
   }
 
   buildColumns(String listId, List<Item> items) {
-    // final listName = kanbanController.listNames[listId] ?? "Unnamed List";
-
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -323,9 +321,10 @@ class _KanbanBoardState extends State<KanbanBoard> {
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
                                               ),
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 8.0,
-                                                  vertical: 10.0),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0,
+                                                      vertical: 10.0),
                                               child: Text(
                                                 items[index].title,
                                                 textAlign: TextAlign.end,
