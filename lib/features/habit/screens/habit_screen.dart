@@ -92,6 +92,7 @@ class _HabitScreenState extends State<HabitScreen> {
 
   // open habit settings to edit
   void openHabitSettings(int index) {
+    Navigator.pop(context);
     showDialog(
       context: context,
       builder: (context) {
@@ -117,6 +118,7 @@ class _HabitScreenState extends State<HabitScreen> {
 
   // delete habit
   void deleteHabit(int index) {
+    Navigator.pop(context);
     setState(() {
       db.todaysHabitList.removeAt(index);
     });

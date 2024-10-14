@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:media_kit/media_kit.dart';
 import 'package:system_tray/system_tray.dart';
 
 class SideMenuController extends GetxController {
@@ -13,6 +14,7 @@ class SideMenuController extends GetxController {
   final AppWindow _appWindow = AppWindow();
   final SystemTray _systemTray = SystemTray();
   final Menu _menuMain = Menu();
+  final windowsAudioPlayer = Player();
   // Method to update the selected menu index
   void updateSelectedIndex(int index) {
     pageController.jumpToPage(index);
@@ -60,6 +62,12 @@ class SideMenuController extends GetxController {
       ],
     );
     _systemTray.setContextMenu(_menuMain);
+  }
+
+  void playSound() {
+    // windowsAudioPlayer.setVolume(1.2);
+
+    windowsAudioPlayer.open(Media("asset:///assets/sounds/bite.mp3"));
   }
 
   // Method to handle exit action

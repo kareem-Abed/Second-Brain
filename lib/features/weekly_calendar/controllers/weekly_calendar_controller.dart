@@ -263,7 +263,9 @@ class WeeklyCalendarController extends GetxController {
     saveTasksToStorage();
 
     TLoaders().successSnackBar(
-        message: 'تمت إضافة المهمة بنجاح', title: 'تمت العملية');
+        message: 'تمت إضافة المهمة بنجاح',
+        title: 'تمت العملية',
+        context: context);
   }
 
   // ignore: non_constant_identifier_names
@@ -345,7 +347,9 @@ class WeeklyCalendarController extends GetxController {
       colorController.selectedColor.value = 0xFF2196F3;
 
       TLoaders().successSnackBar(
-          message: 'تم تحديث المهمة بنجاح', title: 'تمت العملية');
+          message: 'تم تحديث المهمة بنجاح',
+          title: 'تمت العملية',
+          context: context);
     }
   }
 
@@ -376,11 +380,15 @@ class WeeklyCalendarController extends GetxController {
 
       showUpdateTask.value = false;
       TLoaders().successSnackBar(
-          message: 'تمت إزالة المهمة بنجاح', title: 'تمت العملية');
+          message: 'تمت إزالة المهمة بنجاح',
+          title: 'تمت العملية',
+          context: Get.context!);
     }
   }
 
-  void updateTaskDetails(Map<String, dynamic> task) {
+  void updateTaskDetails(
+    Map<String, dynamic> task,
+  ) {
     final index = findTaskIndex(
       title: task['title'],
       dayIndex: task['dateTime']['day'],
@@ -416,8 +424,10 @@ class WeeklyCalendarController extends GetxController {
       showAddTask.value = true;
       Get.back();
     } else {
-      TLoaders()
-          .warningSnackBar(title: 'خطأ', message: 'لم يتم العثور على المهمة');
+      TLoaders().warningSnackBar(
+          title: 'خطأ',
+          message: 'لم يتم العثور على المهمة',
+          context: Get.context!);
     }
   }
 
@@ -502,18 +512,20 @@ class WeeklyCalendarController extends GetxController {
       actions: [
         ElevatedButton(
           onPressed: () {
-            updateTaskDetails({
-              'title': title,
-              'dateTime': {
-                'day': dayIndex,
-                'hour': hour,
-                'minutes': minutes,
+            updateTaskDetails(
+              {
+                'title': title,
+                'dateTime': {
+                  'day': dayIndex,
+                  'hour': hour,
+                  'minutes': minutes,
+                },
+                'minutesDuration': duration,
+                'daysDuration': daysDuration,
+                'color': color,
+                'iconIndex': iconIndex,
               },
-              'minutesDuration': duration,
-              'daysDuration': daysDuration,
-              'color': color,
-              'iconIndex': iconIndex,
-            });
+            );
           },
           child: const Text('تحديث'),
         ),
@@ -532,7 +544,7 @@ class WeeklyCalendarController extends GetxController {
         );
       },
     );
-    selectedStartTime.value = picked!;
+    selectedStartTime.value = picked ?? selectedStartTime.value;
   }
 
   void toggleDay(int index) {

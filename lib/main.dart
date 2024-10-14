@@ -30,11 +30,13 @@ Future<void> main() async {
       appPath: Platform.resolvedExecutable,
       packageName: packageInfo.packageName,
     );
-    await launchAtStartup.enable();
+    // await launchAtStartup.enable();
+    await launchAtStartup.disable();
       MediaKit.ensureInitialized();
 
     // bool isEnabled = await launchAtStartup.isEnabled();
   } else {
+    MediaKit.ensureInitialized();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,

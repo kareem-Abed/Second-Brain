@@ -7,7 +7,6 @@ import 'package:second_brain/features/weekly_calendar/controllers/weekly_calenda
 import '../../../../utils/constants/sizes.dart';
 import '../../controller/side_menu_controller.dart';
 
-
 class HoverableMenuItem extends StatefulWidget {
   final IconData icon;
   final String title;
@@ -41,6 +40,7 @@ class _HoverableMenuItemState extends State<HoverableMenuItem> {
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: GestureDetector(
           onTap: () {
+            sideMenuController.playSound();
             if (widget.exit) {
               exit(0);
             } else {

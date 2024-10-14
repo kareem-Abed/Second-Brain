@@ -36,6 +36,7 @@ dependencies:
   windows_notification: ^1.3.0
   flutter_lints: ^2.0.0
   elegant_notification: ^2.3.0
+#  cherry_toast: ^1.11.0
 
 
 dev_dependencies:
@@ -53,7 +54,7 @@ flutter:
     - assets/animations/
     - assets/lottie/
     - assets/sounds/
-    - assets/sounds/success.mp3
+    - assets/sounds/bite.mp3
     - assets/sounds/error.mp3
     - assets/sounds/clock-alarm.mp3
     - assets/sounds/timesup.mp3
