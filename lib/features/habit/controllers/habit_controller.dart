@@ -4,7 +4,7 @@ import '../datetime/date_time.dart';
 
 class HabitController extends GetxController {
   final myBox = GetStorage();
-  var todaysHabitList = <List<dynamic>>[].obs;
+  var toDaysHabitList = <List<dynamic>>[].obs;
   var heatMapDataSet = <DateTime, int>{}.obs;
   var now = DateTime.now().add(const Duration(days: 0));
   String startDate = '';
@@ -29,9 +29,9 @@ class HabitController extends GetxController {
   }
 
   void createDefaultData() {
-    todaysHabitList.value = [
-      ["Run", false],
-      ["Read", false],
+    toDaysHabitList.value = [
+      ["اقراء", false],
+      ["اجري نصف ساعة", false],
     ];
 
     myBox.write("START_DATE", todaysDateFormatted());
@@ -41,37 +41,37 @@ class HabitController extends GetxController {
     if (myBox.read(todaysDateFormatted()) == null) {
       var currentHabitList = myBox.read("CURRENT_HABIT_LIST");
       if (currentHabitList != null && currentHabitList is List) {
-        todaysHabitList.value = List<List<dynamic>>.from(currentHabitList);
-        for (int i = 0; i < todaysHabitList.length; i++) {
-          todaysHabitList[i][1] = false;
+        toDaysHabitList.value = List<List<dynamic>>.from(currentHabitList);
+        for (int i = 0; i < toDaysHabitList.length; i++) {
+          toDaysHabitList[i][1] = false;
         }
       }
     } else {
       var todaysList = myBox.read(todaysDateFormatted());
       if (todaysList != null && todaysList is List) {
-        todaysHabitList.value = List<List<dynamic>>.from(todaysList);
+        toDaysHabitList.value = List<List<dynamic>>.from(todaysList);
       }
     }
   }
 
   void updateDatabase() {
-    myBox.write(todaysDateFormatted(), todaysHabitList);
-    myBox.write("CURRENT_HABIT_LIST", todaysHabitList);
+    myBox.write(todaysDateFormatted(), toDaysHabitList);
+    myBox.write("CURRENT_HABIT_LIST", toDaysHabitList);
     calculateHabitPercentages();
     loadHeatMap();
   }
 
   void calculateHabitPercentages() {
     int countCompleted = 0;
-    for (int i = 0; i < todaysHabitList.length; i++) {
-      if (todaysHabitList[i][1] == true) {
+    for (int i = 0; i < toDaysHabitList.length; i++) {
+      if (toDaysHabitList[i][1] == true) {
         countCompleted++;
       }
     }
 
-    String percent = todaysHabitList.isEmpty
+    String percent = toDaysHabitList.isEmpty
         ? '0.0'
-        : (countCompleted / todaysHabitList.length).toStringAsFixed(1);
+        : (countCompleted / toDaysHabitList.length).toStringAsFixed(1);
 
     myBox.write("PERCENTAGE_SUMMARY_${todaysDateFormatted()}", percent);
   }
@@ -102,23 +102,23 @@ class HabitController extends GetxController {
   }
 
   void checkBoxTapped(bool? value, int index) {
-    todaysHabitList[index][1] = value;
-    todaysHabitList.refresh(); // Ensure the list is updated
+    toDaysHabitList[index][1] = value;
+    toDaysHabitList.refresh(); // Ensure the list is updated
     updateDatabase();
   }
 
   void createNewHabit(String habitName) {
-    todaysHabitList.add([habitName, false]);
+    toDaysHabitList.add([habitName, false]);
     updateDatabase();
   }
 
   void saveExistingHabit(int index, String newName) {
-    todaysHabitList[index][0] = newName;
+    toDaysHabitList[index][0] = newName;
     updateDatabase();
   }
 
   void deleteHabit(int index) {
-    todaysHabitList.removeAt(index);
+    toDaysHabitList.removeAt(index);
     updateDatabase();
   }
 }

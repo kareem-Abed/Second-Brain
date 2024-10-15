@@ -11,9 +11,6 @@ class TimePlannerTitle extends StatelessWidget {
   /// Text style for title
   final TextStyle? titleStyle;
 
-  /// Date of each day like 03/21/2021 but you can leave it empty or write other things
-
-
   /// Text style for date text
   final TextStyle? dateStyle;
 
