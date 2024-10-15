@@ -9,7 +9,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
 import '../controllers/habit_controller.dart';
-import '../data/habit_database.dart';
 
 class HabitScreen extends StatefulWidget {
   const HabitScreen({super.key});
@@ -19,7 +18,6 @@ class HabitScreen extends StatefulWidget {
 }
 
 class _HabitScreenState extends State<HabitScreen> {
-  HabitDatabase db = HabitDatabase();
   final _myBox = GetStorage();
 
   final controller = Get.put(HabitController());
@@ -33,21 +31,21 @@ class _HabitScreenState extends State<HabitScreen> {
     // if there is no current habit list, then it is the 1st time ever opening the app
     // then create default data
     if (_myBox.read("CURRENT_HABIT_LIST") == null) {
-      db.createDefaultData();
+      controller.createDefaultData();
     } else {
-      db.loadData();
+      controller.loadData();
     }
 
     // update the database
-    db.updateDatabase();
+    controller.updateDatabase();
   }
 
   // checkbox was tapped
   void checkBoxTapped(bool? value, int index) {
     setState(() {
-      db.todaysHabitList[index][1] = value;
+      controller.toDaysHabitList[index][1] = value;
     });
-    db.updateDatabase();
+    controller.updateDatabase();
   }
 
   // create a new habit
@@ -71,14 +69,14 @@ class _HabitScreenState extends State<HabitScreen> {
   void saveNewHabit() {
     // add new habit to todays habit list
     setState(() {
-      db.todaysHabitList.add([_newHabitNameController.text, false]);
+      controller.toDaysHabitList.add([_newHabitNameController.text, false]);
     });
 
     // clear textfield
     _newHabitNameController.clear();
     // pop dialog box
     Navigator.of(context).pop();
-    db.updateDatabase();
+    controller.updateDatabase();
   }
 
   // cancel new habit
@@ -98,7 +96,7 @@ class _HabitScreenState extends State<HabitScreen> {
       builder: (context) {
         return MyAlertBox(
           controller: _newHabitNameController,
-          hintText: db.todaysHabitList[index][0],
+          hintText: controller.toDaysHabitList[index][0],
           onSave: () => saveExistingHabit(index),
           onCancel: cancelDialogBox,
         );
@@ -109,20 +107,20 @@ class _HabitScreenState extends State<HabitScreen> {
   // save existing habit with a new name
   void saveExistingHabit(int index) {
     setState(() {
-      db.todaysHabitList[index][0] = _newHabitNameController.text;
+      controller.toDaysHabitList[index][0] = _newHabitNameController.text;
     });
     _newHabitNameController.clear();
     Navigator.pop(context);
-    db.updateDatabase();
+    controller.updateDatabase();
   }
 
   // delete habit
   void deleteHabit(int index) {
     Navigator.pop(context);
     setState(() {
-      db.todaysHabitList.removeAt(index);
+      controller.toDaysHabitList.removeAt(index);
     });
-    db.updateDatabase();
+    controller.updateDatabase();
   }
 
   @override
@@ -148,7 +146,7 @@ class _HabitScreenState extends State<HabitScreen> {
                           style: TextStyle(color: Colors.white, fontSize: 24))),
                 ),
                 MonthlySummary(
-                  datasets: db.heatMapDataSet,
+                  datasets: controller.heatMapDataSet,
                   startDate: controller.startDate,
                 ),
               ],
@@ -186,11 +184,11 @@ class _HabitScreenState extends State<HabitScreen> {
                 AlignedGridView.count(
                   crossAxisCount: 2,
                   shrinkWrap: true,
-                  itemCount: db.todaysHabitList.length,
+                  itemCount: controller.toDaysHabitList.length,
                   itemBuilder: (context, index) {
                     return HabitTile(
-                      habitName: db.todaysHabitList[index][0],
-                      habitCompleted: db.todaysHabitList[index][1],
+                      habitName: controller.toDaysHabitList[index][0],
+                      habitCompleted: controller.toDaysHabitList[index][1],
                       onChanged: (value) => checkBoxTapped(value, index),
                       settingsTapped: (context) => openHabitSettings(index),
                       deleteTapped: (context) => deleteHabit(index),

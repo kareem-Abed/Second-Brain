@@ -372,9 +372,9 @@ class _TimePlannerState extends State<TimePlanner> {
                                   height:
                                       (config.cellHeight! / 2) - 1.toDouble(),
                                 ),
-                                const Divider(
+                                Divider(
                                   height: 1,
-                                  color: Colors.grey,
+                                  color:  Colors.grey.withOpacity(0.8)
                                 ),
                               ],
                             ),
@@ -408,7 +408,7 @@ class _TimePlannerState extends State<TimePlanner> {
                                             config.cellHeight!) +
                                         config.cellHeight!,
                                     color: i != config.totalDays - 1
-                                        ? Colors.grey
+                                        ? Colors.grey.withOpacity(0.8)
                                         : Colors.transparent,
                                   )
                                 ],

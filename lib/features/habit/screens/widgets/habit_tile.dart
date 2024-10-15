@@ -26,7 +26,7 @@ class HabitTile extends StatelessWidget {
       color: KColors.darkModeSubCard,
       context: context,
       position: RelativeRect.fromLTRB(
-        position.dx + button.size.width,
+        position.dx + 80,
         position.dy,
         overlay?.semanticBounds.size.width ?? 0 - position.dx,
         0,
@@ -76,61 +76,23 @@ class HabitTile extends StatelessWidget {
               activeColor: Colors.lightBlueAccent,
               onChanged: onChanged,
             ),
-            Expanded(child: Text(habitName)),
+            Expanded(
+                child: Text(
+              habitName,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: Colors.white),
+            )),
             IconButton(
               onPressed: () => _showOverlayMenu(context),
               icon: const Icon(
                 FontAwesomeIcons.ellipsisVertical,
               ),
             ),
-            // PullDownButton(
-            //   itemBuilder: (context) => [
-            //     PullDownMenuItem(
-            //       onTap: () => settingsTapped?.call(context),
-            //       title: 'edit',
-            //       isDestructive: false,
-            //       icon: Icons.edit,
-            //     ),
-            //     PullDownMenuItem(
-            //       onTap: () => deleteTapped?.call(context),
-            //       title: 'Delete',
-            //       isDestructive: true,
-            //       icon: Icons.delete,
-            //     ),
-            //   ],
-            //   buttonBuilder: (context, showMenu) => InkWell(
-            //     onTap: showMenu,
-            //     child: const Icon(
-            //       FontAwesomeIcons.ellipsisVertical,
-            //     ),
-            //   ),
-            // )
           ],
         ),
       ),
-      // Slidable(
-      //   endActionPane: ActionPane(
-      //     motion: const StretchMotion(),
-      //     children: [
-      //       // settings option
-      //       SlidableAction(
-      //         onPressed:
-      //         backgroundColor: Colors.grey.shade800,
-      //         icon: Icons.settings,
-      //         borderRadius: BorderRadius.circular(12),
-      //       ),
-      //
-      //       // delete option
-      //       SlidableAction(
-      //         onPressed:
-      //         backgroundColor: Colors.red.shade400,
-      //         icon: Icons.delete,
-      //         borderRadius: BorderRadius.circular(12),
-      //       ),
-      //     ],
-      //   ),
-      //   child:
-      // ),
     );
   }
 }

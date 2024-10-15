@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_heatmap_calendar/flutter_heatmap_calendar.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 
-import '../../datetime/date_time.dart';
+import '../../controllers/date_time.dart';
 
 class MonthlySummary extends StatelessWidget {
   final Map<DateTime, int>? datasets;

@@ -7,8 +7,6 @@ import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/validators/validation.dart';
 
 class AddListButton extends StatelessWidget {
-
-
   const AddListButton({super.key});
 
   @override
@@ -59,25 +57,25 @@ class AddListButton extends StatelessWidget {
                                     ? 'Edit list name'
                                     : 'Enter list name',
                               ),
-                              // onFieldSubmitted: (value) {
-                              //   if (controller
-                              //       .listNameController.value.text.isEmpty) {
-                              //     return;
-                              //   }
-                              //   if (controller.isListEditMode.value) {
-                              //     controller.editList(
-                              //       controller.editingListId.value,
-                              //       controller.listNameController.value.text,
-                              //     );
-                              //   } else {
-                              //     controller.addList(
-                              //       controller.listNameController.value.text,
-                              //     );
-                              //   }
-                              //   controller.showListNameTextField.value = false;
-                              //   controller.listNameController.value.clear();
-                              //   controller.isListEditMode.value = false;
-                              // },
+                              onFieldSubmitted: (value) {
+                                if (controller
+                                    .listNameController.value.text.isEmpty) {
+                                  return;
+                                }
+                                if (controller.isListEditMode.value) {
+                                  controller.editList(
+                                    controller.editingListId.value,
+                                    controller.listNameController.value.text,
+                                  );
+                                } else {
+                                  controller.addList(
+                                    controller.listNameController.value.text,
+                                  );
+                                }
+                                controller.showListNameTextField.value = false;
+                                controller.listNameController.value.clear();
+                                controller.isListEditMode.value = false;
+                              },
                             ),
                           ),
                           const SizedBox(height: 8.0),
@@ -143,7 +141,7 @@ class AddListButton extends StatelessWidget {
                   : InkWell(
                       key: const ValueKey(2),
                       onTap: () {
-                    controller.showListNameTextField.value = false;
+                        controller.showListNameTextField.value = false;
                         controller.showListNameTextField.value = true;
                         controller.listNameFocusNode.value.requestFocus();
                       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
@@ -11,7 +12,8 @@ class AddItemButton extends StatelessWidget {
   final VoidCallback onActivate;
   final String listId;
 
-  AddItemButton({super.key,
+  AddItemButton({
+    super.key,
     required this.onActivate,
     required this.listId,
   });
@@ -42,39 +44,38 @@ class AddItemButton extends StatelessWidget {
                     children: [
                       Obx(
                         () => TextFormField(
-                          maxLines: 2,
+                          // maxLines: 2,
                           controller: controller.itemNameController.value,
                           focusNode: controller.itemNameFocusNode.value,
-                          validator: (value) => KValidator.validateEmptyText(
-                              'اسم المهمة', value),
-                          autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                          validator: (value) =>
+                              KValidator.validateEmptyText('اسم المهمة', value),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           decoration: InputDecoration(
                             hintText: controller.isItemEditMode.value
                                 ? 'Edit item name'
                                 : 'Enter item name',
                           ),
-                          // onFieldSubmitted: (value) {
-                          //   if (controller
-                          //       .itemNameController.value.text.isEmpty) {
-                          //     return;
-                          //   }
-                          //   if (controller.isItemEditMode.value) {
-                          //     controller.editItem(
-                          //       controller.editingItemListId.value,
-                          //       controller.editingItemId.value,
-                          //       controller.itemNameController.value.text,
-                          //     );
-                          //   } else {
-                          //     controller.addItem(
-                          //       listId,
-                          //       controller.itemNameController.value.text,
-                          //     );
-                          //   }
-                          //   controller.showItemNameTextField.value = false;
-                          //   controller.itemNameController.value.clear();
-                          //   controller.isItemEditMode.value = false;
-                          // },
+                          onFieldSubmitted: (value) {
+                            if (controller
+                                .itemNameController.value.text.isEmpty) {
+                              return;
+                            }
+                            if (controller.isItemEditMode.value) {
+                              controller.editItem(
+                                controller.editingItemListId.value,
+                                controller.editingItemId.value,
+                                controller.itemNameController.value.text,
+                              );
+                            } else {
+                              controller.addItem(
+                                listId,
+                                controller.itemNameController.value.text,
+                              );
+                            }
+                            controller.showItemNameTextField.value = false;
+                            controller.itemNameController.value.clear();
+                            controller.isItemEditMode.value = false;
+                          },
                         ),
                       ),
                       const SizedBox(height: 8.0),

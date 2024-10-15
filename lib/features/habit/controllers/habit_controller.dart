@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../datetime/date_time.dart';
+import 'date_time.dart';
 
 class HabitController extends GetxController {
   final myBox = GetStorage();
