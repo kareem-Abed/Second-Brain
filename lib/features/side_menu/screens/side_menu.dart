@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/habit/screens/habit_screen.dart';
 import 'package:second_brain/features/pomodoro/screens/pomodoro.dart';
+import 'package:second_brain/features/project_manager/screens/project_manager.dart';
 import 'package:second_brain/features/side_menu/screens/widgets/header_buttons.dart';
 import 'package:second_brain/features/side_menu/screens/widgets/hoverable_menu_item.dart';
 import 'package:second_brain/features/side_menu/screens/widgets/search_widget.dart';
@@ -51,8 +52,6 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
   }
 }
 
-
-
 class PageViewWidget extends StatelessWidget {
   PageViewWidget({
     super.key,
@@ -78,6 +77,7 @@ class PageViewWidget extends StatelessWidget {
           ),
           const WeeklyCalendarScreen(viewCurrentDayOnly: false),
           const WeeklyCalendarScreen(viewCurrentDayOnly: true),
+          ProjectManager(),
           const KanbanBoard(),
           const Pomodoro(),
           const HabitScreen(),
@@ -223,30 +223,30 @@ class SideMenuWidget extends StatelessWidget {
               title: 'يوم',
               index: 2,
             ),
-            // _buildMenuItem(
-            //   icon: IconsaxPlusLinear.task_square,
-            //   title: 'مهام',
-            //   index: 3,
-            // ),
+            const HoverableMenuItem(
+              icon: IconsaxPlusBold.folder,
+              title: 'مشاريع',
+              index: 3,
+            ),
             const HoverableMenuItem(
               icon: IconsaxPlusBold.task_square,
               title: 'مهام',
-              index: 3,
+              index: 4,
             ),
             const HoverableMenuItem(
               icon: IconsaxPlusBold.clock,
               title: 'Pomodoro ',
-              index: 4,
+              index: 5,
             ),
             const HoverableMenuItem(
               icon: IconsaxPlusBold.tree,
               title: 'العادات',
-              index: 5,
+              index: 6,
             ),
             const HoverableMenuItem(
               icon: IconsaxPlusBold.setting_2,
               title: 'إعدادات',
-              index: 6,
+              index: 7,
             ),
             const SizedBox(
               height: 58,
@@ -254,7 +254,7 @@ class SideMenuWidget extends StatelessWidget {
             const HoverableMenuItem(
               icon: IconsaxPlusLinear.arrow_square_left,
               title: 'الخروج',
-              index: 7,
+              index: 8,
               exit: true,
             ),
           ],

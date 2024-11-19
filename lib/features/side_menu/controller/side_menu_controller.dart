@@ -7,9 +7,7 @@ import 'package:media_kit/media_kit.dart';
 import 'package:system_tray/system_tray.dart';
 
 class SideMenuController extends GetxController {
-  // Observable property to track the selected menu index
   var selectedIndex = 0.obs;
-  // RxInt iconIndex = 0.obs;
   PageController pageController = PageController();
   final AppWindow _appWindow = AppWindow();
   final SystemTray _systemTray = SystemTray();
