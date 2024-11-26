@@ -185,6 +185,7 @@ class WeeklyCalendarController extends GetxController {
             iconIndex: task['iconIndex'] ?? 0,
           );
         },
+        iconIndex: task['iconIndex'] ?? 0,
       );
     }).toList();
   }
@@ -194,8 +195,9 @@ class WeeklyCalendarController extends GetxController {
     // taskDescriptionController.value.text = '';
     selectedStartTime.value = TimeOfDay.now();
     duration.value = 15;
-    colorController.selectedColor.value = colorController.iconChoices[0].color;
-    colorController.selectedIcon.value = colorController.iconChoices[0].icon;
+    colorController.resetSelectedIcon();
+    // colorController.selectedColor.value = colorController.iconChoices[0].color;
+    // colorController.selectedIcon.value = colorController.iconChoices[0].icon;
   }
   //-----------------------------> Task Management Functions <-----------------------------------\\
 
@@ -342,9 +344,7 @@ class WeeklyCalendarController extends GetxController {
 
       taskNameController.value.clear();
       showUpdateTask.value = false;
-      colorController.selectedIcon.value = Icons.work;
-      colorController.selectedName.value = "عمل";
-      colorController.selectedColor.value = 0xFF2196F3;
+      colorController.resetSelectedIcon();
 
       TLoaders().successSnackBar(
           message: 'تم تحديث المهمة بنجاح',

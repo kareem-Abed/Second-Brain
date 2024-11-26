@@ -24,6 +24,11 @@ class IconController extends GetxController {
   Rx<IconData> selectedIcon = FontAwesomeIcons.briefcase.obs;
   RxString selectedName = 'عمل'.obs;
   Rx<int> selectedColor = 0xFF2196F3.obs;
+  void resetSelectedIcon() {
+    selectedIcon.value = FontAwesomeIcons.briefcase;
+    selectedName.value = 'عمل';
+    selectedColor.value = 0xFF2196F3;
+  }
 
   // Updated list with FontAwesome icons and color codes
   List<IconChoicesModel> iconChoices = [
@@ -43,10 +48,7 @@ class IconController extends GetxController {
         color: 0xFFFF9800 // Orange
         ),
     IconChoicesModel(
-        icon: FontAwesomeIcons.laptopCode,
-        name: 'المشروع',
-        color: 0xFF4CAF50
-        ),
+        icon: FontAwesomeIcons.laptopCode, name: 'المشروع', color: 0xFF4CAF50),
     IconChoicesModel(
         icon: FontAwesomeIcons.gamepad,
         name: 'استراحة',
@@ -60,11 +62,8 @@ class IconController extends GetxController {
     IconChoicesModel(
         icon: FontAwesomeIcons.bed, name: 'النوم', color: 0xFF9C27B0 // Purple
         ),
-    IconChoicesModel.fromJson({
-      'icon': FontAwesomeIcons.book,
-      'name': 'دراسة',
-      'color': 0xFF8BC34A
-    }),
+    IconChoicesModel.fromJson(
+        {'icon': FontAwesomeIcons.book, 'name': 'دراسة', 'color': 0xFF8BC34A}),
     IconChoicesModel.fromJson({
       'icon': FontAwesomeIcons.code,
       'name': 'برمجة',

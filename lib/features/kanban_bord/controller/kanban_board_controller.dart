@@ -19,7 +19,6 @@ class KanbanController extends GetxController {
   final RxString editingListId = ''.obs;
   final RxString activeListId = ''.obs;
 //--------
-
   final RxBool isItemEditMode = false.obs;
   final RxString editingItemId = ''.obs;
   final RxString editingItemListId = ''.obs;
@@ -105,21 +104,6 @@ class KanbanController extends GetxController {
               value.value,
             )));
   }
-
-  // void editItem(String itemId, String newTitle) {
-  //   board.value.forEach((listId, items) {
-  //     final item = items.firstWhere(
-  //       (item) => item.id == itemId,
-  //       orElse: () => Item(id: '', listId: '', title: ''),
-  //     );
-  //     if (item.id.isNotEmpty) {
-  //       item.title = newTitle;
-  //       board.refresh();
-  //       saveBoardState();
-  //       return;
-  //     }
-  //   });
-  // }
 
   void editItem(String listId, String itemId, String newTitle) {
     if (board.value.containsKey(listId)) {
