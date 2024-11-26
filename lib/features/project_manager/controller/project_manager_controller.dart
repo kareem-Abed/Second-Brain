@@ -67,8 +67,7 @@ class ProjectManagerController extends GetxController {
 
   ///---------------------------------------------
 
-  Rx<LinkedHashMap<String, List<Item>>> board =
-      LinkedHashMap<String, List<Item>>().obs;
+  Rx<LinkedHashMap<String, List<Item>>> board = LinkedHashMap<String, List<Item>>().obs;
   RxMap<String, RxString> listNames = <String, RxString>{}.obs;
   final box = GetStorage();
   var isDragging = false.obs;

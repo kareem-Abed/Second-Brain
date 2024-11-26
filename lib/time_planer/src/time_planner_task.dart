@@ -88,23 +88,24 @@ class TimePlannerTask extends StatelessWidget {
                 ((dateTime.minutes * config.cellHeight!) / 60))
             .toDouble(),
         left: controller.showFullWidthTask.value
-            ? 0.0
+            ? 3.0
             : (((adjustedScreenWidth) / config.totalDays) *
-                    dateTime.day.toDouble() +
-                (leftSpace ?? 0.0)),
+                        dateTime.day.toDouble() +
+                    (leftSpace ?? 0.0)) +
+                3,
         child: SizedBox(
-          width: calculatedWidthTask,
+          width: calculatedWidthTask - 5,
           child: Padding(
             padding:
-                EdgeInsets.only(left: config.horizontalTaskPadding!.toDouble()),
+                EdgeInsets.only(left: config.horizontalTaskPadding!.toDouble(),top: 1),
             child: Material(
-              elevation: 3,
+              elevation: 1,
               borderRadius: config.borderRadius,
               child: InkWell(
                 onTap: onTap as void Function()? ?? () {},
                 child: Container(
                   height:
-                      (((minutesDuration.toDouble() - 1) * config.cellHeight!) /
+                      (((minutesDuration.toDouble() - 2) * config.cellHeight!) /
                           60), // 60 minutes
                   width: calculatedWidthTask,
                   decoration: BoxDecoration(

@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:second_brain/features/habit/screens/habit_screen.dart';

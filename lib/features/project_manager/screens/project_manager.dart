@@ -403,10 +403,10 @@ class RPSCustomPainter extends CustomPainter {
         size.height * 0.1215470);
     path_0.close();
 
-    Paint paint_0_fill = Paint()..style = PaintingStyle.fill;
+    Paint paint0Fill = Paint()..style = PaintingStyle.fill;
 
-    paint_0_fill.color = KColors.darkModeCard;
-    canvas.drawPath(path_0, paint_0_fill);
+    paint0Fill.color = KColors.darkModeCard;
+    canvas.drawPath(path_0, paint0Fill);
   }
 
   @override

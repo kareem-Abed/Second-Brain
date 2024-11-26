@@ -23,10 +23,6 @@ class HabitController extends GetxController {
     startDate = myBox.read("START_DATE");
   }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void createDefaultData() {
     toDaysHabitList.value = [

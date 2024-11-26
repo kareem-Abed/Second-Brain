@@ -7,9 +7,6 @@ import 'package:launch_at_startup/launch_at_startup.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:second_brain/app.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:google_ml_kit/google_ml_kit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +22,9 @@ Future<void> main() async {
 
     // Enable launch at startup
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    print('Platform.resolvedExecutable: ${Platform.resolvedExecutable}');
-    print('packageInfo.appName: ${packageInfo.appName}');
-    print('packageInfo.appName: ${packageInfo.packageName}');
+    // print('Platform.resolvedExecutable: ${Platform.resolvedExecutable}');
+    // print('packageInfo.appName: ${packageInfo.appName}');
+    // print('packageInfo.appName: ${packageInfo.packageName}');
     launchAtStartup.setup(
       appName: packageInfo.appName,
       appPath: Platform.resolvedExecutable,
