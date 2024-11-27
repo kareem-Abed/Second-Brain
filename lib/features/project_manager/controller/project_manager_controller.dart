@@ -6,6 +6,7 @@ import 'package:second_brain/features/project_manager/models/folder.dart';
 
 class ProjectManagerController extends GetxController {
   var folders = <Folder>[].obs;
+  final RxBool showBord = false.obs;
   var crossAxisCount = 2.obs;
   void updateCrossAxisCount(double screenWidth) {
     if (screenWidth > 1400) {

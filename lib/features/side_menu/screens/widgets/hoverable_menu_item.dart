@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
+import 'package:second_brain/features/project_manager/controller/project_manager_controller.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 
 import '../../../../utils/constants/sizes.dart';
@@ -55,6 +56,12 @@ class _HoverableMenuItemState extends State<HoverableMenuItem> {
             if (widget.index == 4) {
               final kanbanController = Get.put(KanbanController());
               kanbanController.loadBoardState('board', 'listNames');
+            }
+            if (widget.index == 3) {
+              final projectManagerController =
+                  Get.put(ProjectManagerController());
+
+              projectManagerController.showBord.value = false;
             }
             sideMenuController.updateSelectedIndex(widget.index);
           }

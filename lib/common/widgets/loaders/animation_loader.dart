@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 // import 'package:lottie/lottie.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/utils/constants/sizes.dart';
@@ -21,20 +22,18 @@ class TAnimationLoaderWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(children: [
-        // Lottie.asset(
-        //   animation,
-        //   width: MediaQuery.of(context).size.width * 0.8,
-        // ),
+        Lottie.asset(
+          animation,
+          width: MediaQuery.of(context).size.width * 0.4,
+        ),
         const SizedBox(
           height: KSizes.sm,
         ),
         Text(
           text,
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-
-            fontFamily: 'MontserratArabic',
-
-          ),
+                fontFamily: 'MontserratArabic',
+              ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(
@@ -48,7 +47,10 @@ class TAnimationLoaderWidget extends StatelessWidget {
               style: OutlinedButton.styleFrom(backgroundColor: KColors.dark),
               child: Text(
                 actionText!,
-                style: Theme.of(context).textTheme.bodyMedium!.apply(color: KColors.light),
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .apply(color: KColors.light),
               ),
             ),
           )
