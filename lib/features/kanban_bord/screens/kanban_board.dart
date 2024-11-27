@@ -10,7 +10,9 @@ import 'package:second_brain/features/kanban_bord/screens/widgets/item_widget.da
 import 'package:second_brain/utils/constants/colors.dart';
 
 class KanbanBoard extends StatefulWidget {
-  const KanbanBoard({super.key});
+  const KanbanBoard({
+    super.key,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -21,7 +23,8 @@ class _KanbanBoardState extends State<KanbanBoard> {
   final double tileHeight = 100;
   final double headerHeight = 80;
   final double tileWidth = 300;
-  final KanbanController kanbanController = Get.put(KanbanController());
+  // final KanbanController kanbanController = Get.put(KanbanController(boardGetStorageKey: 'board', listNamesGetStorageKey: 'listNames'));
+  final KanbanController kanbanController = KanbanController.instance;
 
   void setActiveColumn(String columnId) {
     setState(() {

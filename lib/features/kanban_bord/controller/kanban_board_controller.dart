@@ -5,6 +5,9 @@ import 'package:get_storage/get_storage.dart';
 import 'package:second_brain/features/kanban_bord/models/item.dart';
 
 class KanbanController extends GetxController {
+  static KanbanController get instance => Get.find();
+  final RxString boardGetStorageKey = ''.obs, listNamesGetStorageKey = ''.obs;
+
   Rx<LinkedHashMap<String, List<Item>>> board =
       // ignore: prefer_collection_literals
       LinkedHashMap<String, List<Item>>().obs;
@@ -27,11 +30,11 @@ class KanbanController extends GetxController {
   final itemNameController = TextEditingController().obs;
   final itemNameFocusNode = FocusNode().obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadBoardState();
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   // loadBoardState();
+  // }
 
   @override
   void onClose() {
@@ -49,10 +52,14 @@ class KanbanController extends GetxController {
     itemNameFocusNode.value.requestFocus();
   }
 
-  void loadBoardState() {
-    final storedBoard = box.read('board');
-    final storedListNames = box.read('listNames');
-
+  // boardGetStorageKey: 'board', listNamesGetStorageKey: 'listNames')
+  void loadBoardState(boardGetStorageKey, listNamesGetStorageKey) {
+    this.boardGetStorageKey.value = boardGetStorageKey;
+    this.listNamesGetStorageKey.value = listNamesGetStorageKey;
+    final storedBoard = box.read(boardGetStorageKey);
+    final storedListNames = box.read(listNamesGetStorageKey);
+    board.value.clear();
+    listNames.clear();
     if (storedBoard != null && storedListNames != null) {
       board.value = LinkedHashMap<String, List<Item>>.from(
         (storedBoard as Map).map((key, value) => MapEntry(
@@ -92,13 +99,13 @@ class KanbanController extends GetxController {
 
   void saveBoardState() {
     box.write(
-        'board',
+        boardGetStorageKey.value,
         board.value.map((key, value) => MapEntry(
               key,
               value.map((item) => item.toJson()).toList(),
             )));
     box.write(
-        'listNames',
+        listNamesGetStorageKey.value,
         listNames.map((key, value) => MapEntry(
               key,
               value.value,

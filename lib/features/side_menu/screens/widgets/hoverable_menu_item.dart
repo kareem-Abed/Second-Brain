@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
 import 'package:second_brain/features/weekly_calendar/controllers/weekly_calendar_controller.dart';
 
 import '../../../../utils/constants/sizes.dart';
@@ -50,6 +51,10 @@ class _HoverableMenuItemState extends State<HoverableMenuItem> {
             if (widget.index == 1 || widget.index == 2) {
               controller.showAddTask.value = false;
               controller.showUpdateTask.value = false;
+            }
+            if (widget.index == 4) {
+              final kanbanController = Get.put(KanbanController());
+              kanbanController.loadBoardState('board', 'listNames');
             }
             sideMenuController.updateSelectedIndex(widget.index);
           }
@@ -107,12 +112,12 @@ class _HoverableMenuItemState extends State<HoverableMenuItem> {
                     height: 52,
                     width: 4,
                     decoration: BoxDecoration(
-                      color: sideMenuController.selectedIndex.value ==
-                              widget.index
-                          ? Colors.lightBlue
-                          : isHovered
-                              ? Colors.blue.withOpacity(0.4)
-                              : Colors.transparent,
+                      color:
+                          sideMenuController.selectedIndex.value == widget.index
+                              ? Colors.lightBlue
+                              : isHovered
+                                  ? Colors.blue.withOpacity(0.4)
+                                  : Colors.transparent,
                       borderRadius: BorderRadius.circular(10),
                     )),
               ],
