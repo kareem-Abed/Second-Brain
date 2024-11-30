@@ -14,10 +14,17 @@ import 'dart:ui' as ui;
 import '../../kanban_bord/controller/kanban_board_controller.dart';
 import '../../kanban_bord/screens/kanban_board.dart';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:second_brain/utils/constants/colors.dart';
+import 'package:second_brain/features/project_manager/controller/project_manager_controller.dart';
+import 'package:second_brain/features/project_manager/models/folder.dart';
+
 class ProjectManager extends StatelessWidget {
   ProjectManager({super.key});
   final ProjectManagerController projectManagerController =
       Get.put(ProjectManagerController());
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -31,45 +38,25 @@ class ProjectManager extends StatelessWidget {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Container(
-                      margin:
-                          const EdgeInsets.only(top: 16, left: 16, right: 16),
-                      padding:
-                          const EdgeInsets.only(top: 16, left: 16, right: 16),
-                      decoration: BoxDecoration(
-                        color: KColors.darkModeCard,
-                        border: Border.all(
-                          color: KColors.darkModeCardBorder,
-                        ),
-                        borderRadius:
-                            BorderRadius.circular(KSizes.borderRadius),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              FloatingActionButton(
-                                backgroundColor: KColors.darkModeSubCard,
-                                onPressed: () {
-                                  projectManagerController.addFolder(
-                                      Folder(id: '1123', title: 'New Project'));
-                                },
-                                child: const Icon(
-                                  IconsaxPlusBroken.add,
-                                  size: 30,
-                                ),
-                              ),
-                              const SizedBox(width: 16),
-                              const Text('Project Manager',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 24)),
-                            ],
-                          ),
-                          const SizedBox(height: 16),
-                        ],
-                      ),
-                    ),
+                    // Container(
+                    //   margin:
+                    //       const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    //   padding:
+                    //       const EdgeInsets.only(top: 16, left: 16, right: 16),
+                    //   decoration: BoxDecoration(
+                    //     color: KColors.darkModeCard,
+                    //     border: Border.all(
+                    //       color: KColors.darkModeCardBorder,
+                    //     ),
+                    //     borderRadius:
+                    //         BorderRadius.circular(KSizes.borderRadius),
+                    //   ),
+                    //   child: Column(
+                    //     children: [
+                    //
+                    //     ],
+                    //   ),
+                    // ),
                     Container(
                       margin: const EdgeInsets.only(
                           top: 16, left: 16, right: 16, bottom: 16),
@@ -83,85 +70,312 @@ class ProjectManager extends StatelessWidget {
                         borderRadius:
                             BorderRadius.circular(KSizes.borderRadius),
                       ),
-                      child: Obx(() {
-                        return projectManagerController.folders.isEmpty
-                            ? const TAnimationLoaderWidget(
-                                text: 'لا يوجد مشاريع',
-                                animation: 'assets/lottie/not_found.json',
-                              )
-                            : AlignedGridView.count(
-                                physics: const NeverScrollableScrollPhysics(),
-                                crossAxisCount: projectManagerController
-                                    .crossAxisCount.value,
-                                shrinkWrap: true,
-                                itemCount:
-                                    projectManagerController.folders.length,
-                                itemBuilder: (context, index) {
-                                  final List<String> listNames = [
-                                    'assets/svg/Games.svg',
-                                    'assets/svg/Canceled.svg',
-                                    'assets/svg/Completed.svg',
-                                    'assets/svg/Idia.svg',
-                                    'assets/svg/Mony.svg',
-                                    'assets/svg/On Hold.svg',
-                                    'assets/svg/Ongoing.svg',
-                                  ];
-                                  final folder =
-                                      projectManagerController.folders[index];
-
-                                  return Center(
-                                    child: Stack(
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            final kanbanController =
-                                                Get.put(KanbanController());
-                                            kanbanController.loadBoardState(
-                                                '${folder.id}-board',
-                                                '${folder.id}-listNames');
-                                            projectManagerController
-                                                .showBord.value = true;
-                                          },
-                                          child: SizedBox(
-                                            height: 320,
-                                            width: 340,
-                                            child: FolderContainer(
-                                              svgPath: listNames[index],
-                                            ),
-                                          ),
-                                        ),
-                                        Positioned(
-                                          bottom: 0,
-                                          child: SizedBox(
-                                            width: 340,
-                                            child: Text(
-                                              'الكليه مشروع الكليه الكليه مشروعه',
-                                              maxLines: 1,
-                                              textAlign: TextAlign.center,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .headlineSmall!
-                                                  .copyWith(
-                                                    fontWeight: FontWeight.bold,
-                                                  ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FloatingActionButton(
+                                backgroundColor: KColors.darkModeSubCard,
+                                onPressed: () {
+                                  _showAddFolderBottomSheet(context);
                                 },
-                                mainAxisSpacing: 30.0,
-                                crossAxisSpacing: 30.0,
-                              );
-                      }),
+                                child: const Icon(
+                                  IconsaxPlusBroken.add,
+                                  size: 30,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              const Text('Project Manager',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 24)),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Obx(() {
+                            return projectManagerController.folders.isEmpty
+                                ? const TAnimationLoaderWidget(
+                                    text: 'لا يوجد مشاريع',
+                                    animation: 'assets/lottie/not_found.json',
+                                  )
+                                : AlignedGridView.count(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    crossAxisCount: projectManagerController
+                                        .crossAxisCount.value,
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        projectManagerController.folders.length,
+                                    itemBuilder: (context, index) {
+                                      final folder = projectManagerController
+                                          .folders[index];
+
+                                      return Center(
+                                        child: Stack(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                final kanbanController =
+                                                    Get.put(KanbanController());
+                                                kanbanController.loadBoardState(
+                                                    '${folder.id}-board',
+                                                    '${folder.id}-listNames');
+                                                projectManagerController
+                                                    .showBord.value = true;
+                                              },
+                                              onSecondaryTapDown:
+                                                  (TapDownDetails details) {
+                                                showMenu(
+                                                  color:
+                                                      KColors.darkModeSubCard,
+                                                  context: context,
+                                                  position:
+                                                      RelativeRect.fromLTRB(
+                                                    details.globalPosition.dx,
+                                                    details.globalPosition.dy,
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .width -
+                                                        details
+                                                            .globalPosition.dx,
+                                                    MediaQuery.of(context)
+                                                            .size
+                                                            .height -
+                                                        details
+                                                            .globalPosition.dy,
+                                                  ),
+                                                  items: [
+                                                    PopupMenuItem(
+                                                      value: 'update',
+                                                      child: Row(
+                                                        children: [
+                                                          const Icon(Icons.edit,
+                                                              color:
+                                                                  Colors.white),
+                                                          const SizedBox(
+                                                              width: 8),
+                                                          Text('Update',
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          16)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    PopupMenuItem(
+                                                      value: 'Delete',
+                                                      child: Row(
+                                                        children: [
+                                                          const Icon(
+                                                              Icons.delete,
+                                                              color:
+                                                                  Colors.red),
+                                                          const SizedBox(
+                                                              width: 8),
+                                                          Text('Delete',
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyLarge!
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          17,
+                                                                      color: Colors
+                                                                          .red)),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ).then((value) {
+                                                  if (value == 'Delete') {
+                                                    projectManagerController
+                                                        .folders
+                                                        .remove(folder);
+                                                  } else if (value ==
+                                                      'update') {
+                                                    // Implement update functionality here
+                                                  }
+                                                });
+                                              },
+                                              child: SizedBox(
+                                                height: 320,
+                                                width: 340,
+                                                child: FolderContainer(
+                                                  svgPath: folder.icon,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: 0,
+                                              child: SizedBox(
+                                                width: 340,
+                                                child: Text(
+                                                  folder.title,
+                                                  maxLines: 1,
+                                                  textAlign: TextAlign.center,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall!
+                                                      .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    mainAxisSpacing: 30.0,
+                                    crossAxisSpacing: 30.0,
+                                  );
+                          }),
+                        ],
+                      ),
                     )
                   ],
                 ),
               ),
             );
     });
+  }
+
+  void _showAddFolderBottomSheet(BuildContext context) {
+    final TextEditingController nameController = TextEditingController();
+    final List<String> icons = [
+      'assets/svg/Ongoing.svg',
+      'assets/svg/On Hold.svg',
+      'assets/svg/Completed.svg',
+      'assets/svg/Canceled.svg',
+      'assets/svg/Idia.svg',
+      'assets/svg/Mony.svg',
+      'assets/svg/Games.svg',
+    ];
+    final RxString selectedIcon = icons[0].obs;
+    final RxString errorText = ''.obs;
+
+    var formkey = GlobalKey<FormState>();
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: false,
+      backgroundColor: KColors.darkModeBackground,
+      scrollControlDisabledMaxHeightRatio: 0.9,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).viewInsets.bottom,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Form(
+                  key: formkey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Obx(() {
+                            return TextFormField(
+                              controller: nameController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  errorText.value = 'Please enter folder name';
+                                  return errorText.value;
+                                }
+                                errorText.value = '';
+                                return null;
+                              },
+                              maxLines: 2,
+                              decoration: InputDecoration(
+                                labelText: 'Folder Name',
+                                errorText: errorText.value.isEmpty
+                                    ? null
+                                    : errorText.value,
+                              ),
+                            );
+                          }),
+                        ),
+                        const SizedBox(
+                          width: KSizes.md,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: const Icon(Icons.close),
+                        ),
+                        const SizedBox(
+                          width: KSizes.md,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            if (formkey.currentState!.validate()) {
+                              projectManagerController.addFolder(
+                                Folder(
+                                  id: DateTime.now().toString(),
+                                  title: nameController.text,
+                                  icon: selectedIcon.value,
+                                ),
+                              );
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: const Text('Add'),
+                        ),
+                        const SizedBox(
+                          width: KSizes.md,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 5,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                  ),
+                  itemCount: icons.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        selectedIcon.value = icons[index];
+                      },
+                      child: Obx(() {
+                        return Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: selectedIcon.value == icons[index]
+                                  ? Colors.blue
+                                  : Colors.transparent,
+                              width: 2,
+                            ),
+                          ),
+                          child: SvgPicture.asset(
+                            icons[index],
+                            fit: BoxFit.contain,
+                          ),
+                        );
+                      }),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }
 

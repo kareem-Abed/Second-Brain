@@ -165,7 +165,7 @@ class _HabitScreenState extends State<HabitScreen> {
             child: Column(
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     FloatingActionButton(
                       backgroundColor: KColors.darkModeSubCard,
@@ -175,7 +175,7 @@ class _HabitScreenState extends State<HabitScreen> {
                         size: 30,
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    // const SizedBox(width: 16),
                     const Text('Habits',
                         style: TextStyle(color: Colors.white, fontSize: 24)),
                   ],
