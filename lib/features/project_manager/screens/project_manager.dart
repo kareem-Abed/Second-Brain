@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:reorderable_grid_view/reorderable_grid_view.dart';
 import 'package:second_brain/common/widgets/loaders/animation_loader.dart';
 import 'package:second_brain/utils/constants/colors.dart';
 import 'package:second_brain/features/project_manager/controller/project_manager_controller.dart';
@@ -38,25 +39,6 @@ class ProjectManager extends StatelessWidget {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Container(
-                    //   margin:
-                    //       const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    //   padding:
-                    //       const EdgeInsets.only(top: 16, left: 16, right: 16),
-                    //   decoration: BoxDecoration(
-                    //     color: KColors.darkModeCard,
-                    //     border: Border.all(
-                    //       color: KColors.darkModeCardBorder,
-                    //     ),
-                    //     borderRadius:
-                    //         BorderRadius.circular(KSizes.borderRadius),
-                    //   ),
-                    //   child: Column(
-                    //     children: [
-                    //
-                    //     ],
-                    //   ),
-                    // ),
                     Container(
                       margin: const EdgeInsets.only(
                           top: 16, left: 16, right: 16, bottom: 16),
@@ -91,27 +73,39 @@ class ProjectManager extends StatelessWidget {
                                       color: Colors.white, fontSize: 24)),
                             ],
                           ),
-                          const SizedBox(height: 16),
                           Obx(() {
                             return projectManagerController.folders.isEmpty
                                 ? const TAnimationLoaderWidget(
                                     text: 'لا يوجد مشاريع',
                                     animation: 'assets/lottie/not_found.json',
                                   )
-                                : AlignedGridView.count(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    crossAxisCount: projectManagerController
-                                        .crossAxisCount.value,
-                                    shrinkWrap: true,
+                                : ReorderableGridView.builder(
                                     itemCount:
                                         projectManagerController.folders.length,
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: projectManagerController
+                                          .crossAxisCount.value,
+                                      crossAxisSpacing: 5,
+                                      mainAxisSpacing: 5,
+                                    ),
+                                    dragWidgetBuilder: (context, index) {
+                                      return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(
+                                                KSizes.borderRadius),
+                                            color: KColors.darkModeSubCard
+                                                .withOpacity(0.8),
+                                          ),
+                                          child: index);
+                                    },
                                     itemBuilder: (context, index) {
                                       final folder = projectManagerController
                                           .folders[index];
-
                                       return Center(
-                                        child: Stack(
+                                        key: ValueKey(folder.id),
+                                        child: Column(
                                           children: [
                                             GestureDetector(
                                               onTap: () {
@@ -191,9 +185,8 @@ class ProjectManager extends StatelessWidget {
                                                   ],
                                                 ).then((value) {
                                                   if (value == 'Delete') {
-                                                    projectManagerController
-                                                        .folders
-                                                        .remove(folder);
+                                                    // projectManagerController.folders.remove(folder);
+                                                    projectManagerController.removeFolder(folder);
                                                   } else if (value ==
                                                       'update') {
                                                     // Implement update functionality here
@@ -208,32 +201,37 @@ class ProjectManager extends StatelessWidget {
                                                 ),
                                               ),
                                             ),
-                                            Positioned(
-                                              bottom: 0,
-                                              child: SizedBox(
-                                                width: 340,
-                                                child: Text(
-                                                  folder.title,
-                                                  maxLines: 1,
-                                                  textAlign: TextAlign.center,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall!
-                                                      .copyWith(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                      ),
-                                                ),
+                                            SizedBox(
+                                              child: Text(
+                                                folder.title,
+                                                maxLines: 1,
+                                                textAlign: TextAlign.center,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineSmall!
+                                                    .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       );
                                     },
-                                    mainAxisSpacing: 30.0,
-                                    crossAxisSpacing: 30.0,
+                                    onReorder: (oldIndex, newIndex) {
+                                      if (newIndex > oldIndex) {
+                                        newIndex -= 1;
+                                      }
+                                      final folder = projectManagerController
+                                          .folders
+                                          .removeAt(oldIndex);
+                                      projectManagerController.folders
+                                          .insert(newIndex, folder);
+                                      projectManagerController
+                                          .updateFolderIndices();
+                                    },
                                   );
                           }),
                         ],
@@ -323,6 +321,8 @@ class ProjectManager extends StatelessWidget {
                                   id: DateTime.now().toString(),
                                   title: nameController.text,
                                   icon: selectedIcon.value,
+                                  index:
+                                      projectManagerController.folders.length,
                                 ),
                               );
                               Navigator.of(context).pop();

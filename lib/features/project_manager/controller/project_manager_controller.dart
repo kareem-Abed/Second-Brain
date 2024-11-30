@@ -26,20 +26,29 @@ class ProjectManagerController extends GetxController {
     }
   }
 
-  // Method to add a project folder
   void addFolder(Folder folder) {
     folders.add(folder);
     saveFolders();
   }
 
-  // Method to load folders from GetStorage
+  void removeFolder  (Folder folder) {
+    folders.remove(folder);
+    saveFolders();
+  }
+
   void loadFolders() {
     List<dynamic> storedFolders = storage.read<List<dynamic>>('folders') ?? [];
     folders.value = storedFolders.map((e) => Folder.fromJson(e)).toList();
   }
 
-  // Method to save folders to GetStorage
   void saveFolders() {
     storage.write('folders', folders.map((e) => e.toJson()).toList());
+  }
+
+  void updateFolderIndices() {
+    for (int i = 0; i < folders.length; i++) {
+      folders[i].index = i;
+    }
+    saveFolders();
   }
 }

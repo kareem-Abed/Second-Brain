@@ -1,5 +1,5 @@
-
 import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:second_brain/features/Prayers/screens/prayers_screen.dart';
 import 'package:second_brain/features/habit/screens/habit_screen.dart';
 import 'package:second_brain/features/pomodoro/screens/pomodoro.dart';
 import 'package:second_brain/features/project_manager/screens/project_manager.dart';
@@ -80,6 +80,7 @@ class PageViewWidget extends StatelessWidget {
           const KanbanBoard(),
           const Pomodoro(),
           const HabitScreen(),
+          // const PrayersScreen(),
           Container(
             color: KColors.darkModeBackground,
             child: const Center(
@@ -242,6 +243,11 @@ class SideMenuWidget extends StatelessWidget {
               title: 'العادات',
               index: 6,
             ),
+            // const HoverableMenuItem(
+            //   icon: IconsaxPlusBold.setting_2,
+            //   title: 'PrayersScreen',
+            //   index: 7,
+            // ),
             const HoverableMenuItem(
               icon: IconsaxPlusBold.setting_2,
               title: 'إعدادات',

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'date_time.dart';
+import 'package:second_brain/features/habit/controllers/date_time.dart';
 
-class HabitController extends GetxController {
+class PrayersController extends GetxController {
   final myBox = GetStorage();
   var toDaysHabitList = <List<dynamic>>[].obs;
   var heatMapDataSet = <DateTime, int>{}.obs;
@@ -12,29 +12,35 @@ class HabitController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    GetStorage.init();
-
-    if (myBox.read("CURRENT_HABIT_LIST") == null) {
+    myBox.remove("Prayers_START_DATE");
+    myBox.remove("Prayers_HABIT_LIST");
+    myBox.write("Prayers_START_DATE", todaysDateFormatted());
+    if (myBox.read("Prayers_HABIT_LIST") == null) {
       createDefaultData();
     } else {
       loadData();
     }
     updateDatabase();
-    startDate = myBox.read("START_DATE");
+    startDate = myBox.read("Prayers_START_DATE") ?? '';
   }
 
   void createDefaultData() {
     toDaysHabitList.value = [
-      ["اقراء", false],
-      ["اجري نصف ساعة", false],
+      ["الفجر", false],
+      ["أذكار الصباح", false],
+      ["الظهر", false],
+      ["العصر", false],
+      ["أذكار المساء", false],
+      ["المغرب", false],
+      ["العشاء", false],
     ];
 
-    myBox.write("START_DATE", todaysDateFormatted());
+    myBox.write("Prayers_START_DATE", todaysDateFormatted());
   }
 
   void loadData() {
     if (myBox.read(todaysDateFormatted()) == null) {
-      var currentHabitList = myBox.read("CURRENT_HABIT_LIST");
+      var currentHabitList = myBox.read("Prayers_HABIT_LIST");
       if (currentHabitList != null && currentHabitList is List) {
         toDaysHabitList.value = List<List<dynamic>>.from(currentHabitList);
         for (int i = 0; i < toDaysHabitList.length; i++) {
@@ -51,7 +57,7 @@ class HabitController extends GetxController {
 
   void updateDatabase() {
     myBox.write(todaysDateFormatted(), toDaysHabitList);
-    myBox.write("CURRENT_HABIT_LIST", toDaysHabitList);
+    myBox.write("Prayers_HABIT_LIST", toDaysHabitList);
     calculateHabitPercentages();
     loadHeatMap();
   }
@@ -68,11 +74,11 @@ class HabitController extends GetxController {
         ? '0.0'
         : (countCompleted / toDaysHabitList.length).toStringAsFixed(1);
 
-    myBox.write("PERCENTAGE_SUMMARY_${todaysDateFormatted()}", percent);
+    myBox.write("prayerPERCENTAGE_SUMMARY_${todaysDateFormatted()}", percent);
   }
 
   void loadHeatMap() {
-    DateTime startDate = createDateTimeObject(myBox.read("START_DATE"));
+    DateTime startDate = createDateTimeObject(myBox.read("Prayers_START_DATE"));
     int daysInBetween = DateTime.now().difference(startDate).inDays;
 
     for (int i = 0; i < daysInBetween + 1; i++) {
@@ -81,7 +87,7 @@ class HabitController extends GetxController {
       );
 
       double strengthAsPercent = double.parse(
-        myBox.read("PERCENTAGE_SUMMARY_$yyyymmdd") ?? "0.0",
+        myBox.read("prayerPERCENTAGE_SUMMARY_$yyyymmdd") ?? "0.0",
       );
 
       int year = startDate.add(Duration(days: i)).year;
