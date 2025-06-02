@@ -123,17 +123,6 @@ class WeeklyCalendarController extends GetxController {
     for (var task in tasks) {
       if (task.dateTime.day <= day &&
           (task.dateTime.day + (task.daysDuration ?? 1)) > day) {
-        // If the task starts now
-        if (task.dateTime.hour == currentHour.value &&
-            task.dateTime.minutes == currentMinute.value) {
-          // Send notification for task start
-          scheduleNotification(
-            title: "تذكير بالمهمة",
-            body:
-                " حان وقت ${task.title} لمدة : ${(task.minutesDuration ~/ 60) != 0 ? '${(task.minutesDuration ~/ 60).toString().padLeft(1, '0')}h' : ''} ${(task.minutesDuration % 60 ~/ 1).toString().padLeft(2, '0')}m",
-          );
-        }
-
         DateTime taskEndTime = DateTime(now.year, now.month, now.day,
             task.dateTime.hour, task.dateTime.minutes + task.minutesDuration);
 
@@ -144,6 +133,17 @@ class WeeklyCalendarController extends GetxController {
           scheduleNotification(
             title: "انتهاء المهمة",
             body: "لقد انتهت المهمة ${task.title}",
+          );
+        }
+        //----------------------------
+        // If the task starts now
+        if (task.dateTime.hour == currentHour.value &&
+            task.dateTime.minutes == currentMinute.value) {
+          // Send notification for task start
+          scheduleNotification(
+            title: "تذكير بالمهمة",
+            body:
+                " حان وقت ${task.title} لمدة : ${(task.minutesDuration ~/ 60) != 0 ? '${(task.minutesDuration ~/ 60).toString().padLeft(1, '0')}h' : ''} ${(task.minutesDuration % 60 ~/ 1).toString().padLeft(2, '0')}m",
           );
         }
       }

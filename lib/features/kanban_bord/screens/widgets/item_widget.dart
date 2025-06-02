@@ -44,6 +44,7 @@ class _ItemWidgetState extends State<ItemWidget> {
           child: ListTile(
             leading: const Icon(Icons.edit, color: Colors.white),
             title: Text('Edit',
+
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
@@ -110,7 +111,7 @@ class _ItemWidgetState extends State<ItemWidget> {
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
               child: Text(
                 widget.item.title,
-                textAlign: TextAlign.end,
+                textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall!

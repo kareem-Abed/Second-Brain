@@ -77,7 +77,8 @@ class AddTaskForm extends StatelessWidget {
                               icon:
                                   controller.colorController.selectedIcon.value,
                               color: controller
-                                  .colorController.selectedColor.value,             context: context,
+                                  .colorController.selectedColor.value,
+                              context: context,
                             );
                           } else {
                             controller.addTask(
@@ -315,21 +316,23 @@ class DurationPicker extends StatelessWidget {
         Get.put(WeeklyCalendarController());
     return Padding(
       padding: const EdgeInsets.only(right: KSizes.sm),
-      child: Row(
+      child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: KSizes.sm),
-            child: Text(
-              'لمدة',
-              style: Theme.of(context).textTheme.titleMedium!,
-            ),
-          ),
-          Expanded(
-              flex: 2,
-              child: Obx(
+          Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: KSizes.sm),
+                child: Text(
+                  'لمدة',
+                  style: Theme.of(context).textTheme.titleMedium!,
+                ),
+              ),
+              Obx(
                 () => Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 2, horizontal: 2),
+                      const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color:
@@ -342,24 +345,41 @@ class DurationPicker extends StatelessWidget {
                     ),
                   ),
                 ),
-              )),
-          Expanded(
-            flex: 4,
-            child: Obx(() => Slider(
-                  value: controller.duration.value,
-                  activeColor:
-                      Color(controller.colorController.selectedColor.value),
-                  inactiveColor: Colors.white,
-                  min: 15,
-                  max: 10 * 60,
-                  divisions: (10 * 60 - 15) ~/ 15,
-                  label:
-                      '${(controller.duration.value ~/ 60).toString().padLeft(1, '0')}h ${(controller.duration.value % 60 ~/ 1).toString().padLeft(2, '0')}m',
-                  onChanged: (double value) {
-                    controller.duration.value = value;
-                  },
-                )),
+              ),
+            ],
           ),
+
+          Obx(() => Slider(
+                value: controller.duration.value,
+                activeColor:
+                    Color(controller.colorController.selectedColor.value),
+                inactiveColor: Colors.white,
+                min: 15,
+                max: 10 * 60,
+                divisions: (10 * 60 - 15) ~/ 5,
+                label:
+                    '${(controller.duration.value ~/ 60).toString().padLeft(1, '0')}h ${(controller.duration.value % 60 ~/ 1).toString().padLeft(2, '0')}m',
+                onChanged: (double value) {
+                  controller.duration.value = value;
+                },
+              )),
+          // Expanded(
+          //   flex: 4,
+          //   child: Obx(() => Slider(
+          //         value: controller.duration.value,
+          //         activeColor:
+          //             Color(controller.colorController.selectedColor.value),
+          //         inactiveColor: Colors.white,
+          //         min: 15,
+          //         max: 10 * 60,
+          //         divisions: (10 * 60 - 15) ~/ 15,
+          //         label:
+          //             '${(controller.duration.value ~/ 60).toString().padLeft(1, '0')}h ${(controller.duration.value % 60 ~/ 1).toString().padLeft(2, '0')}m',
+          //         onChanged: (double value) {
+          //           controller.duration.value = value;
+          //         },
+          //       )),
+          // ),
         ],
       ),
     );

@@ -1,0 +1,2 @@
+C:/StudioProjects/not work/second_brain/android/app/.cxx/RelWithDebInfo/2x1b4u5z/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/StudioProjects/not work/second_brain/android/app/.cxx/RelWithDebInfo/2x1b4u5z/arm64-v8a/CMakeFiles/rebuild_cache.dir

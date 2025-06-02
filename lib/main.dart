@@ -35,7 +35,8 @@ Future<void> main() async {
     MediaKit.ensureInitialized();
 
     // bool isEnabled = await launchAtStartup.isEnabled();
-  } else {
+  }
+  else {
     MediaKit.ensureInitialized();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
@@ -49,3 +50,5 @@ Future<void> main() async {
     const App(),
   );
 }
+
+

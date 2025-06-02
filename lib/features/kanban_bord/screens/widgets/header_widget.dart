@@ -126,6 +126,7 @@ class HeaderWidget extends StatelessWidget {
                     child: Text(
                         (controller.board.value[listId]?.length ?? '0')
                             .toString(),
+
                         style: Theme.of(context).textTheme.headlineMedium),
                   );
                 })),

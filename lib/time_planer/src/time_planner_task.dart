@@ -96,8 +96,8 @@ class TimePlannerTask extends StatelessWidget {
         child: SizedBox(
           width: calculatedWidthTask - 5,
           child: Padding(
-            padding:
-                EdgeInsets.only(left: config.horizontalTaskPadding!.toDouble(),top: 1),
+            padding: EdgeInsets.only(
+                left: config.horizontalTaskPadding!.toDouble(), top: 1),
             child: Material(
               elevation: 1,
               borderRadius: config.borderRadius,
@@ -165,7 +165,7 @@ class TimePlannerTask extends StatelessWidget {
                                               .textTheme
                                               .titleSmall!
                                               .copyWith(
-                                                fontSize: textSize,
+                                                fontSize: textSize - 2.5,
                                               ),
                                         ),
                                       );
