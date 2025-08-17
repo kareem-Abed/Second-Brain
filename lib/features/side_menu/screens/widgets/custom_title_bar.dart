@@ -26,7 +26,14 @@ class CustomTitleBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 32,
-      color: backgroundColor,
+      decoration: BoxDecoration(
+        // gradient: const LinearGradient(
+        //   colors: [Color(0xFFFF6B6B), Color(0xFF9D8DF1)],
+        //   begin: Alignment.centerLeft,
+        //   end: Alignment.centerRight,
+        // ),
+        color: backgroundColor,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,9 +47,11 @@ class CustomTitleBar extends StatelessWidget {
                 windowManager.startDragging();
               },
               child: Container(
+                decoration: BoxDecoration(
+                    // color: backgroundColor,
+                    borderRadius: BorderRadius.circular(4)),
                 width: double.maxFinite,
                 height: 32,
-                color: backgroundColor,
               ),
             ),
           ),

@@ -32,8 +32,8 @@ class KAppTheme {
 
   static ThemeData darkTheme = ThemeData(
     useMaterial3: true,
-    // fontFamily: 'Poppins',
-    fontFamily: 'MontserratArabic',
+    fontFamily: 'Poppins',
+    // fontFamily: 'MontserratArabic',
     disabledColor: KColors.grey,
     brightness: Brightness.dark,
     primaryColor: KColors.primary,
