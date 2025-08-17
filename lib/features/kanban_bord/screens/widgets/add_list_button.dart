@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
-import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
-import 'package:second_brain/utils/constants/colors.dart';
-import 'package:second_brain/utils/validators/validation.dart';
+import 'package:questly/features/kanban_bord/controller/kanban_board_controller.dart';
+import 'package:questly/utils/constants/colors.dart';
+import 'package:questly/utils/validators/validation.dart';
 
 class AddListButton extends StatelessWidget {
   const AddListButton({super.key});

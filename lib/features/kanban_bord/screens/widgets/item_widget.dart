@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:second_brain/features/kanban_bord/controller/kanban_board_controller.dart';
-import 'package:second_brain/features/kanban_bord/models/item.dart';
+import 'package:iconsax_plus/iconsax_plus.dart';
+import 'package:questly/features/kanban_bord/controller/kanban_board_controller.dart';
+import 'package:questly/features/kanban_bord/models/item.dart';
 import '../../../../utils/constants/colors.dart';
 
 class ItemWidget extends StatefulWidget {
@@ -24,7 +25,7 @@ class ItemWidget extends StatefulWidget {
 class _ItemWidgetState extends State<ItemWidget> {
   Color borderColor = Colors.transparent;
   bool isHovered = false;
-
+  final KanbanController kanbanController = KanbanController.instance;
   void _showOverlayMenu(BuildContext context) {
     final overlay = Overlay.of(context).context.findRenderObject();
     final button = context.findRenderObject() as RenderBox;
@@ -44,7 +45,6 @@ class _ItemWidgetState extends State<ItemWidget> {
           child: ListTile(
             leading: const Icon(Icons.edit, color: Colors.white),
             title: Text('Edit',
-
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!
@@ -99,24 +99,76 @@ class _ItemWidgetState extends State<ItemWidget> {
         children: [
           Card(
             elevation: 8.0,
-            child: Container(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
               width: 300,
+              padding: const EdgeInsets.only(
+                right: 8.0,
+                top: 10.0,
+                bottom: 10.0,
+                left: 8.0,
+              ),
               decoration: BoxDecoration(
                 color: const Color.fromRGBO(64, 75, 96, .9),
                 border: Border.all(
-                    color: widget.showHover ? borderColor : Colors.transparent,
-                    width: 2),
+                  color: !kanbanController.isDraggingItem.value
+                      ? widget.showHover
+                          ? borderColor
+                          : Colors.transparent
+                      : Colors.transparent,
+                  width: 2,
+                ),
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-              child: Text(
-                widget.item.title,
-                textAlign: TextAlign.center,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall!
-                    .copyWith(color: Colors.white),
-                // style: TextStyle(color: Colors.white),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.item.title,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Colors.white),
+                    ),
+                  ),
+                  AnimatedScale(
+                    duration: const Duration(milliseconds: 300),
+                    scale: !kanbanController.isDraggingItem.value
+                        ? widget.item.isCompleted || isHovered
+                            ? 1.0
+                            : 0.0
+                        : 0.0,
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 300),
+                      opacity: !kanbanController.isDraggingItem.value
+                          ? widget.item.isCompleted || isHovered
+                              ? 1.0
+                              : 0.0
+                          : 0.0,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            widget.item.isCompleted = !widget.item.isCompleted;
+                          });
+                          widget.controller.updateItemCompletion(
+                            widget.item.listId,
+                            widget.item.id,
+                            widget.item.isCompleted,
+                          );
+                        },
+                        child: Icon(
+                          widget.item.isCompleted
+                              ? IconsaxPlusBold.tick_circle
+                              : Icons.radio_button_unchecked,
+                          color: widget.item.isCompleted
+                              ? Colors.green
+                              : Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -124,7 +176,8 @@ class _ItemWidgetState extends State<ItemWidget> {
             top: 0,
             right: 0,
             child: Visibility(
-              visible: widget.showHover ? isHovered : false,
+              visible: !kanbanController.isDraggingItem.value
+                  ?widget.showHover ? isHovered : false: false,
               child: Padding(
                 padding: const EdgeInsets.only(top: 0.0, right: 2.0),
                 child: IconButton(

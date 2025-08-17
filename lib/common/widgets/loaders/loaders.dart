@@ -6,9 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:media_kit/media_kit.dart';
-import 'package:second_brain/utils/constants/colors.dart';
+import 'package:questly/utils/constants/colors.dart';
 
-class TLoaders {
+class KLoaders {
   final windowsAudioPlayer = Player();
 
   static hideSnackBar() {
@@ -16,9 +16,10 @@ class TLoaders {
   }
 
   void successSnackBar(
-      {required String title, message = '', duration = 1, required context}) {
+      {required String title, message = '', duration = 1, }) {
     windowsAudioPlayer.open(Media("asset:///assets/sounds/timesup.mp3"));
-    ElegantNotification(
+
+    ElegantNotification.success(
       displayCloseButton: true,
       width: 360,
       height: 100,
@@ -44,8 +45,8 @@ class TLoaders {
         FontAwesomeIcons.check,
         color: Colors.green,
       ),
-      progressIndicatorColor: Colors.green,
-    ).show(context);
+      // progressIndicatorColor: Colors.green,
+    ).show(Get.context!);
   }
 
   void warningSnackBar(

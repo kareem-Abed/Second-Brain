@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 // import 'package:lottie/lottie.dart';
-import 'package:second_brain/utils/constants/colors.dart';
-import 'package:second_brain/utils/constants/sizes.dart';
+import 'package:questly/utils/constants/colors.dart';
+import 'package:questly/utils/constants/sizes.dart';
 
 class TAnimationLoaderWidget extends StatelessWidget {
   const TAnimationLoaderWidget(

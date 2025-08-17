@@ -2,7 +2,7 @@
 // import 'package:get/get.dart';
 // import 'package:connectivity_plus/connectivity_plus.dart';
 // import 'package:flutter/services.dart';
-// import 'package:second_brain/common/widgets/loaders/loaders.dart';
+// import 'package:questly/common/widgets/loaders/loaders.dart';
 //
 //
 //

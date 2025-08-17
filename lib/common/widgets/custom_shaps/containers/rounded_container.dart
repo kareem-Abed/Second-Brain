@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:second_brain/utils/constants/colors.dart';
-import 'package:second_brain/utils/constants/sizes.dart';
-import 'package:second_brain/utils/helpers/helper_functions.dart';
+import 'package:questly/utils/constants/colors.dart';
+import 'package:questly/utils/constants/sizes.dart';
+import 'package:questly/utils/helpers/helper_functions.dart';
 
 class TRoundedContainer extends StatelessWidget {
   const TRoundedContainer({

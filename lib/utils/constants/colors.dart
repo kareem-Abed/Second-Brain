@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class KColors {
   // Primary colors
- static const Color primary =Color.fromARGB(255, 3, 169, 244);
- // static const Color primary =Color(0xFF4379EE);
+  static const Color primary = Color.fromARGB(255, 3, 169, 244);
+  // static const Color primary =Color(0xFF4379EE);
 
   static const Color secondary = Color(0xFF1f2c34);
   static const Color accent = Color(0xFFb0c7ff);
@@ -47,11 +47,12 @@ class KColors {
   static const Color white = Color(0xFFFFFFFF);
 
   //dark mode colors
-  static const Color darkModeBackground = Color(0xFF1B2431);
-  static const Color darkModeSideMenuBackground = Color(0xFF273142);
-  static const Color darkModeCard = Color(0xFF273142);
-  static const Color darkModeBorder = Color(0xFF313D4F);
-  static const Color darkModeSubCard = Color(0xFF323D4E);
-  static const Color darkModeCardBorder = Color(0xFF3C3C3C);
-  static const Color darkModeCardText = Color(0xFFE0E0E0);
+  static const Color darkModeBackground = Color(0xFF121218);
+  static const Color darkModeSideMenuBackground = Color(0xFF1D1D24);
+  static const Color darkModeCard = Color(0xFF222222);
+
+  static const Color darkModeBorder = Color(0xFF3A3A3A);
+  static const Color darkModeSubCard = Color(0xFF2F2F2F);
+  static const Color darkModeCardBorder = Color(0xFF404040);
+  static const Color darkModeCardText = Color(0xFFE5E5E5);
 }

@@ -2,7 +2,7 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:second_brain/features/kanban_bord/models/item.dart';
+import 'package:questly/features/kanban_bord/models/item.dart';
 
 class KanbanController extends GetxController {
   static KanbanController get instance => Get.find();
@@ -14,6 +14,7 @@ class KanbanController extends GetxController {
   RxMap<String, RxString> listNames = <String, RxString>{}.obs;
   final box = GetStorage();
   var isDragging = false.obs;
+  var isDraggingItem = false.obs;
   var draggingListId = ''.obs;
   final RxBool showListNameTextField = false.obs;
   final listNameController = TextEditingController().obs;
@@ -30,11 +31,11 @@ class KanbanController extends GetxController {
   final itemNameController = TextEditingController().obs;
   final itemNameFocusNode = FocusNode().obs;
 
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   // loadBoardState();
-  // }
+  @override
+  void onInit() {
+    super.onInit();
+    loadBoardState('board', 'listNames');
+  }
 
   @override
   void onClose() {
@@ -125,6 +126,21 @@ class KanbanController extends GetxController {
         saveBoardState();
       } else {}
     } else {}
+  }
+
+  void updateItemCompletion(String listId, String itemId, bool completed) {
+    if (board.value.containsKey(listId)) {
+      final items = board.value[listId];
+      final item = items?.firstWhere(
+        (item) => item.id == itemId,
+        orElse: () => Item(id: '', listId: '', title: ''),
+      );
+      if (item != null && item.id.isNotEmpty) {
+        item.isCompleted = completed;
+        board.refresh();
+        saveBoardState();
+      }
+    }
   }
 
   void editList(String listId, String newName) {

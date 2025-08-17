@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:second_brain/utils/constants/sizes.dart';
+import 'package:questly/utils/constants/sizes.dart';
 import '../../constants/colors.dart';
 
 class KAppBarTheme{

@@ -201,5 +201,5 @@ class KImages {
   static const String jam = "assets/images/products/jam.png";
   static const String vitrac = "assets/images/products/Vitrac-Logo.png";
   static const String product =
-      "https://firebasestorage.googleapis.com/v0/b/second_brain-96d92.appspot.com/o/Products%2Fstore-logo.png?alt=media&token=bca3fc8e-54e2-4770-ae68-9cc0a1231bc2";
+      "https://firebasestorage.googleapis.com/v0/b/questly-96d92.appspot.com/o/Products%2Fstore-logo.png?alt=media&token=bca3fc8e-54e2-4770-ae68-9cc0a1231bc2";
 }

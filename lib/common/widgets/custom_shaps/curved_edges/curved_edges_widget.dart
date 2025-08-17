@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:second_brain/common/widgets/custom_shaps/curved_edges/curved_edges.dart';
+import 'package:questly/common/widgets/custom_shaps/curved_edges/curved_edges.dart';
 
 class TCurvedEdgWidget extends StatelessWidget {
   const TCurvedEdgWidget({

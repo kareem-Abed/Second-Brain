@@ -1,54 +1,42 @@
 import 'dart:io';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:launch_at_startup/launch_at_startup.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:second_brain/app.dart';
+import 'package:questly/app.dart';
 import 'package:media_kit/media_kit.dart';
+import 'package:window_manager/window_manager.dart';
+
+import 'features/player/screens/flip_clock.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   if (Platform.isWindows) {
-    doWhenWindowReady(() {
-      final win = appWindow;
-      const initialSize = Size(900, 500);
-      win.minSize = initialSize;
-      win.title = "Second Brain";
-      win.show();
-    });
+    await windowManager.ensureInitialized();
 
-    // Enable launch at startup
-    PackageInfo packageInfo = await PackageInfo.fromPlatform();
-    // print('Platform.resolvedExecutable: ${Platform.resolvedExecutable}');
-    // print('packageInfo.appName: ${packageInfo.appName}');
-    // print('packageInfo.appName: ${packageInfo.packageName}');
-    launchAtStartup.setup(
-      appName: packageInfo.appName,
-      appPath: Platform.resolvedExecutable,
-      packageName: packageInfo.packageName,
+    const minSize = Size(696, 608);
+    WindowOptions windowOptions = const WindowOptions(
+      size: minSize,
+      minimumSize: minSize,
+      backgroundColor: Colors.transparent,
+      titleBarStyle: TitleBarStyle.hidden,
     );
-    // await launchAtStartup.enable();
-    await launchAtStartup.disable();
-    MediaKit.ensureInitialized();
 
-    // bool isEnabled = await launchAtStartup.isEnabled();
-  }
-  else {
-    MediaKit.ensureInitialized();
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.setMinimumSize(minSize);
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  } else {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight,
     ]);
   }
+  MediaKit.ensureInitialized();
 
   await GetStorage.init();
 
-  runApp(
-    const App(),
-  );
+  runApp(const App());
 }
-
-

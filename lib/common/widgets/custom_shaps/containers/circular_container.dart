@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:second_brain/utils/constants/colors.dart';
+import 'package:questly/utils/constants/colors.dart';
 
 class TCircularContainer extends StatelessWidget {
   const TCircularContainer({
