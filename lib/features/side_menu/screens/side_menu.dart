@@ -1,7 +1,6 @@
 import 'package:iconsax_plus/iconsax_plus.dart';
 import 'package:questly/features/pomodoro/screens/pomodoro.dart';
 import 'package:questly/features/side_menu/screens/widgets/custom_title_bar.dart';
-import 'package:questly/features/side_menu/screens/widgets/hoverable_menu_item.dart';
 import 'package:questly/features/side_menu/screens/widgets/placeholder_page_widget.dart';
 import 'package:questly/features/side_menu/screens/widgets/smart_pomodoro_icon.dart';
 import 'package:questly/utils/constants/colors.dart';
@@ -80,7 +79,7 @@ class _CustomSideMenuState extends State<CustomSideMenu> {
       case 10:
         return const PlaceholderPageWidget(title: 'Achievements');
       case 11:
-        return FlipClockScreen();
+        return const FlipClockScreen();
       case 12:
         return const Tasks();
       default:
@@ -298,13 +297,13 @@ class SideMenuWidget extends StatelessWidget {
                   //   onTap: () => _navigateToPage(10),
                   //   hoverColor: hoverColors[7],
                   // ),
-                  // HoverableMenuItem(
-                  //   icon: IconsaxPlusBold.clock_1,
-                  //   title: 'FlipClockScreen',
-                  //   index: 11,
-                  //   onTap: () => _navigateToPage(11),
-                  //   hoverColor: hoverColors[8],
-                  // ),
+                  HoverableMenuItem(
+                    icon: IconsaxPlusBold.clock_1,
+                    title: 'FlipClockScreen',
+                    index: 11,
+                    onTap: () => _navigateToPage(11),
+                    hoverColor: hoverColors[7],
+                  ),
                   // HoverableMenuItem(
                   //   icon: IconsaxPlusBold.task_square,
                   //   title: 'FlipClockScreen',
@@ -832,7 +831,7 @@ class LevelProgressWidget extends StatelessWidget {
                           style:
                               Theme.of(context).textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Color(0xFF6D4C00), // Strong dark gold
+                            color: const Color(0xFF6D4C00), // Strong dark gold
                             shadows: [
                               Shadow(
                                 color: Colors.black.withOpacity(0.1),

@@ -1,140 +1,146 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'dart:io';
 import 'dart:math' as math;
 
+import 'package:window_manager/window_manager.dart';
+
 // global values
 Color whiteColor = const Color.fromRGBO(186, 186, 186, 1);
 
-class FlipClockScreen extends StatefulWidget {
-  @override
-  _FlipClockScreenState createState() => _FlipClockScreenState();
-}
-
-class _FlipClockScreenState extends State<FlipClockScreen> {
-  late Timer _timer;
-  late DateTime _currentTime;
-  late int _hour12;
-  late String _meridian;
-
-  @override
-  void initState() {
-    super.initState();
-    _updateTime();
-    _timer = Timer.periodic(const Duration(seconds: 1), (_) => _updateTime());
-  }
-
-  void _updateTime() {
-    final now = DateTime.now();
-    setState(() {
-      _currentTime = now;
-      _hour12 = now.hour % 12 == 0 ? 12 : now.hour % 12;
-
-      _meridian = DateFormat("a").format(now);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Container(
-        alignment: Alignment.center,
-        height: double.infinity,
-        width: double.infinity,
-        child: OrientationBuilder(
-          builder: (context, _layout) {
-            if (_layout == Orientation.portrait || width < 900) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ClockAnimation(
-                    timerDuration: Duration(minutes: 60 - _currentTime.minute),
-                    limit: 12,
-                    start: 1,
-                    onTime: _hour12,
-                    showhour: true,
-                    ampm: _meridian,
-                  ),
-                  ClockAnimation(
-                    timerDuration: Duration(seconds: 60 - _currentTime.second),
-                    limit: 59,
-                    start: 0,
-                    onTime: _currentTime.minute,
-                    showhour: false,
-                    ampm: '',
-                  ),
-                  if (height > 700)
-                    ClockAnimation(
-                      timerDuration: const Duration(seconds: 1),
-                      limit: 59,
-                      start: 0,
-                      onTime: _currentTime.second,
-                      showhour: false,
-                      ampm: _meridian,
-                    ),
-                ],
-              );
-            } else {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ClockAnimation(
-                        timerDuration:
-                            Duration(minutes: 60 - _currentTime.minute),
-                        limit: 12,
-                        start: 1,
-                        onTime: _hour12,
-                        showhour: true,
-                        ampm: _meridian,
-                      ),
-                      ClockAnimation(
-                        timerDuration:
-                            Duration(seconds: 60 - _currentTime.second),
-                        limit: 59,
-                        start: 0,
-                        onTime: _currentTime.minute,
-                        showhour: false,
-                        ampm: '',
-                      ),
-                      ClockAnimation(
-                        timerDuration: const Duration(seconds: 1),
-                        limit: 59,
-                        start: 0,
-                        onTime: _currentTime.second,
-                        showhour: false,
-                        ampm: '',
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            }
-          },
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-    super.dispose();
-  }
-}
-
+//
+// class FlipClockScreen extends StatefulWidget {
+//   @override
+//   _FlipClockScreenState createState() => _FlipClockScreenState();
+// }
+//
+// class _FlipClockScreenState extends State<FlipClockScreen> {
+//   late Timer _timer;
+//   late DateTime _currentTime;
+//   late int _hour12;
+//   late String _meridian;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     _updateTime();
+//     _timer = Timer.periodic(const Duration(seconds: 1), (_) => _updateTime());
+//   }
+//
+//   void _updateTime() {
+//     final now = DateTime.now();
+//     setState(() {
+//       _currentTime = now;
+//       _hour12 = now.hour % 12 == 0 ? 12 : now.hour % 12;
+//
+//       _meridian = DateFormat("a").format(now);
+//     });
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     double height = MediaQuery.of(context).size.height;
+//     double width = MediaQuery.of(context).size.width;
+//
+//     return Scaffold(
+//       backgroundColor: Colors.black,
+//       body: Container(
+//         alignment: Alignment.center,
+//         height: double.infinity,
+//         width: double.infinity,
+//         child: OrientationBuilder(
+//           builder: (context, _layout) {
+//             if (_layout == Orientation.portrait || width < 900) {
+//               return Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   ClockAnimation(
+//                     timerDuration: Duration(minutes: 60 - _currentTime.minute),
+//                     limit: 12,
+//                     start: 1,
+//                     onTime: _hour12,
+//                     showhour: true,
+//                     ampm: _meridian,
+//                   ),
+//                   ClockAnimation(
+//                     timerDuration: Duration(seconds: 60 - _currentTime.second),
+//                     limit: 59,
+//                     start: 0,
+//                     onTime: _currentTime.minute,
+//                     showhour: false,
+//                     ampm: '',
+//                   ),
+//                   if (height > 700)
+//                     ClockAnimation(
+//                       timerDuration: const Duration(seconds: 1),
+//                       limit: 59,
+//                       start: 0,
+//                       onTime: _currentTime.second,
+//                       showhour: false,
+//                       ampm: _meridian,
+//                     ),
+//                 ],
+//               );
+//             } else {
+//               return Column(
+//                 mainAxisAlignment: MainAxisAlignment.center,
+//                 children: [
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       ClockAnimation(
+//                         timerDuration:
+//                             Duration(minutes: 60 - _currentTime.minute),
+//                         limit: 12,
+//                         start: 1,
+//                         onTime: _hour12,
+//                         showhour: true,
+//                         ampm: _meridian,
+//                       ),
+//                       ClockAnimation(
+//                         timerDuration:
+//                             Duration(seconds: 60 - _currentTime.second),
+//                         limit: 59,
+//                         start: 0,
+//                         onTime: _currentTime.minute,
+//                         showhour: false,
+//                         ampm: '',
+//                       ),
+//                       ClockAnimation(
+//                         timerDuration: const Duration(seconds: 1),
+//                         limit: 59,
+//                         start: 0,
+//                         onTime: _currentTime.second,
+//                         showhour: false,
+//                         ampm: '',
+//                       ),
+//                     ],
+//                   ),
+//                 ],
+//               );
+//             }
+//           },
+//         ),
+//       ),
+//     );
+//   }
+//
+//   @override
+//   void dispose() {
+//     _timer.cancel();
+//     super.dispose();
+//   }
+// }
+//
 class ClockAnimation extends StatefulWidget {
   final Duration timerDuration;
   final int limit;
   final int start;
+  final double factor;
   final int onTime;
   final bool showhour;
   final String ampm;
@@ -142,6 +148,7 @@ class ClockAnimation extends StatefulWidget {
       {required this.timerDuration,
       required this.limit,
       required this.start,
+      required this.factor,
       required this.onTime,
       required this.showhour,
       required this.ampm});
@@ -154,7 +161,6 @@ class _ClockAnimationState extends State<ClockAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  late Timer _timer;
   late int _current; // current displayed value
   late int _next; // next value to display
 
@@ -203,9 +209,22 @@ class _ClockAnimationState extends State<ClockAnimation>
 
   @override
   Widget build(BuildContext context) {
-    // ارتفاع كل نصف
-    const double halfHeight = 99.0;
-    const double width = 200.0;
+    final double factor = widget.factor;
+    final double halfHeight = 99.0 * factor;
+    final double width = 200.0 * factor;
+    final double smallPadding = 4.0 * factor;
+    final double largePadding = 14 * factor;
+    final double fontSize = 126.0 * factor;
+    final double fontSize2 = 18.0 * factor;
+    Text timeText(int value) {
+      return Text(
+        value.toString().padLeft(2, '0'),
+        style: GoogleFonts.cabin(
+          fontSize: fontSize,
+          color: whiteColor,
+        ),
+      );
+    }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -235,8 +254,8 @@ class _ClockAnimationState extends State<ClockAnimation>
                         ),
                       ),
                     Positioned(
-                      top: Platform.isAndroid ? 15 : 4.0,
-                      child: _timeText(_next),
+                      top: Platform.isAndroid ? 15 : smallPadding,
+                      child: timeText(_next),
                     ),
                   ],
                 ),
@@ -251,10 +270,10 @@ class _ClockAnimationState extends State<ClockAnimation>
                   alignment: Alignment.center,
                   children: [
                     Positioned(
-                      bottom: Platform.isAndroid ? 23 : 14.0,
+                      bottom: Platform.isAndroid ? 23 : largePadding,
                       child: (_animation.value < (math.pi / 2))
-                          ? _timeText(_current)
-                          : _timeText(_next),
+                          ? timeText(_current)
+                          : timeText(_next),
                     ),
                   ],
                 ),
@@ -283,15 +302,15 @@ class _ClockAnimationState extends State<ClockAnimation>
                     // أثناء النصف الثاني: نعرض الواجهة الخلفية (next) مقلوبة لكي تصبح صحيحة بعد الدوران الكامل
                     _animation.value <= (math.pi / 2)
                         ? Positioned(
-                            top: Platform.isAndroid ? 15 : 4.0,
-                            child: _timeText(_current),
+                            top: Platform.isAndroid ? 15 : smallPadding,
+                            child: timeText(_current),
                           )
                         : Positioned(
-                            top: Platform.isAndroid ? 15 : 14.0,
+                            top: Platform.isAndroid ? 15 : largePadding,
                             child: Transform(
                               transform: Matrix4.rotationX(math.pi),
                               alignment: Alignment.center,
-                              child: _timeText(_next),
+                              child: timeText(_next),
                             ),
                           ),
 
@@ -302,7 +321,7 @@ class _ClockAnimationState extends State<ClockAnimation>
                         child: Text(
                           widget.ampm,
                           style: GoogleFonts.cabin(
-                            fontSize: 18.0,
+                            fontSize: fontSize2,
                             color: whiteColor,
                           ),
                         ),
@@ -315,7 +334,7 @@ class _ClockAnimationState extends State<ClockAnimation>
 
           // خط فاصل مرئي بين النصفين (يظهر فوقهم)
           Padding(
-            padding: const EdgeInsets.only(top: halfHeight),
+            padding: EdgeInsets.only(top: halfHeight),
             child: Container(
               color: Colors.black,
               height: 2.0,
@@ -337,24 +356,8 @@ class _ClockAnimationState extends State<ClockAnimation>
         color: const Color.fromRGBO(20, 20, 20, 1),
       );
 
-  Text _timeText(int value) {
-    return Text(
-      value.toString().padLeft(2, '0'),
-      style: GoogleFonts.cabin(
-        fontSize: 126.0,
-        color: whiteColor,
-      ),
-    );
-  }
-
   void startTimer() {
     // ملاحظة: Timer.periodic سيبدأ بعد مدة widget.timerDuration الأولى
-    _timer = Timer.periodic(widget.timerDuration, (Timer timer) {
-      // حساب التالي وتشغيل الأنيميشن
-      _next = _calcNext(_current);
-      // شغّل الفليب من البداية
-      _controller.forward(from: 0.0);
-    });
   }
 
   @override
@@ -362,5 +365,177 @@ class _ClockAnimationState extends State<ClockAnimation>
     // _timer.cancel();
     _controller.dispose();
     super.dispose();
+  }
+}
+
+class FlipClockScreen extends StatefulWidget {
+  final bool isFullScreen;
+  const FlipClockScreen({this.isFullScreen = false, Key? key})
+      : super(key: key);
+
+  @override
+  _FlipClockScreenState createState() => _FlipClockScreenState();
+}
+
+class _FlipClockScreenState extends State<FlipClockScreen> {
+  late Timer _timer;
+  late DateTime _currentTime;
+  late int _hour12;
+  late String _meridian;
+
+  @override
+  void initState() {
+    super.initState();
+    _updateTime();
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) => _updateTime());
+
+    if (widget.isFullScreen) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    if (widget.isFullScreen) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
+    super.dispose();
+  }
+
+  void _updateTime() {
+    final now = DateTime.now();
+    setState(() {
+      _currentTime = now;
+      _hour12 = now.hour % 12 == 0 ? 12 : now.hour % 12;
+      _meridian = DateFormat("a").format(now);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: widget.isFullScreen
+          ? AppBar(
+              backgroundColor: Colors.black,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.fullscreen_exit, color: Colors.white),
+                  onPressed: () {
+                    Get.back();
+                    windowManager.restore();
+                    SystemChrome.setEnabledSystemUIMode(
+                        SystemUiMode.edgeToEdge);
+                  },
+                ),
+              ],
+              elevation: 0,
+            )
+          : AppBar(
+              title: const Text('Flip Clock'),
+              backgroundColor: Colors.black,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.fullscreen, color: Colors.white),
+                  onPressed: () {
+                    windowManager.maximize();
+                    Get.to(() => const FlipClockScreen(isFullScreen: true));
+                  },
+                ),
+              ],
+            ),
+      body: Container(
+        alignment: Alignment.center,
+        height: double.infinity,
+        width: double.infinity,
+        child: OrientationBuilder(
+          builder: (context, layout) {
+            double baseSize = 750.0;
+            double factor = (width < height ? width : height) / baseSize;
+            factor = factor.clamp(0.5, 2.0);
+
+            if (layout == Orientation.portrait || width < 900) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ClockAnimation(
+                    factor: factor,
+                    timerDuration: Duration(minutes: 60 - _currentTime.minute),
+                    limit: 12,
+                    start: 1,
+                    onTime: _hour12,
+                    showhour: true,
+                    ampm: _meridian,
+                  ),
+                  ClockAnimation(
+                    factor: factor,
+                    timerDuration: Duration(seconds: 60 - _currentTime.second),
+                    limit: 59,
+                    start: 0,
+                    onTime: _currentTime.minute,
+                    showhour: false,
+                    ampm: '',
+                  ),
+                  if (height > 700)
+                    ClockAnimation(
+                      factor: factor,
+                      timerDuration: const Duration(seconds: 1),
+                      limit: 59,
+                      start: 0,
+                      onTime: _currentTime.second,
+                      showhour: false,
+                      ampm: _meridian,
+                    ),
+                ],
+              );
+            } else {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ClockAnimation(
+                        factor: factor,
+                        timerDuration:
+                            Duration(minutes: 60 - _currentTime.minute),
+                        limit: 12,
+                        start: 1,
+                        onTime: _hour12,
+                        showhour: true,
+                        ampm: _meridian,
+                      ),
+                      ClockAnimation(
+                        factor: factor,
+                        timerDuration:
+                            Duration(seconds: 60 - _currentTime.second),
+                        limit: 59,
+                        start: 0,
+                        onTime: _currentTime.minute,
+                        showhour: false,
+                        ampm: '',
+                      ),
+                      ClockAnimation(
+                        factor: factor,
+                        timerDuration: const Duration(seconds: 1),
+                        limit: 59,
+                        start: 0,
+                        onTime: _currentTime.second,
+                        showhour: false,
+                        ampm: '',
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            }
+          },
+        ),
+      ),
+    );
   }
 }
